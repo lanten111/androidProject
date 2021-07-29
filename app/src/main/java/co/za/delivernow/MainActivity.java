@@ -29,13 +29,13 @@ public class MainActivity extends AppCompatActivity {
         firstButtonSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (firebaseUser != null){
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(intent);
+                Intent intent;
+                if (firebaseUser == null){
+                    intent = new Intent(getApplicationContext(), LoginActivity.class);
                 } else {
-                    Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                    startActivity(intent);
+                    intent = new Intent(getApplicationContext(), MapActivity.class);
                 }
+                startActivity(intent);
             }
         });
 

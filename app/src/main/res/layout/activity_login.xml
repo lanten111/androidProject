@@ -76,8 +76,10 @@
         android:layout_height="48dp"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="2dp"
         android:text="@string/signin"
         app:backgroundTint="#009688"
+        app:layout_constraintBottom_toTopOf="@+id/forgotPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,13 +90,15 @@
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_gravity="center"
+        android:layout_marginTop="56dp"
         android:layout_marginBottom="272dp"
         android:text="@string/register"
         app:backgroundTint="#009688"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/forgotPassword" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
