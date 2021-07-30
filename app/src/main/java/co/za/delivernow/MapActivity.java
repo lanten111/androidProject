@@ -2,143 +2,174 @@ package co.za.delivernow;
 
 
 import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+public class MapActivity extends AppCompatActivity implements
+        GoogleMap.OnMyLocationButtonClickListener,
+        GoogleMap.OnMyLocationClickListener,
+        OnMapReadyCallback,
+        ActivityCompat.OnRequestPermissionsResultCallback {
 
     private GoogleMap mMap;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-//        View view = inflater.inflate(R.layout.activity_map, null, false);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Button useLocationButton = findViewById(R.id.useLocation);
+        TextView addressBar = findViewById(R.id.searchPostalAddress);
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) this.getSupportFragmentManager()
                 .findFragmentById(R.id.mapView);
         mapFragment.getMapAsync(this);
+
+        if (addressBar != null){
+            useLocationButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent;
+                    intent = new Intent(getApplicationContext(), MenuActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }else {
+            Toast.makeText(this, "choose delivery adress first", Toast.LENGTH_LONG).show();
+        }
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        Location location = getCurrentLocation();
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        String addressLine = getAddressFromLocation(location).get(0).getAddressLine(0);
+        TextView addressBar = findViewById(R.id.searchPostalAddress);
+
+        mMap.setOnMyLocationButtonClickListener(this);
+        mMap.setOnMyLocationClickListener(this);
+
         mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
-        mMap.getUiSettings().setCompassEnabled(true);
+        mMap.getUiSettings().setMapToolbarEnabled(true);
 
-        mMap.setOnMyLocationButtonClickListener(onMyLocationButtonClickListener);
-        mMap.setOnMyLocationClickListener(onMyLocationClickListener);
-        enableMyLocationIfPermitted();
-
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.setMinZoomPreference(11);
-
-//        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.addMarker(new MarkerOptions().position(latLng).draggable(true).title(addressLine));
+        addressBar.setText(addressLine);
+        enableMyLocation();
     }
 
-    private void enableMyLocationIfPermitted() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_FINE_LOCATION},
-                    LOCATION_PERMISSION_REQUEST_CODE);
-        } else if (mMap != null) {
+    private void enableMyLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
+            ZoomInLocation();
+        } else {
+            requestPermission();
         }
     }
 
 
-    private void showDefaultLocation() {
-        Toast.makeText(this, "Location permission not granted, " +
-                        "showing default location",
-                Toast.LENGTH_SHORT).show();
-        LatLng redmond = new LatLng(47.6739881, -122.121512);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(redmond));
+    @Override
+    public boolean onMyLocationButtonClick() {
+//        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
+        ZoomInLocation();
+        return false;
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case LOCATION_PERMISSION_REQUEST_CODE: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    enableMyLocationIfPermitted();
-                } else {
-                    showDefaultLocation();
-                }
-                return;
-            }
+    public void onMyLocationClick(@NonNull Location location) {
+        Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                enableMyLocation();
+            } else {
+                requestPermission();
+            }
         }
     }
 
-    private GoogleMap.OnMyLocationButtonClickListener onMyLocationButtonClickListener =
-            new GoogleMap.OnMyLocationButtonClickListener() {
-                @Override
-                public boolean onMyLocationButtonClick() {
-                    mMap.setMinZoomPreference(15);
-                    return false;
-                }
-            };
+    private void ZoomInLocation(){
+        boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED){
+            if (isGPSEnabled){
+                Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 20.0f));
+            } else {
+                //ask to enable gps
+            }
+        } else {
+            requestPermission();
+        }
+    }
 
-    private GoogleMap.OnMyLocationClickListener onMyLocationClickListener =
-            new GoogleMap.OnMyLocationClickListener() {
-                @Override
-                public void onMyLocationClick(@NonNull Location location) {
+    private Location getCurrentLocation(){
+        boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        Location location = null;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED){
+            if (isGPSEnabled){
+                location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            } else {
+                //ask to enable gps
+            }
+        } else {
+            requestPermission();
+        }
+        return location;
+    }
 
-                    mMap.setMinZoomPreference(12);
+    private void requestPermission(){
+        Toast.makeText(this, "To be able to use the app, please allow Location permission", Toast.LENGTH_SHORT).show();
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 13);
+    }
 
-                    CircleOptions circleOptions = new CircleOptions();
-                    circleOptions.center(new LatLng(location.getLatitude(),
-                            location.getLongitude()));
-
-                    circleOptions.radius(200);
-                    circleOptions.fillColor(Color.RED);
-                    circleOptions.strokeWidth(6);
-
-                    mMap.addCircle(circleOptions);
-                }
-            };
-
-
+    private List<Address> getAddressFromLocation(Location location) {
+        Geocoder geocoder = new Geocoder(this, Locale.ENGLISH);
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+        }catch (IOException exception){
+            Toast.makeText(this, "Could not get you address", Toast.LENGTH_LONG).show();
+        }
+        return addresses;
+    }
 }
