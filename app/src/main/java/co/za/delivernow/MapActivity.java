@@ -47,6 +47,7 @@ public class MapActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+//        getLayoutInflater().inflate(R.layout.activity_map, frameLayout);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Button useLocationButton = findViewById(R.id.useLocation);

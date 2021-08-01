@@ -1,6 +1,6 @@
 package co.za.delivernow;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,23 +10,22 @@ import android.widget.Button;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends DrawerActivity{
 
-    private FirebaseAuth firebaseAuth;
-    Button firstButtonSignin;
+    Button firstButtonSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
 
-        firebaseAuth = FirebaseAuth.getInstance();
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
+        firstButtonSignIn = (Button)findViewById(R.id.button);
 
-        firstButtonSignin = (Button)findViewById(R.id.button);
-
-        firstButtonSignin.setOnClickListener(new View.OnClickListener() {
+        firstButtonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent;

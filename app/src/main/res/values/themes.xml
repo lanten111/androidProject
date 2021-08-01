@@ -20,6 +20,5 @@
     </style>
 
     <style name="Theme.DeliverNow.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.DeliverNow.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.DeliverNow.PopupOverlay" parent="Theme.AppCompat.Light.NoActionBar" />
 </resources>
