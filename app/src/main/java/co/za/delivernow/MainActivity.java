@@ -1,7 +1,5 @@
 package co.za.delivernow;
 
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -38,5 +36,9 @@ public class MainActivity extends DrawerActivity{
             }
         });
 
+
     }
+
+    @Override
+    public void onBackPressed() { }
 }

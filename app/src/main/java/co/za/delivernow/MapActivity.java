@@ -5,7 +5,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -27,6 +26,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,12 +43,16 @@ public class MapActivity extends AppCompatActivity implements
     private GoogleMap mMap;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     LocationManager locationManager;
+    private FirebaseAuth firebaseAuth;
+    String location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-//        getLayoutInflater().inflate(R.layout.activity_map, frameLayout);
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Button useLocationButton = findViewById(R.id.useLocation);
@@ -63,6 +68,7 @@ public class MapActivity extends AppCompatActivity implements
                 public void onClick(View view) {
                     Intent intent;
                     intent = new Intent(getApplicationContext(), MenuActivity.class);
+                    intent.putExtra("location", location);
                     startActivity(intent);
                 }
             });
@@ -71,13 +77,25 @@ public class MapActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null){
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+        }
+    }
+
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         Location location = getCurrentLocation();
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        String addressLine = getAddressFromLocation(location).get(0).getAddressLine(0);
+        final LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        String addressLine = getAddressLine(location);
         TextView addressBar = findViewById(R.id.searchPostalAddress);
 
         mMap.setOnMyLocationButtonClickListener(this);
@@ -88,9 +106,54 @@ public class MapActivity extends AppCompatActivity implements
         mMap.getUiSettings().setAllGesturesEnabled(true);
         mMap.getUiSettings().setMapToolbarEnabled(true);
 
-        mMap.addMarker(new MarkerOptions().position(latLng).draggable(true).title(addressLine));
+//        mMap.
+        mMap.addMarker(new MarkerOptions().position(latLng).title(addressLine));
         addressBar.setText(addressLine);
         enableMyLocation();
+
+        mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
+                mMap.clear();
+                onMarkerMove(mMap.getCameraPosition().target, addressBar);
+            }
+        });
+
+        mMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
+            @Override
+            public void onCameraMoveStarted(int i) {
+                addressBar.setText("Loading...............");
+            }
+        });
+
+        mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove() {
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(mMap.getCameraPosition().target));
+            }
+        });
+    }
+
+    private void setNewAddress(TextView addressBar, LatLng latLng){
+        addressBar.setText(getAddressLine(latLng));
+    }
+
+    private String getAddressLine(Location location){
+        return getAddressFromLocation(location).get(0).getAddressLine(0);
+    }
+
+    private String getAddressLine(LatLng latLng){
+        return getAddressFromLocation(latLng).get(0).getAddressLine(0);
+    }
+
+    private void onMarkerMove(LatLng latLng, TextView addressBar){
+        mMap.addMarker(new MarkerOptions().position(latLng));
+        List<Address> addresses = getAddressFromLocation(latLng);
+        if (addresses.size() > 0){
+            addressBar.setText(addresses.get(0).getAddressLine(0));
+            location = addresses.get(0).getAddressLine(0);
+        }
     }
 
     private void enableMyLocation() {
@@ -168,6 +231,17 @@ public class MapActivity extends AppCompatActivity implements
         List<Address> addresses = null;
         try {
             addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+        }catch (IOException exception){
+            Toast.makeText(this, "Could not get you address", Toast.LENGTH_LONG).show();
+        }
+        return addresses;
+    }
+
+    private List<Address> getAddressFromLocation(LatLng latLng) {
+        Geocoder geocoder = new Geocoder(this, Locale.ENGLISH);
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
         }catch (IOException exception){
             Toast.makeText(this, "Could not get you address", Toast.LENGTH_LONG).show();
         }

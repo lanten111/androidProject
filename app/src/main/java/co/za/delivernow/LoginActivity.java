@@ -29,8 +29,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        Button registerButton = (Button) findViewById(R.id.buttonRegisterLogin);
+        TextView registerButton = (TextView) findViewById(R.id.buttonRegisterLogin);
         Button loginButton = (Button) findViewById(R.id.buttonLogin);
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
         TextView forgotPassword = findViewById(R.id.forgotPassword);
         EditText email = findViewById(R.id.userEmail);
@@ -50,6 +53,12 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 
     private void signIn(String email, String password){

@@ -18,13 +18,14 @@
 
     <EditText
         android:id="@+id/searchPostalAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="295dp"
+        android:layout_height="48dp"
         android:layout_marginTop="70dp"
         android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="enter address"
         android:inputType="textPostalAddress"
+        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/mapView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

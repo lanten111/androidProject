@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class DrawerActivity extends AppCompatActivity {
 
@@ -26,13 +27,14 @@ public class DrawerActivity extends AppCompatActivity {
     protected ActionBarDrawerToggle drawerToggle;
     protected FrameLayout frameLayout;
     private DrawerLayout mDrawerLayout;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
 
-        frameLayout = (FrameLayout)findViewById(R.id.frame);
+        frameLayout = (FrameLayout) findViewById(R.id.frame);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,6 +44,27 @@ public class DrawerActivity extends AppCompatActivity {
         mDrawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
+        setupDrawerContent(navigationView);
+    }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        selectNavItem(menuItem);
+                        return true;
+                    }
+                });
+    }
+
+    public void selectNavItem(MenuItem item){
+        if (item.getTitle().toString().equals(getResources().getString(R.string.logout))){
+            signOut();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            Toast.makeText(this, "Successfully signed Out", Toast.LENGTH_SHORT).show();
+        };
     }
 
     @Override
@@ -52,5 +75,11 @@ public class DrawerActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
 
+    }
+
+
+
+    public void signOut() {
+        FirebaseAuth.getInstance().signOut();
     }
 }

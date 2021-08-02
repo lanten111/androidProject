@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".MenuActivity">
     <TextView
+        android:id="@+id/txt1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="stuff and menu and stuff"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
