@@ -56,7 +56,7 @@ public class MapActivity extends AppCompatActivity implements
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Button useLocationButton = findViewById(R.id.useLocation);
-        TextView addressBar = findViewById(R.id.searchPostalAddress);
+        TextView addressBar = findViewById(R.id.adressOnLocation);
 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getSupportFragmentManager()
                 .findFragmentById(R.id.mapView);
@@ -96,7 +96,7 @@ public class MapActivity extends AppCompatActivity implements
         Location location = getCurrentLocation();
         final LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         String addressLine = getAddressLine(location);
-        TextView addressBar = findViewById(R.id.searchPostalAddress);
+        TextView addressOnLocation = findViewById(R.id.adressOnLocation);
 
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
@@ -106,33 +106,22 @@ public class MapActivity extends AppCompatActivity implements
         mMap.getUiSettings().setAllGesturesEnabled(true);
         mMap.getUiSettings().setMapToolbarEnabled(true);
 
-//        mMap.
-        mMap.addMarker(new MarkerOptions().position(latLng).title(addressLine));
-        addressBar.setText(addressLine);
+        addressOnLocation.setText(addressLine);
         enableMyLocation();
 
         mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
             @Override
             public void onCameraIdle() {
-                mMap.clear();
-                onMarkerMove(mMap.getCameraPosition().target, addressBar);
+                onMarkerMove(mMap.getCameraPosition().target, addressOnLocation);
             }
         });
 
-        mMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
-            @Override
-            public void onCameraMoveStarted(int i) {
-                addressBar.setText("Loading...............");
-            }
-        });
-
-        mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
-            @Override
-            public void onCameraMove() {
-                mMap.clear();
-                mMap.addMarker(new MarkerOptions().position(mMap.getCameraPosition().target));
-            }
-        });
+//        mMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
+//            @Override
+//            public void onCameraMoveStarted(int i) {
+////                addressBar.setText("Loading...............");
+//            }
+//        });
     }
 
     private void setNewAddress(TextView addressBar, LatLng latLng){
@@ -148,7 +137,7 @@ public class MapActivity extends AppCompatActivity implements
     }
 
     private void onMarkerMove(LatLng latLng, TextView addressBar){
-        mMap.addMarker(new MarkerOptions().position(latLng));
+//        mMap.addMarker(new MarkerOptions().position(latLng));
         List<Address> addresses = getAddressFromLocation(latLng);
         if (addresses.size() > 0){
             addressBar.setText(addresses.get(0).getAddressLine(0));
