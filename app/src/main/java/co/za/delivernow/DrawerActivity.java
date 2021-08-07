@@ -64,6 +64,10 @@ public class DrawerActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             Toast.makeText(this, "Successfully signed Out", Toast.LENGTH_SHORT).show();
+        }else if (item.getTitle().toString().equals(getResources().getString(R.string.my_account))){
+            signOut();
+            Intent intent = new Intent(this, AccountActivity.class);
+            startActivity(intent);
         };
     }
 

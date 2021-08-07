@@ -18,6 +18,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DeliverNow">
         <activity
+            android:name=".logIn.LogInWithPhoneActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AccountActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ResetPasswordActivity"
+            android:exported="true" />
+        <activity
+            android:name=".DriverActivity"
+            android:exported="true" />
+        <activity
             android:name=".DrawerActivity"
             android:exported="true" />
         <activity

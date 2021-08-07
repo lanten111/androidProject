@@ -11,4 +11,5 @@
     <color name="dark_blue">#FF01579B</color>
     <color name="light_blue">#FF40C4FF</color>
     <color name="black_overlay">#66000000</color>
+    <color name="main_theme">#009688</color>
 </resources>

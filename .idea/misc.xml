@@ -10,12 +10,17 @@
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.5364583333333334" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.5364583333333334" />
         <entry key="app/src/main/res/drawable/phone_icon_background.xml" value="0.5364583333333334" />
+        <entry key="app/src/main/res/drawable/profile-Icon_background.xml" value="0.37395833333333334" />
         <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.5364583333333334" />
+        <entry key="app/src/main/res/layout/activity_accout.xml" value="0.3328125" />
         <entry key="app/src/main/res/layout/activity_drawer.xml" value="0.353125" />
+        <entry key="app/src/main/res/layout/activity_driver.xml" value="0.3578125" />
+        <entry key="app/src/main/res/layout/activity_log_in_with_phone.xml" value="0.3171875" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.49146757679180886" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3578125" />
         <entry key="app/src/main/res/layout/activity_map.xml" value="0.43043043043043044" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/activity_reset_password.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_welcome.xml" value="0.309375" />
         <entry key="app/src/main/res/layout/content_draawer.xml" value="0.23541666666666666" />
         <entry key="app/src/main/res/layout/fragment_drawer.xml" value="0.3578125" />
@@ -23,7 +28,9 @@
         <entry key="app/src/main/res/layout/fragment_welcome.xml" value="0.309375" />
         <entry key="app/src/main/res/menu/drawer_list_item.xml" value="0.39166666666666666" />
         <entry key="app/src/main/res/menu/main.xml" value="0.39166666666666666" />
+        <entry key="app/src/main/res/menu/nav_menu.xml" value="0.3578125" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3692708333333333" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/phone_icon_round.xml" value="0.37395833333333334" />
       </map>
     </option>
   </component>

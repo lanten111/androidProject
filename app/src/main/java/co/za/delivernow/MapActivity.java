@@ -88,26 +88,23 @@ public class MapActivity extends AppCompatActivity implements
         }
     }
 
-
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        Location location = getCurrentLocation();
-        final LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        String addressLine = getAddressLine(location);
-        TextView addressOnLocation = findViewById(R.id.adressOnLocation);
-
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
-
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
         mMap.getUiSettings().setMapToolbarEnabled(true);
 
-        addressOnLocation.setText(addressLine);
         enableMyLocation();
+        Location location = getCurrentLocation();
+//        final LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        String addressLine = getAddressLine(location);
+        TextView addressOnLocation = findViewById(R.id.adressOnLocation);
+
+        addressOnLocation.setText(addressLine);
 
         mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
             @Override
@@ -115,17 +112,6 @@ public class MapActivity extends AppCompatActivity implements
                 onMarkerMove(mMap.getCameraPosition().target, addressOnLocation);
             }
         });
-
-//        mMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
-//            @Override
-//            public void onCameraMoveStarted(int i) {
-////                addressBar.setText("Loading...............");
-//            }
-//        });
-    }
-
-    private void setNewAddress(TextView addressBar, LatLng latLng){
-        addressBar.setText(getAddressLine(latLng));
     }
 
     private String getAddressLine(Location location){
@@ -137,7 +123,6 @@ public class MapActivity extends AppCompatActivity implements
     }
 
     private void onMarkerMove(LatLng latLng, TextView addressBar){
-//        mMap.addMarker(new MarkerOptions().position(latLng));
         List<Address> addresses = getAddressFromLocation(latLng);
         if (addresses.size() > 0){
             addressBar.setText(addresses.get(0).getAddressLine(0));
@@ -150,14 +135,15 @@ public class MapActivity extends AppCompatActivity implements
             mMap.setMyLocationEnabled(true);
             ZoomInLocation();
         } else {
-            requestPermission();
+            Toast.makeText(this, "Please allow location permission", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
         }
     }
 
 
     @Override
     public boolean onMyLocationButtonClick() {
-//        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
         ZoomInLocation();
         return false;
     }
@@ -174,15 +160,16 @@ public class MapActivity extends AppCompatActivity implements
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 enableMyLocation();
             } else {
-                requestPermission();
+                Toast.makeText(this, "Please allow location permission", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         }
     }
 
     private void ZoomInLocation(){
         boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             if (isGPSEnabled){
                 Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 20.0f));
@@ -190,29 +177,27 @@ public class MapActivity extends AppCompatActivity implements
                 //ask to enable gps
             }
         } else {
-            requestPermission();
+            Toast.makeText(this, "Please allow location permission", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
         }
     }
 
     private Location getCurrentLocation(){
         boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         Location location = null;
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             if (isGPSEnabled){
                 location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             } else {
                 //ask to enable gps
             }
         } else {
-            requestPermission();
+            Toast.makeText(this, "Please allow location permission", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
         }
         return location;
-    }
-
-    private void requestPermission(){
-        Toast.makeText(this, "To be able to use the app, please allow Location permission", Toast.LENGTH_SHORT).show();
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 13);
     }
 
     private List<Address> getAddressFromLocation(Location location) {
