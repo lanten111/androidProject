@@ -49,4 +49,5 @@
     <string name="Login">Login</string>
     <string name="sign_in_with_phone_numebr">Sign in with Phone</string>
     <string name="login">Login</string>
+    <string name="sign_in_with_email">Sign in with Email</string>
 </resources>

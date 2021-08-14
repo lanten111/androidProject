@@ -41,14 +41,14 @@ public class ResetPasswordActivity extends AppCompatActivity {
                     firebaseAuth.sendPasswordResetEmail(resetPasswordEmail.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            Toast.makeText(ResetPasswordActivity.this, "Reset link has been sent to your email", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ResetPasswordActivity.this, "Reset link has been sent to your email", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             startActivity(intent);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(ResetPasswordActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(ResetPasswordActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -57,7 +57,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    Toast.makeText(ResetPasswordActivity.this, "Enter correct email address", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ResetPasswordActivity.this, "Enter correct email address", Toast.LENGTH_SHORT).show();
                 }
             }
         });

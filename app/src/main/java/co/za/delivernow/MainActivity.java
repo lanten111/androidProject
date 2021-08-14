@@ -3,7 +3,6 @@ package co.za.delivernow;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,12 +14,18 @@ import androidx.core.content.ContextCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends DrawerActivity{
 
     Button firstButtonSignIn;
     Button permissionButton;
     Toast LocationDeniedToast;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    Map<String, Object> users = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +36,10 @@ public class MainActivity extends DrawerActivity{
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, 13);
-        firstButtonSignIn = findViewById(R.id.button);
+        firstButtonSignIn = findViewById(R.id.Mainbutton);
         permissionButton = findViewById(R.id.permissionButton);
-        permissionButton.setVisibility(View.GONE);
+        permissionButton.setVisibility(View.INVISIBLE);
+        checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, 13);
         firstButtonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,12 +79,12 @@ public class MainActivity extends DrawerActivity{
         if (requestCode == 13) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 firstButtonSignIn.setVisibility(View.VISIBLE);
-                permissionButton.setVisibility(View.GONE);
+                permissionButton.setVisibility(View.INVISIBLE);
                 LocationDeniedToast.cancel();
                 Toast.makeText(MainActivity.this, "Location Permission Granted", Toast.LENGTH_SHORT) .show();
             }
             else {
-                firstButtonSignIn.setVisibility(View.GONE);
+                firstButtonSignIn.setVisibility(View.INVISIBLE);
                 permissionButton.setVisibility(View.VISIBLE);
                 LocationDeniedToast.show();
             }

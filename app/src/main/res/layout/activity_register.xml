@@ -9,151 +9,125 @@
 
     <!--        app:layout_constraintTop_toBottomOf="@+id/RegisterPhone" />-->
 
-    <Button
-        android:id="@+id/buttonRegister"
-        android:layout_width="127dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="284dp"
-        android:text="@string/Registerbutton"
-        android:textSize="12sp"
-        app:backgroundTint="#009688"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RegisterConfirmPassword"
-        app:layout_constraintVertical_bias="0.0" />
+    <!--        app:layout_constraintTop_toBottomOf="@+id/RegistertextView" />-->
 
-    <EditText
-        android:id="@+id/RegisterEmailAddress"
-        android:layout_width="193dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="227dp"
-        android:layout_marginBottom="10dp"
-        android:ems="10"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        android:minHeight="48dp"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/RegisterPassword"
+    <ProgressBar
+        android:id="@+id/registerProgressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="422dp"
+        android:layout_height="16dp"
+        android:indeterminate="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-<!--        app:layout_constraintTop_toBottomOf="@+id/RegistertextView" />-->
 
-    <EditText
-        android:id="@+id/RegisterPassword"
-        android:layout_width="193dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="16dp"
-        android:ems="10"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
+    <Button
+        android:id="@+id/buttonRegister"
+        android:layout_width="198dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="32dp"
+        android:text="Create account"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/RegisterConfirmPassword"
+        app:backgroundTint="#009688"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RegisterEmailAddress" />
-
-    <EditText
-        android:id="@+id/RegisterConfirmPassword"
-        android:layout_width="193dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="@string/confrim_password"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RegisterPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout10" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
-        android:layout_marginBottom="120dp"
+        android:layout_marginTop="32dp"
         android:text="Create an account below"
-        app:layout_constraintBottom_toTopOf="@+id/RegisterEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--    <EditText-->
-    <!--        android:id="@+id/RegisterPersonName"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="10dp"-->
-    <!--        android:layout_marginBottom="10dp"-->
-    <!--        android:ems="10"-->
-    <!--        android:hint="@string/name"-->
-    <!--        android:inputType="textPersonName"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/RegisterSurname"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/RegisterConfirmPassword" />-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout7"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:startIconDrawable="@drawable/email">
 
-    <!--    <EditText-->
-    <!--        android:id="@+id/RegisterSurname"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="10dp"-->
-    <!--        android:layout_marginBottom="10dp"-->
-    <!--        android:ems="10"-->
-    <!--        android:hint="@string/surname"-->
-    <!--        android:inputType="textPersonName"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/RegisterDeliveryLocation"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.507"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/RegisterPersonName" />-->
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/RegisterEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/email"
+            android:textSize="12sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/RegistertextView"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="101dp"-->
-    <!--        android:layout_marginLeft="101dp"-->
-    <!--        android:layout_marginTop="30dp"-->
-    <!--        android:layout_marginEnd="104dp"-->
-    <!--        android:layout_marginRight="104dp"-->
-    <!--        android:layout_marginBottom="20dp"-->
-    <!--        android:text="@string/registerText"-->
-    <!--        app:layout_constraintBottom_toTopOf="@id/RegisterEmailAddress"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout8"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout7"
+        app:startIconDrawable="@drawable/account">
 
-    <!--    <EditText-->
-    <!--        android:id="@+id/RegisterPhone"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="10dp"-->
-    <!--        android:ems="10"-->
-    <!--        android:hint="@string/phone_number"-->
-    <!--        android:inputType="phone"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.507"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/RegisterDeliveryLocation" />-->
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/RegisterPersonName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/name"
+            android:textSize="12sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <!--    <EditText-->
-    <!--        android:id="@+id/RegisterDeliveryLocation"-->
-    <!--        android:layout_width="212dp"-->
-    <!--        android:layout_height="49dp"-->
-    <!--        android:layout_marginTop="10dp"-->
-    <!--        android:layout_marginBottom="10dp"-->
-    <!--        android:ems="10"-->
-    <!--        android:hint="@string/delivery_location"-->
-    <!--        android:inputType="textPostalAddress"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/RegisterPhone"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/RegisterSurname" />-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout9"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout8"
+        app:startIconDrawable="@drawable/account">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/RegisterSurname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/surname"
+            android:textSize="12sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout10"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout9">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/RegisterPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            android:textSize="12sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout9">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/RegisterConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/confrim_password"
+            android:textSize="12sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

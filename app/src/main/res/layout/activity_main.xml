@@ -10,45 +10,34 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
         android:text="@string/welcome"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginStart="159dp"
-        android:layout_marginLeft="159dp"
-        android:layout_marginTop="410dp"
-        android:layout_marginEnd="158dp"
-        android:layout_marginRight="158dp"
-        android:layout_marginBottom="273dp"
-        android:text="@string/lets_begin"
-        app:backgroundTint="#009688"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/Mainbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="51dp"
+        android:text="@string/lets_begin"
+        android:textColor="#000000"
+        app:backgroundTint="#009688"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
         android:id="@+id/permissionButton"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginStart="159dp"
-        android:layout_marginLeft="159dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="158dp"
-        android:layout_marginRight="158dp"
-        android:layout_marginBottom="272dp"
+        android:layout_marginTop="51dp"
         android:text="Allow location permission"
+        android:textColor="#000000"
         app:backgroundTint="#009688"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 

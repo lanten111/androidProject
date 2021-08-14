@@ -18,11 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DeliverNow">
         <activity
-            android:name=".logIn.LogInWithPhoneActivity"
+            android:name=".SettingActivity"
             android:exported="true" />
         <activity
             android:name=".AccountActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.DeliverNow.NoActionBar" />
         <activity
             android:name=".ResetPasswordActivity"
             android:exported="true" />

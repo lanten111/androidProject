@@ -26,12 +26,20 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+
+import co.za.delivernow.Domain.FirestoreUser;
 
 
 public class MapActivity extends AppCompatActivity implements
@@ -43,8 +51,9 @@ public class MapActivity extends AppCompatActivity implements
     private GoogleMap mMap;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     LocationManager locationManager;
-    private FirebaseAuth firebaseAuth;
-    String location;
+    String address;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirestoreUser firestoreUser = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,14 +75,16 @@ public class MapActivity extends AppCompatActivity implements
             useLocationButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    GeoPoint location = new GeoPoint(getCurrentLocation().getLatitude(), getCurrentLocation().getLongitude());
+                    updateUser(location, firebaseAuth);
                     Intent intent;
                     intent = new Intent(getApplicationContext(), MenuActivity.class);
-                    intent.putExtra("location", location);
+                    intent.putExtra("location", address);
                     startActivity(intent);
                 }
             });
         }else {
-            Toast.makeText(this, "choose delivery adress first", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "choose delivery address first", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -100,7 +111,6 @@ public class MapActivity extends AppCompatActivity implements
 
         enableMyLocation();
         Location location = getCurrentLocation();
-//        final LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         String addressLine = getAddressLine(location);
         TextView addressOnLocation = findViewById(R.id.adressOnLocation);
 
@@ -126,7 +136,7 @@ public class MapActivity extends AppCompatActivity implements
         List<Address> addresses = getAddressFromLocation(latLng);
         if (addresses.size() > 0){
             addressBar.setText(addresses.get(0).getAddressLine(0));
-            location = addresses.get(0).getAddressLine(0);
+            address = addresses.get(0).getAddressLine(0);
         }
     }
 
@@ -135,12 +145,11 @@ public class MapActivity extends AppCompatActivity implements
             mMap.setMyLocationEnabled(true);
             ZoomInLocation();
         } else {
-            Toast.makeText(this, "Please allow location permission", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please allow location permission", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         }
     }
-
 
     @Override
     public boolean onMyLocationButtonClick() {
@@ -150,7 +159,7 @@ public class MapActivity extends AppCompatActivity implements
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-        Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -160,7 +169,7 @@ public class MapActivity extends AppCompatActivity implements
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 enableMyLocation();
             } else {
-                Toast.makeText(this, "Please allow location permission", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Please allow location permission", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
@@ -177,7 +186,7 @@ public class MapActivity extends AppCompatActivity implements
                 //ask to enable gps
             }
         } else {
-            Toast.makeText(this, "Please allow location permission", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please allow location permission", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         }
@@ -193,7 +202,7 @@ public class MapActivity extends AppCompatActivity implements
                 //ask to enable gps
             }
         } else {
-            Toast.makeText(this, "Please allow location permission", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please allow location permission", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         }
@@ -206,7 +215,7 @@ public class MapActivity extends AppCompatActivity implements
         try {
             addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
         }catch (IOException exception){
-            Toast.makeText(this, "Could not get you address", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Could not get you address", Toast.LENGTH_SHORT).show();
         }
         return addresses;
     }
@@ -217,8 +226,37 @@ public class MapActivity extends AppCompatActivity implements
         try {
             addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
         }catch (IOException exception){
-            Toast.makeText(this, "Could not get you address", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Could not get you address", Toast.LENGTH_SHORT).show();
         }
         return addresses;
+    }
+
+    private void updateUser(GeoPoint location, FirebaseAuth firebaseAuth){
+
+        DocumentReference documentReference = db.collection("users").document(firebaseAuth.getCurrentUser().getUid());
+        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                firestoreUser = documentSnapshot.toObject(FirestoreUser.class);
+                firestoreUser.setLocation(location);
+                db.collection("users").document(firebaseAuth.getCurrentUser().getUid()).set(firestoreUser).addOnSuccessListener(new OnSuccessListener() {
+                    @Override
+                    public void onSuccess(Object o) {
+                        Toast.makeText(MapActivity.this, "Map location set Successful", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(MapActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MapActivity.this, "Something went wrong getting account details, please try again later", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }

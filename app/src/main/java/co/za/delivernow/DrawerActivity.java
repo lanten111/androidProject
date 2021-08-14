@@ -1,21 +1,14 @@
 package co.za.delivernow;
 
-import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -65,7 +58,6 @@ public class DrawerActivity extends AppCompatActivity {
             startActivity(intent);
             Toast.makeText(this, "Successfully signed Out", Toast.LENGTH_SHORT).show();
         }else if (item.getTitle().toString().equals(getResources().getString(R.string.my_account))){
-            signOut();
             Intent intent = new Intent(this, AccountActivity.class);
             startActivity(intent);
         };

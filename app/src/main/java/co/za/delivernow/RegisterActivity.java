@@ -7,6 +7,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,10 +21,20 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import co.za.delivernow.Domain.FirestoreUser;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirestoreUser firestoreUser = new FirestoreUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,37 +44,62 @@ public class RegisterActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        Button buttonRegister = (Button) findViewById(R.id.buttonRegister);
+        Button buttonRegister = findViewById(R.id.buttonRegister);
 
         EditText email = findViewById(R.id.RegisterEmailAddress);
         EditText password = findViewById(R.id.RegisterPassword);
         EditText confirmPassword = findViewById(R.id.RegisterConfirmPassword);
-//        EditText name = findViewById(R.id.RegisterPersonName);
-//        EditText surname = findViewById(R.id.RegisterSurname);
-//        EditText phone = findViewById(R.id.RegisterPhone);
-//        EditText deliveryLocation = findViewById(R.id.RegisterDeliveryLocation);
+        EditText name = findViewById(R.id.RegisterPersonName);
+        EditText surname = findViewById(R.id.RegisterSurname);
+        ProgressBar loginProgressBar = findViewById(R.id.registerProgressBar);
+
+        loginProgressBar.setVisibility(View.INVISIBLE);
+        loginProgressBar.setProgress(50);
+
+        name.setText("bruce");
+        surname.setText("wayne");
+        password.setText("123456");
+        confirmPassword.setText("123456");
 
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                register(email.getText().toString(), password.getText().toString(), confirmPassword.getText().toString());
+                loginProgressBar.setVisibility(View.VISIBLE);
+                register(email.getText().toString(), password.getText().toString(),
+                        confirmPassword.getText().toString(), name.getText().toString(), surname.getText().toString(), loginProgressBar);
             }
         });
 
     }
 
-    private void signUp(String email, String password){
+    private void signUp(String email, String password, String name, String surname, ProgressBar loginProgressBar){
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        Toast.makeText(RegisterActivity.this, "User registered Successful", Toast.LENGTH_LONG).show();
+                        firestoreUser.setName(name);
+                        firestoreUser.setSurname(surname);
+                        firestoreUser.setEmail(firebaseAuth.getCurrentUser().getEmail());
+                        firestoreUser.setDateCreated(new Date());
+                        db.collection("users").document(firebaseAuth.getCurrentUser().getUid()).set(firestoreUser).addOnSuccessListener(new OnSuccessListener() {
+                            @Override
+                            public void onSuccess(Object o) {
+                                Toast.makeText(RegisterActivity.this, "User registered Successful", Toast.LENGTH_SHORT).show();
+                                loginProgressBar.setVisibility(View.INVISIBLE);
+                            }
+
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         firebaseAuth.getCurrentUser().sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                Toast.makeText(RegisterActivity.this, "Verification email has been sent", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                                Toast.makeText(RegisterActivity.this, "Verification email has been sent", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                                 startActivity(intent);
                             }
                         });
@@ -71,42 +107,26 @@ public class RegisterActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
         });
     }
 
-    void register(String email, String password, String confirmPassword){
+    void register(String email, String password, String confirmPassword, String name, String surname, ProgressBar loginProgressBar){
 
         if (isEmailEmpty(email)){
-            Toast toast = Toast.makeText(this, "Email must not be empty", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "Email must not be empty", Toast.LENGTH_SHORT);
             toast.show();
         } else if (isPasswordEmpty(password)){
-            Toast toast = Toast.makeText(this, "password must not be empty", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "password must not be empty", Toast.LENGTH_SHORT);
             toast.show();
         } else if (isPasswordSame(password, confirmPassword)){
-            Toast toast = Toast.makeText(this, "password must be the same", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "password must be the same", Toast.LENGTH_SHORT);
             toast.show();
         } else if (!isPasswordSame(password, confirmPassword) && !isEmailEmpty(email) && !isPasswordEmpty(password)){
-            signUp(email, password);
+            signUp(email, password, name, surname, loginProgressBar);
         }
-
-//        else if (checkName(name)){
-//            Toast toast = Toast.makeText(this, "Name must not be empty", Toast.LENGTH_LONG);
-//            toast.show();
-//        } else if (checkSurname(surname)){
-//            Toast toast = Toast.makeText(this, "surname must not be empty", Toast.LENGTH_LONG);
-//            toast.show();
-//        } else if (checkPhone(phone)){
-//            Toast toast = Toast.makeText(this, "Phone must not be empty", Toast.LENGTH_LONG);
-//            toast.show();
-//        } else if (isValidEmail(email)){
-//            Toast toast = Toast.makeText(this, "Enter valid email", Toast.LENGTH_LONG);
-//            toast.show();
-//        } else if (isValidPhone(phone)){
-//            Toast toast = Toast.makeText(this, "Enter valid phone number", Toast.LENGTH_LONG);
-//            toast.show();
-//        }
+        loginProgressBar.setVisibility(View.INVISIBLE);
     }
 
     Boolean isPasswordEmpty(String password){
