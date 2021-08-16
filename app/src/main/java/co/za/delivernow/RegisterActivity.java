@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import co.za.delivernow.Domain.FirestoreUser;
+import co.za.delivernow.Domain.Role;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -82,6 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
                         firestoreUser.setSurname(surname);
                         firestoreUser.setEmail(firebaseAuth.getCurrentUser().getEmail());
                         firestoreUser.setDateCreated(new Date());
+                        firestoreUser.setRole(Role.USER);
                         db.collection("users").document(firebaseAuth.getCurrentUser().getUid()).set(firestoreUser).addOnSuccessListener(new OnSuccessListener() {
                             @Override
                             public void onSuccess(Object o) {

@@ -27,12 +27,12 @@ public class DrawerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
 
-        frameLayout = (FrameLayout) findViewById(R.id.frame);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        frameLayout = findViewById(R.id.frame);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
@@ -60,7 +60,10 @@ public class DrawerActivity extends AppCompatActivity {
         }else if (item.getTitle().toString().equals(getResources().getString(R.string.my_account))){
             Intent intent = new Intent(this, AccountActivity.class);
             startActivity(intent);
-        };
+        } else if (item.getTitle().toString().equals(getResources().getString(R.string.settings))){
+            Intent intent = new Intent(this, SettingActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override

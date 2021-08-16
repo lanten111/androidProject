@@ -18,8 +18,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DeliverNow">
         <activity
+            android:name=".DeliveriesActivity"
+            android:exported="true"
+            android:theme="@style/Theme.DeliverNow.NoActionBar"/>
+        <activity
             android:name=".SettingActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.DeliverNow.NoActionBar" />
         <activity
             android:name=".AccountActivity"
             android:exported="true"
@@ -29,10 +34,12 @@
             android:exported="true" />
         <activity
             android:name=".DriverActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.DeliverNow.NoActionBar" />
         <activity
             android:name=".DrawerActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.DeliverNow.NoActionBar"/>
         <activity
             android:name=".MenuActivity"
             android:theme="@style/Theme.DeliverNow.NoActionBar" />

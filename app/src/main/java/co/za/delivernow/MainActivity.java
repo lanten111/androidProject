@@ -12,12 +12,18 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import co.za.delivernow.Domain.FirestoreUser;
+import co.za.delivernow.Domain.Role;
 
 public class MainActivity extends DrawerActivity{
 
@@ -25,13 +31,11 @@ public class MainActivity extends DrawerActivity{
     Button permissionButton;
     Toast LocationDeniedToast;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    Map<String, Object> users = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
-
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -40,16 +44,35 @@ public class MainActivity extends DrawerActivity{
         permissionButton = findViewById(R.id.permissionButton);
         permissionButton.setVisibility(View.INVISIBLE);
         checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, 13);
+
         firstButtonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent;
                 if (firebaseUser == null){
-                    intent = new Intent(getApplicationContext(), LoginActivity.class);
+                   Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                   startActivity(intent);
                 } else {
-                    intent = new Intent(getApplicationContext(), MapActivity.class);
+                    db.collection("users").document(firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            FirestoreUser firestoreUser = documentSnapshot.toObject(FirestoreUser.class);
+                            if (firestoreUser.getRole().equals(Role.DRIVER)){
+                                Toast.makeText(MainActivity.this, "Authentication Successful", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), DeliveriesActivity.class);
+                                startActivity(intent);
+                            } else{
+                                Toast.makeText(MainActivity.this, "Authentication Successful", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                                startActivity(intent);
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            Toast.makeText(MainActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
-                startActivity(intent);
             }
         });
 
