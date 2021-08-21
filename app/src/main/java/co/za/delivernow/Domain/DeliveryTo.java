@@ -2,8 +2,12 @@ package co.za.delivernow.Domain;
 
 import com.google.firebase.firestore.GeoPoint;
 
-public class DeliveryTo {
+import java.io.Serializable;
 
+@SuppressWarnings("serial")
+public class DeliveryTo implements Serializable {
+
+    String id;
     GeoPoint userDestination;
     String userAddress;
     String userId;
@@ -14,6 +18,14 @@ public class DeliveryTo {
     Boolean IsDelivered;
     String assigneeId;
     Boolean isAssigned;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Boolean getAssigned() {
         return isAssigned;
@@ -93,5 +105,22 @@ public class DeliveryTo {
 
     public void setRetailLocation(GeoPoint retailLocation) {
         this.retailLocation = retailLocation;
+    }
+
+    @Override
+    public String toString() {
+        return "DeliveryTo{" +
+                "id='" + id + '\'' +
+                ", userDestination=" + userDestination +
+                ", userAddress='" + userAddress + '\'' +
+                ", userId='" + userId + '\'' +
+                ", retailId='" + retailId + '\'' +
+                ", retailName='" + retailName + '\'' +
+                ", retailLocation=" + retailLocation +
+                ", retailAddress='" + retailAddress + '\'' +
+                ", IsDelivered=" + IsDelivered +
+                ", assigneeId='" + assigneeId + '\'' +
+                ", isAssigned=" + isAssigned +
+                '}';
     }
 }

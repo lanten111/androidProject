@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,6 +41,10 @@ public class MainActivity extends DrawerActivity{
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
+        ProgressBar loginProgressBar = findViewById(R.id.MainProgressBar);
+        loginProgressBar.setProgress(50);
+        loginProgressBar.setVisibility(View.INVISIBLE);
+
         firstButtonSignIn = findViewById(R.id.Mainbutton);
         permissionButton = findViewById(R.id.permissionButton);
         permissionButton.setVisibility(View.INVISIBLE);
@@ -48,6 +53,7 @@ public class MainActivity extends DrawerActivity{
         firstButtonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loginProgressBar.setVisibility(View.VISIBLE);
                 if (firebaseUser == null){
                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                    startActivity(intent);
@@ -60,16 +66,19 @@ public class MainActivity extends DrawerActivity{
                                 Toast.makeText(MainActivity.this, "Authentication Successful", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), DeliveriesActivity.class);
                                 startActivity(intent);
+                                loginProgressBar.setVisibility(View.INVISIBLE);
                             } else{
                                 Toast.makeText(MainActivity.this, "Authentication Successful", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                                 startActivity(intent);
+                                loginProgressBar.setVisibility(View.INVISIBLE);
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
                             Toast.makeText(MainActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+                            loginProgressBar.setVisibility(View.INVISIBLE);
                         }
                     });
                 }

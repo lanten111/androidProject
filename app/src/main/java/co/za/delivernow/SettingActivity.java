@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 public class SettingActivity extends DrawerActivity {
@@ -21,4 +22,5 @@ public class SettingActivity extends DrawerActivity {
             e.printStackTrace();
         }
     }
+
 }

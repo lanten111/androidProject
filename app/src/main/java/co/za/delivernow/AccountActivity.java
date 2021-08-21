@@ -50,9 +50,9 @@ public class AccountActivity extends DrawerActivity {
         EditText newPassword = findViewById(R.id.AccountpasswordOldTxt);
 
         ProgressBar loginProgressBar = findViewById(R.id.AccountProgressBar);
-
         loginProgressBar.setProgress(50);
         loginProgressBar.setVisibility(View.VISIBLE);
+
         name.setEnabled(false);
         surname.setEnabled(false);
         email.setEnabled(false);

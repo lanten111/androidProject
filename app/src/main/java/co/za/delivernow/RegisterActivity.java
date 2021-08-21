@@ -61,6 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
         surname.setText("wayne");
         password.setText("123456");
         confirmPassword.setText("123456");
+        email.setText("@123.co.za");
 
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                loginProgressBar.setVisibility(View.INVISIBLE);
                             }
                         });
                         firebaseAuth.getCurrentUser().sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -128,7 +130,6 @@ public class RegisterActivity extends AppCompatActivity {
         } else if (!isPasswordSame(password, confirmPassword) && !isEmailEmpty(email) && !isPasswordEmpty(password)){
             signUp(email, password, name, surname, loginProgressBar);
         }
-        loginProgressBar.setVisibility(View.INVISIBLE);
     }
 
     Boolean isPasswordEmpty(String password){

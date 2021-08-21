@@ -8,13 +8,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class DrawerActivity extends AppCompatActivity {
+public abstract class DrawerActivity extends AppCompatActivity {
 
     protected NavigationView navigationView;
     protected ActionBarDrawerToggle drawerToggle;
@@ -76,9 +77,8 @@ public class DrawerActivity extends AppCompatActivity {
 
     }
 
-
-
     public void signOut() {
         FirebaseAuth.getInstance().signOut();
     }
+
 }

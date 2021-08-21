@@ -5,13 +5,11 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -58,12 +56,13 @@ public class MenuActivity extends DrawerActivity {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         firestoreUser = documentSnapshot.toObject(FirestoreUser.class);
                         deliveryTo.setUserDestination(firestoreUser.getLocation());
+                        deliveryTo.setAssigned(false);
                         deliveryTo.setUserId(documentReference.getId());
                         deliveryTo.setRetailLocation(new GeoPoint(-26.343892978724067, 28.216788866734134));
                         deliveryTo.setRetailAddress(getAddress(deliveryTo.getRetailLocation()));
                         deliveryTo.setUserAddress(getAddress(firestoreUser.getLocation()));
                         deliveryTo.setDelivered(false);
-                        db.collection("delivery").document(documentSnapshot.getId()).set(deliveryTo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        db.collection("delivery").document().set(deliveryTo).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
                                 Toast.makeText(MenuActivity.this, "added to order", Toast.LENGTH_SHORT).show();
@@ -74,6 +73,8 @@ public class MenuActivity extends DrawerActivity {
                                 Toast.makeText(MenuActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
+                        Intent orderIntent = new Intent(MenuActivity.this, OrderViewActivity.class);
+                        startActivity(orderIntent);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -85,6 +86,7 @@ public class MenuActivity extends DrawerActivity {
         });
         
     }
+
 
     private String getAddress(GeoPoint geoPoint) {
         Geocoder geocoder = new Geocoder(this, Locale.ENGLISH);

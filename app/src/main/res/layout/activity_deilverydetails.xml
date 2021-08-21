@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DeliveryDetailsActivity">
+
+  <Button
+      android:id="@+id/openMapsBtn2"
+      android:layout_width="120dp"
+      android:layout_height="48dp"
+      android:layout_gravity="center"
+      android:layout_marginStart="150dp"
+      android:layout_marginLeft="150dp"
+      android:layout_marginBottom="32dp"
+      android:text="Delivered"
+      android:textSize="12sp"
+      app:backgroundTint="#009688"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent" />
+
+  <androidx.fragment.app.FragmentContainerView
+      android:id="@+id/driverDeliveryMap"
+      android:name="com.google.android.gms.maps.SupportMapFragment"
+      android:layout_width="410dp"
+      android:layout_height="0dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/deliveriesToCardView"
+      app:layout_constraintVertical_bias="0.0" />
+
+  <Button
+      android:id="@+id/openMapsBtn"
+      android:layout_width="120dp"
+      android:layout_height="48dp"
+      android:layout_gravity="center"
+      android:layout_marginEnd="150dp"
+      android:layout_marginRight="150dp"
+      android:layout_marginBottom="32dp"
+      android:text="open map"
+      android:textSize="12sp"
+      app:backgroundTint="#009688"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent" />
+
+  <TextView
+      android:id="@+id/textView5"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="1dp"
+      android:text="New Delivery"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.498"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/DeliveriesDProgressBar" />
+
+  <com.google.android.material.card.MaterialCardView
+      android:id="@+id/deliveriesFromCardView"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginLeft="8dp"
+      android:layout_marginTop="5dp"
+      android:layout_marginEnd="8dp"
+      android:layout_marginRight="8dp"
+      android:checkable="true"
+      android:clickable="true"
+      android:focusable="true"
+      android:gravity="center"
+      android:minHeight="48dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_theme"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+      <!-- Title, secondary and supporting text -->
+
+      <TextView
+          android:id="@+id/fromHeaderTxt"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="0dp"
+          android:text="From"
+          android:textAppearance="?attr/textAppearanceHeadline6"
+          android:textSize="14sp" />
+
+      <TextView
+          android:id="@+id/deliveryFromTxt"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginLeft="8dp"
+          android:layout_marginTop="2dp"
+          android:layout_marginEnd="8dp"
+          android:layout_marginRight="8dp"
+          android:text="xxxxx"
+          android:textSize="14sp" />
+
+    </LinearLayout>
+
+  </com.google.android.material.card.MaterialCardView>
+
+  <com.google.android.material.card.MaterialCardView
+      android:id="@+id/deliveriesToCardView"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginLeft="8dp"
+      android:layout_marginTop="8dp"
+      android:layout_marginEnd="8dp"
+      android:layout_marginRight="8dp"
+      android:checkable="true"
+      android:clickable="true"
+      android:focusable="true"
+      android:gravity="center"
+      android:minHeight="48dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/deliveriesFromCardView">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_theme"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+      <!-- Title, secondary and supporting text -->
+      <TextView
+          android:id="@+id/destinationHeaderTxt"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Destination"
+          android:textAppearance="?attr/textAppearanceHeadline6"
+          android:textSize="14sp" />
+
+      <TextView
+          android:id="@+id/driverDeliveryDestination"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginLeft="8dp"
+          android:layout_marginTop="2dp"
+          android:layout_marginEnd="8dp"
+          android:layout_marginRight="8dp"
+          android:text="xxxxxx"
+          android:textSize="14sp" />
+
+    </LinearLayout>
+
+  </com.google.android.material.card.MaterialCardView>
+
+
+  <ProgressBar
+      android:id="@+id/DeliveriesDProgressBar"
+      style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+      android:layout_width="426dp"
+      android:layout_height="13dp"
+      android:layout_marginTop="51dp"
+      android:indeterminate="true"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.533"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

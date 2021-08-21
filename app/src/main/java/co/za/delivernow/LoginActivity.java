@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -25,7 +24,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -50,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
+        ProgressBar loginProgressBar = findViewById(R.id.loginProgressBar);
         TextView registerButton = findViewById(R.id.buttonRegisterLogin);
         Button emailLoginButton = findViewById(R.id.LoginEmailButton);
         Button phoneLoginButton = findViewById(R.id.loginPhoneButton);
@@ -61,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
         EditText password = findViewById(R.id.password);
         EditText phone = findViewById(R.id.loginPhoneTxt);
         TextView forgotPassword = findViewById(R.id.forgotPassword);
-        ProgressBar loginProgressBar = findViewById(R.id.loginProgressBar);
         TextInputLayout phoneLayout = findViewById(R.id.LogintextInputLayoutPhone);
         TextInputLayout otpUserCodeLayout = findViewById(R.id.LogintextInputLayoutCode);
         TextInputLayout emailLayout = findViewById(R.id.LogintextInputLayoutEmail);
@@ -120,8 +118,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 loginProgressBar.setVisibility(View.VISIBLE);
-                login(email.getText().toString(), password.getText().toString());
-                loginProgressBar.setVisibility(View.INVISIBLE);
+                login(email.getText().toString(), password.getText().toString(), loginProgressBar);
             }
         });
 
@@ -147,7 +144,6 @@ public class LoginActivity extends AppCompatActivity {
                                         phoneLoginButton.setVisibility(View.INVISIBLE);
                                         phone.setVisibility(View.INVISIBLE);
                                         phoneLayout.setVisibility(View.INVISIBLE);
-                                        loginProgressBar.setVisibility(View.INVISIBLE);
                                         phoneLoginButton.setClickable(true);
                                         signInWithEmail.setClickable(true);
                                         registerButton.setClickable(true);
@@ -155,15 +151,15 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
                                         //auto et OTP
+                                        loginProgressBar.setVisibility(View.INVISIBLE);
                                         otpUserCode.setText(phoneAuthCredential.getSmsCode());
-                                        phoneSignin(phoneAuthCredential);
+                                        phoneSignin(phoneAuthCredential, loginProgressBar);
                                         otpUserCode.setVisibility(View.VISIBLE);
                                         otpUserCodeLayout.setVisibility(View.VISIBLE);
                                         verifyOpt.setVisibility(View.VISIBLE);
                                         phoneLoginButton.setVisibility(View.INVISIBLE);
                                         phone.setVisibility(View.INVISIBLE);
                                         phoneLayout.setVisibility(View.INVISIBLE);
-                                        loginProgressBar.setVisibility(View.INVISIBLE);
                                         phoneLoginButton.setClickable(true);
                                         signInWithEmail.setClickable(true);
                                         registerButton.setClickable(true);
@@ -193,7 +189,7 @@ public class LoginActivity extends AppCompatActivity {
                 String otpUserCodeStr = otpUserCode.getText().toString();
                 if (!otpUserCodeStr.isEmpty()){
                     PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(verificationId, otpUserCodeStr);
-                    phoneSignin(phoneAuthCredential);
+                    phoneSignin(phoneAuthCredential, loginProgressBar);
                 } else {
                     Toast.makeText(LoginActivity.this, "OTP Code cannot be empty", Toast.LENGTH_SHORT).show();
                 }
@@ -223,7 +219,8 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void phoneSignin(PhoneAuthCredential phoneAuthCredential){
+    private void phoneSignin(PhoneAuthCredential phoneAuthCredential, ProgressBar progressBar){
+        progressBar.setVisibility(View.VISIBLE);
         firebaseAuth.signInWithCredential(phoneAuthCredential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
@@ -233,17 +230,20 @@ public class LoginActivity extends AppCompatActivity {
                         firestoreUser = documentSnapshot.toObject(FirestoreUser.class);
                         if (firestoreUser.getRole().equals(Role.DRIVER)){
                             Toast.makeText(LoginActivity.this, "Authentication Successful", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), DeliveryDetailsActivity.class);
+                            progressBar.setVisibility(View.INVISIBLE);
                             startActivity(intent);
                         } else{
                             Toast.makeText(LoginActivity.this, "Authentication Successful", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                            progressBar.setVisibility(View.INVISIBLE);
                             startActivity(intent);
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        progressBar.setVisibility(View.INVISIBLE);
                         Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -251,12 +251,13 @@ public class LoginActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                progressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void emailSignIn(String email, String password){
+    private void emailSignIn(String email, String password, ProgressBar progressBar){
         firebaseAuth.signInWithEmailAndPassword(email, password)
            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
@@ -268,10 +269,12 @@ public class LoginActivity extends AppCompatActivity {
                         if (firestoreUser.getRole().equals(Role.DRIVER)){
                             Toast.makeText(LoginActivity.this, "Authentication Successful", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), DeliveriesActivity.class);
+                            progressBar.setVisibility(View.INVISIBLE);
                             startActivity(intent);
                         } else{
                             Toast.makeText(LoginActivity.this, "Authentication Successful", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                            progressBar.setVisibility(View.INVISIBLE);
                             startActivity(intent);
                         }
                     }
@@ -279,6 +282,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(LoginActivity.this, "e", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
                 });
             }
@@ -286,18 +290,19 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
     }
 
 
-    void login(String email, String password){
+    void login(String email, String password, ProgressBar progressBar){
         if (checkEmail(email)) {
             Toast.makeText(this, "email must not be empty", Toast.LENGTH_SHORT).show();
         } else if (checkPassword(password)){
             Toast.makeText(this, "password must not be empty", Toast.LENGTH_SHORT).show();
         } else if ( !checkEmail(email) && !checkPassword(password)         ){
-            emailSignIn(email, password);
+            emailSignIn(email, password, progressBar);
         }
     }
 
