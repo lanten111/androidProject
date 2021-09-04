@@ -4,21 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context="co.za.foodscout.MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.802"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Mainbutton"
+        app:srcCompat="@drawable/logo_full" />
 
     <ProgressBar
         android:id="@+id/MainProgressBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="425dp"
-        android:layout_height="17dp"
+        android:layout_width="0dp"
+        android:layout_height="8dp"
         android:layout_marginTop="51dp"
         android:indeterminate="true"
+        android:theme="@style/ProgressBarStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/welcomeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
@@ -34,11 +46,11 @@
         android:layout_height="48dp"
         android:layout_marginTop="51dp"
         android:text="@string/lets_begin"
-        android:textColor="#000000"
-        app:backgroundTint="#009688"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/welcomeTextView" />
 
     <Button
         android:id="@+id/permissionButton"
@@ -46,10 +58,10 @@
         android:layout_height="48dp"
         android:layout_marginTop="51dp"
         android:text="Allow location permission"
-        android:textColor="#000000"
-        app:backgroundTint="#009688"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/welcomeTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,10 +25,24 @@
     <ProgressBar
         android:id="@+id/DeliveriesProgressBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="425dp"
-        android:layout_height="17dp"
+        android:layout_width="0dp"
+        android:layout_height="8dp"
         android:layout_marginTop="51dp"
         android:indeterminate="true"
+        android:theme="@style/ProgressBarStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/NoDeliveryTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No delivery found"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

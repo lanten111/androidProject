@@ -14,9 +14,10 @@
     <ProgressBar
         android:id="@+id/registerProgressBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="422dp"
-        android:layout_height="16dp"
+        android:layout_width="0dp"
+        android:layout_height="8dp"
         android:indeterminate="true"
+        android:theme="@style/ProgressBarStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.545"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,10 +30,11 @@
         android:layout_marginTop="32dp"
         android:text="Create account"
         android:textSize="12sp"
-        app:backgroundTint="#009688"
+        app:backgroundTint="@color/buttons"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout10" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout6" />
 
     <TextView
         android:id="@+id/textView2"
@@ -49,6 +51,8 @@
         android:layout_width="250dp"
         android:layout_height="48dp"
         android:layout_marginTop="32dp"
+        app:boxStrokeColor="@color/main_theme"
+        app:hintTextColor="@color/main_theme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
@@ -59,7 +63,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"
-            android:textSize="12sp" />
+            android:inputType="none|textEmailAddress"
+            android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -67,6 +72,8 @@
         android:layout_width="250dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
+        app:boxStrokeColor="@color/main_theme"
+        app:hintTextColor="@color/main_theme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout7"
@@ -77,7 +84,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/name"
-            android:textSize="12sp" />
+            android:inputType="none|textPersonName"
+            android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -85,6 +93,8 @@
         android:layout_width="250dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
+        app:boxStrokeColor="@color/main_theme"
+        app:hintTextColor="@color/main_theme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout8"
@@ -95,7 +105,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/surname"
-            android:textSize="12sp" />
+            android:inputType="textPersonName"
+            android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -103,32 +114,62 @@
         android:layout_width="250dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
+        app:boxStrokeColor="@color/main_theme"
+        app:hintTextColor="@color/main_theme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout9">
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout12"
+        app:startIconDrawable="@drawable/password">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/RegisterPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
-            android:textSize="12sp" />
+            android:inputType="none|textPassword"
+            android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout12"
         android:layout_width="250dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
+        app:boxStrokeColor="@color/main_theme"
+        app:hintTextColor="@color/main_theme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout9">
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout9"
+        app:startIconDrawable="@drawable/phone">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/RegisterPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone Number"
+            android:inputType="none|text|phone"
+            android:textSize="14sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout6"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        app:boxStrokeColor="@color/main_theme"
+        app:hintTextColor="@color/main_theme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout10"
+        app:startIconDrawable="@drawable/password">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/RegisterConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/confrim_password"
-            android:textSize="12sp" />
+            android:inputType="textPassword"
+            android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    tools:context=".LoginActivity">
+    tools:context="co.za.foodscout.LoginActivity">
 
     <TextView
         android:id="@+id/forgotPassword"
@@ -13,9 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="32dp"
-        android:text="forgot password ?"
-        android:textColor="#03A9F4"
-        android:textSize="12sp"
+        android:text="@string/forgot_password"
+        android:textColor="@color/link_color"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LoginEmailButton" />
@@ -25,9 +26,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="24dp"
         android:text="@string/login"
-        android:textColor="@color/teal_700"
+        android:textColor="@color/main_theme"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,7 +43,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/Login"
         android:textSize="12sp"
-        app:backgroundTint="#009688"
+        app:backgroundTint="@color/buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LogintextInputLayoutPassword" />
@@ -56,7 +56,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/Login"
         android:textSize="12sp"
-        app:backgroundTint="#009688"
+        app:backgroundTint="@color/buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LogintextInputLayoutPassword" />
@@ -69,7 +69,20 @@
         android:layout_marginTop="32dp"
         android:text="Verify Code"
         android:textSize="12sp"
-        app:backgroundTint="#009688"
+        app:backgroundTint="@color/buttons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LogintextInputLayoutPassword" />
+
+    <Button
+        android:id="@+id/loginAddUserdetailsBtn"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:text="Continue"
+        android:textSize="12sp"
+        app:backgroundTint="@color/buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LogintextInputLayoutPassword" />
@@ -82,7 +95,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/sign_in_with_phone_numebr"
         android:textAppearance="@android:style/TextAppearance"
-        android:textColor="@android:color/secondary_text_light"
+        android:textColor="@color/main_theme"
         android:textSize="12sp"
         app:backgroundTint="#FDFDFD"
         app:layout_constraintEnd_toEndOf="parent"
@@ -110,8 +123,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/dont_have_an_account"
-        android:textColor="#0277BD"
-        android:textSize="12sp"
+        android:textColor="@color/link_color"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signInText" />
@@ -119,9 +133,11 @@
     <ProgressBar
         android:id="@+id/loginProgressBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="433dp"
-        android:layout_height="17dp"
+        android:layout_width="0dp"
+        android:layout_height="8dp"
+        android:clickable="false"
         android:indeterminate="true"
+        android:theme="@style/ProgressBarStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -131,6 +147,8 @@
         android:layout_width="250dp"
         android:layout_height="48dp"
         android:layout_marginTop="32dp"
+        app:boxStrokeColor="@color/main_theme"
+        app:hintTextColor="@color/main_theme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonRegisterLogin"
@@ -141,6 +159,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"
+            android:textColorLink="@color/main_theme"
             android:textSize="12sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -149,6 +168,8 @@
         android:layout_width="250dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
+        app:boxStrokeColor="@color/main_theme"
+        app:hintTextColor="@color/main_theme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LogintextInputLayoutEmail"
@@ -159,6 +180,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
+            android:textColorLink="@color/main_theme"
             android:textSize="12sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -166,6 +188,8 @@
         android:id="@+id/LogintextInputLayoutPhone"
         android:layout_width="250dp"
         android:layout_height="48dp"
+        app:boxStrokeColor="@color/main_theme"
+        app:hintTextColor="@color/main_theme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LogintextInputLayoutEmail"
@@ -176,6 +200,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/phone_number"
+            android:textColorLink="@color/main_theme"
             android:textSize="12sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -184,6 +209,8 @@
         android:layout_width="250dp"
         android:layout_height="48dp"
         android:layout_marginTop="80dp"
+        app:boxStrokeColor="@color/main_theme"
+        app:hintTextColor="@color/main_theme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signInText"
@@ -194,9 +221,62 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="verify code"
+            android:textColorLink="@color/main_theme"
             android:textSize="12sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/LogintextInputLayoutName"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="120dp"
+        app:boxStrokeColor="@color/main_theme"
+        app:hintTextColor="@color/main_theme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:startIconDrawable="@drawable/account">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/phoneLoginname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/name"
+            android:textColorLink="@color/main_theme"
+            android:textSize="12sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/LogintextInputLayoutPhoneSurname"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="60dp"
+        app:boxStrokeColor="@color/main_theme"
+        app:hintTextColor="@color/main_theme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/LogintextInputLayoutName"
+        app:startIconDrawable="@drawable/account">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/phoneLoginSurname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/surname"
+            android:textColorLink="@color/main_theme"
+            android:textSize="12sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginPhone"
+        app:srcCompat="@drawable/logo_full" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

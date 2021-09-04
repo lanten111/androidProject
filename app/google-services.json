@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:9236148814:android:9356970de7f2bf5cb4491f",
+        "mobilesdk_app_id": "1:9236148814:android:5ee58f9a598fa85cb4491f",
         "android_client_info": {
-          "package_name": "co.za.delivernow"
+          "package_name": "co.za.foodscout"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "9236148814-laefdv62dnkgl9dv49ipjqs595kbef7d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.za.foodscout",
+            "certificate_hash": "317db27e40c3d5e57f6a0421acc552b9d551e896"
+          }
+        },
         {
           "client_id": "9236148814-a45okpqr0cq9mb897qqevvk73ulqs2jh.apps.googleusercontent.com",
           "client_type": 3
@@ -20,7 +28,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDrAfkwvEwbtARHQ_zdOmVV8Vica_ea3_U"
+          "current_key": "AIzaSyAmK7fXKsf9NvhYSRHMjpPXjzeXZK90bbw"
         }
       ],
       "services": {

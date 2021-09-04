@@ -4,28 +4,41 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.5354166666666667" />
+        <entry key="app/src/main/res/drawable-v21/clock_time_eight_outline.xml" value="0.3851851851851852" />
         <entry key="app/src/main/res/drawable-v21/ic_menu_camera.xml" value="0.5364583333333334" />
         <entry key="app/src/main/res/drawable-v21/ic_menu_gallery.xml" value="0.5364583333333334" />
         <entry key="app/src/main/res/drawable-v21/ic_menu_slideshow.xml" value="0.5364583333333334" />
+        <entry key="app/src/main/res/drawable-v21/rounded_corner_cards.xml" value="0.2942708333333333" />
+        <entry key="app/src/main/res/drawable-v21/rounded_corner_recycle_view.xml" value="0.5215384615384615" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.5364583333333334" />
         <entry key="app/src/main/res/drawable/account.xml" value="0.2578125" />
         <entry key="app/src/main/res/drawable/cart_plus.xml" value="0.396875" />
+        <entry key="app/src/main/res/drawable/clock-small.xml" value="0.2942708333333333" />
+        <entry key="app/src/main/res/drawable/clock_small.xml" value="0.2388888888888889" />
+        <entry key="app/src/main/res/drawable/clock_time_eight_outline1.xml" value="0.2942708333333333" />
         <entry key="app/src/main/res/drawable/email.xml" value="0.2578125" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.5364583333333334" />
+        <entry key="app/src/main/res/drawable/location small.xml" value="0.2388888888888889" />
         <entry key="app/src/main/res/drawable/location.xml" value="0.402734375" />
+        <entry key="app/src/main/res/drawable/location_small.xml" value="0.2388888888888889" />
         <entry key="app/src/main/res/drawable/lock_open_check.xml" value="0.402734375" />
         <entry key="app/src/main/res/drawable/map_marker_outline.xml" value="0.402734375" />
         <entry key="app/src/main/res/drawable/password.xml" value="0.2578125" />
         <entry key="app/src/main/res/drawable/phone.xml" value="0.402734375" />
         <entry key="app/src/main/res/drawable/phone_icon_background.xml" value="0.5364583333333334" />
         <entry key="app/src/main/res/drawable/profile-Icon_background.xml" value="0.37395833333333334" />
+        <entry key="app/src/main/res/drawable/rounded_image.xml" value="0.2942708333333333" />
         <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.5364583333333334" />
+        <entry key="app/src/main/res/drawable/star_outline.xml" value="0.2942708333333333" />
         <entry key="app/src/main/res/layout-v21/activity_accout.xml" value="0.5" />
+        <entry key="app/src/main/res/layout-v21/activity_order_view.xml" value="0.25769927536231885" />
         <entry key="app/src/main/res/layout/activity_account.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_account2.xml" value="0.4369369369369369" />
         <entry key="app/src/main/res/layout/activity_accout.xml" value="0.3328125" />
+        <entry key="app/src/main/res/layout/activity_cart_view.xml" value="0.264945652173913" />
+        <entry key="app/src/main/res/layout/activity_cart_view2.xml" value="0.19701086956521738" />
         <entry key="app/src/main/res/layout/activity_deilveryDetails.xml" value="0.2989583333333333" />
-        <entry key="app/src/main/res/layout/activity_deilverydetails.xml" value="0.5130208333333334" />
+        <entry key="app/src/main/res/layout/activity_deilverydetails.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_deliveries.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_drawer.xml" value="0.353125" />
         <entry key="app/src/main/res/layout/activity_driver.xml" value="0.33" />
@@ -33,11 +46,13 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3578125" />
         <entry key="app/src/main/res/layout/activity_map.xml" value="0.43043043043043044" />
-        <entry key="app/src/main/res/layout/activity_menu.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/activity_menu.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_order_view.xml" value="0.2980072463768116" />
         <entry key="app/src/main/res/layout/activity_password.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_reset_password.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_retails.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/activity_seller_view.xml" value="0.23641304347826086" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_welcome.xml" value="0.309375" />
         <entry key="app/src/main/res/layout/content_draawer.xml" value="0.23541666666666666" />
@@ -45,13 +60,19 @@
         <entry key="app/src/main/res/layout/fragment_drawer.xml" value="0.3578125" />
         <entry key="app/src/main/res/layout/fragment_nav.xml" value="0.23541666666666666" />
         <entry key="app/src/main/res/layout/fragment_welcome.xml" value="0.309375" />
+        <entry key="app/src/main/res/layout/menu_items.xml" value="0.32222222222222224" />
+        <entry key="app/src/main/res/layout/raunded_corner.xml" value="0.24974670719351572" />
+        <entry key="app/src/main/res/layout/retail_list.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/seller_View_list.xml" value="0.33" />
         <entry key="app/src/main/res/layout/settings_activity.xml" value="0.245703125" />
         <entry key="app/src/main/res/menu/drawer_list_item.xml" value="0.39166666666666666" />
         <entry key="app/src/main/res/menu/main.xml" value="0.39166666666666666" />
         <entry key="app/src/main/res/menu/nav_menu.xml" value="0.3578125" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/app_Icon.xml" value="0.42592592592592593" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3692708333333333" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.5282051282051282" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/phone_icon_round.xml" value="0.37395833333333334" />
+        <entry key="app/src/main/res/xml/root_preferences.xml" value="0.33" />
       </map>
     </option>
   </component>

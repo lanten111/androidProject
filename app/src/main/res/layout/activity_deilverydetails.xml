@@ -4,19 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DeliveryDetailsActivity">
+    tools:context="co.za.foodscout.DeliveryDetailsActivity">
 
   <Button
-      android:id="@+id/openMapsBtn2"
+      android:id="@+id/deliveryCompleteBtn"
       android:layout_width="120dp"
       android:layout_height="48dp"
       android:layout_gravity="center"
-      android:layout_marginStart="150dp"
-      android:layout_marginLeft="150dp"
+      android:layout_marginStart="250dp"
+      android:layout_marginLeft="250dp"
+      android:layout_marginEnd="24dp"
+      android:layout_marginRight="24dp"
       android:layout_marginBottom="32dp"
-      android:text="Delivered"
+      android:text="@string/delivered"
       android:textSize="12sp"
-      app:backgroundTint="#009688"
+      app:backgroundTint="@color/buttons"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent" />
@@ -24,8 +26,9 @@
   <androidx.fragment.app.FragmentContainerView
       android:id="@+id/driverDeliveryMap"
       android:name="com.google.android.gms.maps.SupportMapFragment"
-      android:layout_width="410dp"
+      android:layout_width="0dp"
       android:layout_height="0dp"
+      android:layout_marginTop="8dp"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.0"
@@ -34,40 +37,41 @@
       app:layout_constraintVertical_bias="0.0" />
 
   <Button
+      android:id="@+id/deliveryPickUpBtn"
+      android:layout_width="wrap_content"
+      android:layout_height="48dp"
+      android:layout_gravity="center"
+      android:layout_marginTop="12dp"
+      android:text="@string/picked_up_delivery"
+      android:textSize="12sp"
+      app:backgroundTint="@color/buttons"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.498"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/deliveriesFromCardView" />
+
+  <Button
       android:id="@+id/openMapsBtn"
       android:layout_width="120dp"
       android:layout_height="48dp"
       android:layout_gravity="center"
-      android:layout_marginEnd="150dp"
-      android:layout_marginRight="150dp"
+      android:layout_marginStart="24dp"
+      android:layout_marginLeft="24dp"
+      android:layout_marginEnd="250dp"
+      android:layout_marginRight="250dp"
       android:layout_marginBottom="32dp"
-      android:text="open map"
+      android:text="@string/open_map"
       android:textSize="12sp"
-      app:backgroundTint="#009688"
+      app:backgroundTint="@color/buttons"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent" />
-
-  <TextView
-      android:id="@+id/textView5"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="1dp"
-      android:text="New Delivery"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.498"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/DeliveriesDProgressBar" />
 
   <com.google.android.material.card.MaterialCardView
       android:id="@+id/deliveriesFromCardView"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:layout_marginLeft="8dp"
-      android:layout_marginTop="5dp"
-      android:layout_marginEnd="8dp"
-      android:layout_marginRight="8dp"
+      android:background="@drawable/rounded_corner_cards"
       android:checkable="true"
       android:clickable="true"
       android:focusable="true"
@@ -75,37 +79,64 @@
       android:minHeight="48dp"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textView5">
+      app:layout_constraintTop_toBottomOf="@+id/DeliveriesDProgressBar">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/main_theme"
+        android:background="@drawable/rounded_corner_cards"
         android:orientation="vertical"
         android:padding="8dp">
 
       <!-- Title, secondary and supporting text -->
 
       <TextView
+          android:id="@+id/deliveryFromDetails"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="0dp"
+          android:layout_marginLeft="0dp"
+          android:layout_marginTop="2dp"
+          android:layout_marginEnd="2dp"
+          android:layout_marginRight="2dp"
+          android:layout_marginBottom="2dp"
+          android:text="@string/loading"
+          android:textAllCaps="true"
+          android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+          android:textColor="@android:color/primary_text_light"
+          android:textSize="14sp" />
+
+      <TextView
           android:id="@+id/fromHeaderTxt"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_marginBottom="0dp"
-          android:text="From"
-          android:textAppearance="?attr/textAppearanceHeadline6"
-          android:textSize="14sp" />
+          android:layout_marginStart="2dp"
+          android:layout_marginLeft="2dp"
+          android:layout_marginTop="2dp"
+          android:layout_marginEnd="2dp"
+          android:layout_marginRight="2dp"
+          android:layout_marginBottom="2dp"
+          android:text="@string/loading"
+          android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+          android:textColor="?android:attr/textColorSecondary"
+          android:textSize="14sp"
+          app:drawableLeftCompat="@drawable/clock" />
 
       <TextView
           android:id="@+id/deliveryFromTxt"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginStart="8dp"
-          android:layout_marginLeft="8dp"
+          android:layout_marginStart="2dp"
+          android:layout_marginLeft="2dp"
           android:layout_marginTop="2dp"
-          android:layout_marginEnd="8dp"
-          android:layout_marginRight="8dp"
-          android:text="xxxxx"
-          android:textSize="14sp" />
+          android:layout_marginEnd="2dp"
+          android:layout_marginRight="2dp"
+          android:layout_marginBottom="2dp"
+          android:text="@string/loading"
+          android:textColor="?android:attr/textColorSecondary"
+          android:textSize="14sp"
+          android:textStyle="italic"
+          app:drawableLeftCompat="@drawable/location" />
 
     </LinearLayout>
 
@@ -115,11 +146,7 @@
       android:id="@+id/deliveriesToCardView"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:layout_marginLeft="8dp"
-      android:layout_marginTop="8dp"
-      android:layout_marginEnd="8dp"
-      android:layout_marginRight="8dp"
+      android:background="@drawable/rounded_corner_cards"
       android:checkable="true"
       android:clickable="true"
       android:focusable="true"
@@ -132,43 +159,70 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/main_theme"
+        android:background="@drawable/rounded_corner_cards"
         android:orientation="vertical"
         android:padding="8dp">
 
-      <!-- Title, secondary and supporting text -->
       <TextView
           android:id="@+id/destinationHeaderTxt"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="Destination"
-          android:textAppearance="?attr/textAppearanceHeadline6"
+          android:layout_marginStart="0dp"
+          android:layout_marginLeft="0dp"
+          android:layout_marginTop="2dp"
+          android:layout_marginEnd="2dp"
+          android:layout_marginRight="2dp"
+          android:layout_marginBottom="2dp"
+          android:text="@string/drop_off"
+          android:textAllCaps="true"
+          android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+          android:textColor="@android:color/primary_text_light"
           android:textSize="14sp" />
+
+      <TextView
+          android:id="@+id/driverDeliveryUserDetails"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="2dp"
+          android:layout_marginLeft="2dp"
+          android:layout_marginTop="2dp"
+          android:layout_marginEnd="2dp"
+          android:layout_marginRight="2dp"
+          android:text="@string/loading"
+          android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+          android:textColor="?android:attr/textColorSecondary"
+          android:textSize="14sp"
+          app:drawableLeftCompat="@drawable/account" />
 
       <TextView
           android:id="@+id/driverDeliveryDestination"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginStart="8dp"
-          android:layout_marginLeft="8dp"
+          android:layout_marginStart="2dp"
+          android:layout_marginLeft="2dp"
           android:layout_marginTop="2dp"
-          android:layout_marginEnd="8dp"
-          android:layout_marginRight="8dp"
-          android:text="xxxxxx"
-          android:textSize="14sp" />
+          android:layout_marginEnd="2dp"
+          android:layout_marginRight="2dp"
+          android:layout_marginBottom="2dp"
+          android:text="@string/loading"
+          android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+          android:textColor="?android:attr/textColorSecondary"
+          android:textSize="14sp"
+          android:textStyle="italic"
+          app:drawableLeftCompat="@drawable/location" />
 
     </LinearLayout>
-
   </com.google.android.material.card.MaterialCardView>
 
 
   <ProgressBar
       android:id="@+id/DeliveriesDProgressBar"
       style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-      android:layout_width="426dp"
-      android:layout_height="13dp"
+      android:layout_width="0dp"
+      android:layout_height="8dp"
       android:layout_marginTop="51dp"
       android:indeterminate="true"
+      android:theme="@style/ProgressBarStyle"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.533"
       app:layout_constraintStart_toStartOf="parent"

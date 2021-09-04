@@ -6,87 +6,109 @@
     android:layout_height="match_parent"
     tools:context=".OrderViewActivity">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/OrderDeliveryMap"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/OrderFromCardView" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Delivery Coming"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orderProgressBar" />
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/OrderFromCardView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_height="0dp"
+        android:background="@drawable/rounded_corner_cards"
         android:checkable="true"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
         android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5">
+        app:layout_constraintTop_toBottomOf="@+id/orderProgressBar">
 
         <LinearLayout
-            android:layout_width="403dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/main_theme"
+            android:background="@drawable/rounded_corner_cards"
             android:orientation="vertical"
             android:padding="8dp">
-
-            <!-- Title, secondary and supporting text -->
 
             <TextView
                 android:id="@+id/orderHeadTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="0dp"
-                android:text="Order"
+                android:text="@string/loading"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/orderDetailTxt"
+                android:id="@+id/orderNameTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:text="Pizza, coodtring and chpis"
+                android:text="Pizza, coodtring and chpis "
                 android:textSize="14sp" />
 
+            <TextView
+                android:id="@+id/orderFromTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:text="@string/loading"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                app:drawableLeftCompat="@drawable/location" />
+
+            <TextView
+                android:id="@+id/orderToTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:text="@string/loading"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                app:drawableLeftCompat="@drawable/location" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rounded_corner_cards"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/OrderFromCardView">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/OrderDeliveryMap"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/OrderFromCardView" />
+
+            </LinearLayout>
         </LinearLayout>
-
     </com.google.android.material.card.MaterialCardView>
-
 
     <ProgressBar
         android:id="@+id/orderProgressBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="426dp"
-        android:layout_height="13dp"
+        android:layout_width="0dp"
+        android:layout_height="8dp"
         android:layout_marginTop="51dp"
         android:indeterminate="true"
+        android:theme="@style/ProgressBarStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"

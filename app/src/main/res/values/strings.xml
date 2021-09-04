@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DeliverNow</string>
+    <string name="app_name">Food Scout</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="email">email</string>
@@ -66,4 +66,23 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="new_delivery">New Delivery</string>
+    <string name="loading">............</string>
+    <string name="drop_off">Drop Off</string>
+    <string name="active_delivery">Active Delivery</string>
+    <string name="completed_deliveries">Completed deliveries</string>
+    <string name="order_history">Order History</string>
+    <string name="help">help</string>
+    <string name="about">About</string>
+    <string name="forgot_password">forgot password ?</string>
+    <string name="picked_up_delivery">Picked up Delivery</string>
+    <string name="open_map">open map</string>
+    <string name="update">Update</string>
+    <string name="edit">Edit</string>
+    <string name="change_password">Change password</string>
+    <string name="accout_details">Accout Details</string>
+    <string name="raustarant_name">Raustarant Name</string>
+    <string name="location">location</string>
+    <string name="pending_delivery">Pending Delivery</string>
+    <string name="delivered">Delivered</string>
 </resources>

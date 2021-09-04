@@ -10,6 +10,9 @@
     <color name="light_blue_600">#FF039BE5</color>
     <color name="dark_blue">#FF01579B</color>
     <color name="light_blue">#FF40C4FF</color>
-    <color name="black_overlay">#66000000</color>
-    <color name="main_theme">#009688</color>
+    <color name="buttons">#f57f17</color>
+    <color name="main_theme">#f57f17</color>
+    <color name="main_theme_second">#D3D5D7</color>
+    <color name="link_color">#0277BD</color>
+    <color name="cards">#93A3B1</color>
 </resources>
