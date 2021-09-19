@@ -3,6 +3,7 @@ package co.za.foodscout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -40,6 +41,9 @@ public class RetailsActivity extends DrawerActivity {
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_retails, frameLayout);
 
+        ProgressBar progressBar = findViewById(R.id.retailProgressBar);
+        Button changeLocation = findViewById(R.id.retailChnageLocation);
+
         if (firebaseAuth.getCurrentUser() == null){
             startActivity(new Intent(this, LoginActivity.class));
             Toast.makeText(this, "Please login first", Toast.LENGTH_LONG).show();
@@ -56,8 +60,6 @@ public class RetailsActivity extends DrawerActivity {
                 }
             });
         }
-
-        ProgressBar progressBar = findViewById(R.id.retailProgressBar);
 
         String url = "https://foodbukka.herokuapp.com/api/v1/restaurant";
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -82,6 +84,15 @@ public class RetailsActivity extends DrawerActivity {
         });
         queue.add(stringRequest);
         getIntent().setAction("retail");
+
+        changeLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(RetailsActivity.this, MapActivity.class));
+            }
+        });
+
+
     }
 
     @Override

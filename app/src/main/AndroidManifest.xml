@@ -29,7 +29,7 @@ package="foodscout">
         android:exported="true"
         android:label="choose restaurant" />
     <activity
-        android:name="co.za.foodscout.OrderViewActivity"
+        android:name="co.za.foodscout.UserOrderViewActivity"
         android:exported="true"
         android:theme="@style/Theme.DeliverNow.NoActionBar"
         android:label="View your Order" />

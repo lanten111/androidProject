@@ -23,7 +23,7 @@
     <style name="Theme.DeliverNow.PopupOverlay" parent="Theme.AppCompat.Light.NoActionBar" />
 
     <style name="ProgressBarStyle">
-        <item name="colorAccent">@color/main_theme</item>
+        <item name="colorAccent">@color/loading</item>
     </style>
 
     <style name="roundedCornersImageView" parent="">

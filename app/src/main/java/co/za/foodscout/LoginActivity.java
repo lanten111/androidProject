@@ -36,6 +36,7 @@ import co.za.foodscout.Domain.Collections;
 import co.za.foodscout.Domain.FirestoreDelivery;
 import co.za.foodscout.Domain.FirestoreUser;
 import co.za.foodscout.Domain.Role;
+import co.za.foodscout.shared.PurchaseConfirmationDialogFragment;
 import foodscout.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -350,7 +351,7 @@ public class LoginActivity extends AppCompatActivity {
                                 firestoreDeliveryList = queryDocumentSnapshots.toObjects(FirestoreDelivery.class);
                                 if (firestoreDeliveryList.size() > 0){
                                     Toast.makeText(LoginActivity.this, "View pending Order", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(LoginActivity.this, OrderViewActivity.class));
+                                    startActivity(new Intent(LoginActivity.this, UserOrderViewActivity.class));
                                 } else {
                                     if (firestoreUser.getLocation() !=null){
                                         startActivity(new Intent(getApplicationContext(), RetailsActivity.class));
@@ -408,6 +409,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         pressedTime = System.currentTimeMillis();
     }
+
 
 
 }

@@ -24,7 +24,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="100dp"
         android:text="Deliver Here"
-        app:backgroundTint="#009688"
+        app:backgroundTint="@color/buttons"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

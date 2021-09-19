@@ -64,7 +64,7 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/retailListAddress"
+                    android:id="@+id/SellerAddonDetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"

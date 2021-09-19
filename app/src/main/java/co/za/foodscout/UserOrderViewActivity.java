@@ -50,7 +50,7 @@ import co.za.foodscout.Utils.DirectionsJSONParser;
 import co.za.foodscout.Utils.Utils;
 import foodscout.R;
 
-public class OrderViewActivity extends DrawerActivity implements GoogleMap.OnMyLocationButtonClickListener,
+public class UserOrderViewActivity extends DrawerActivity implements GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
         OnMapReadyCallback {
 
@@ -68,7 +68,7 @@ public class OrderViewActivity extends DrawerActivity implements GoogleMap.OnMyL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getLayoutInflater().inflate(R.layout.activity_order_view, frameLayout);
+        getLayoutInflater().inflate(R.layout.activity_user_order_view, frameLayout);
 
         if (firebaseAuth.getCurrentUser() == null){
             startActivity(new Intent(this, LoginActivity.class));
@@ -109,8 +109,8 @@ public class OrderViewActivity extends DrawerActivity implements GoogleMap.OnMyL
                         }
                         setDirection();
                     } else {
-                        Toast.makeText(OrderViewActivity.this, "Order completed", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(OrderViewActivity.this, RetailsActivity.class));
+                        Toast.makeText(UserOrderViewActivity.this, "Order completed", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(UserOrderViewActivity.this, RetailsActivity.class));
                     }
                 }
             }
@@ -205,7 +205,7 @@ public class OrderViewActivity extends DrawerActivity implements GoogleMap.OnMyL
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(OrderViewActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserOrderViewActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -289,7 +289,7 @@ public class OrderViewActivity extends DrawerActivity implements GoogleMap.OnMyL
     protected void onResume() {
         String action = getIntent().getAction();
         if(action == null || !action.equals("orderView")) {
-            Intent intent = new Intent(this, OrderViewActivity.class);
+            Intent intent = new Intent(this, UserOrderViewActivity.class);
             startActivity(intent);
             finish();
         }

@@ -109,7 +109,7 @@ public class MainActivity extends DrawerActivity{
                                         List<FirestoreDelivery> firestoreDeliveryList = new ArrayList<>();
                                         firestoreDeliveryList = queryDocumentSnapshots.toObjects(FirestoreDelivery.class);
                                         if (firestoreDeliveryList.size() > 0){
-                                            startActivity(new Intent(MainActivity.this, OrderViewActivity.class));
+                                            startActivity(new Intent(MainActivity.this, UserOrderViewActivity.class));
                                             Toast.makeText(MainActivity.this, "View pending Order", Toast.LENGTH_SHORT).show();
                                         } else {
                                             db.collection(Collections.delivery.name()).whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid()).whereEqualTo("delivered", false).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -119,7 +119,7 @@ public class MainActivity extends DrawerActivity{
                                                     firestoreDeliveryList = queryDocumentSnapshots.toObjects(FirestoreDelivery.class);
                                                     if (firestoreDeliveryList.size() > 0){
                                                         Toast.makeText(getApplicationContext(), "View pending Order", Toast.LENGTH_SHORT).show();
-                                                        startActivity(new Intent(getApplicationContext(), OrderViewActivity.class));
+                                                        startActivity(new Intent(getApplicationContext(), UserOrderViewActivity.class));
                                                     } else {
                                                         if (firestoreUser.getLocation() !=null){
                                                             startActivity(new Intent(getApplicationContext(), RetailsActivity.class));

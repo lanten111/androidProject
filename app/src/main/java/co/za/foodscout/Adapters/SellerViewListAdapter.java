@@ -22,7 +22,6 @@ public class SellerViewListAdapter extends RecyclerView.Adapter<SellerViewListAd
     private LayoutInflater mInflater;
     private Context context;
 
-   // RecyclerView recyclerView;
     public SellerViewListAdapter(Context context, List<FirestoreDelivery> firestoreDeliveryList) {
         this.firestoreDeliveryList = firestoreDeliveryList;
         this.mInflater = LayoutInflater.from(context);
@@ -31,7 +30,7 @@ public class SellerViewListAdapter extends RecyclerView.Adapter<SellerViewListAd
 
     @Override  
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View listItem= mInflater.inflate(R.layout.delivery_list, parent, false);
+        View listItem= mInflater.inflate(R.layout.seller_view_list, parent, false);
         return new ViewHolder(listItem);
     }
   

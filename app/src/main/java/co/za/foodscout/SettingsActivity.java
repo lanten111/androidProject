@@ -1,17 +1,15 @@
 package co.za.foodscout;
 
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 import foodscout.R;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends DrawerActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings_activity);
+        getLayoutInflater().inflate(R.layout.settings_activity, frameLayout);
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
