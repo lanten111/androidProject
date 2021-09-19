@@ -4,15 +4,18 @@
     android:id="@+id/menuDetailsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="58dp"
     android:orientation="horizontal"
-    tools:context="co.za.foodscout.MenuDetailsFragment">
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:context="co.za.foodscout.MenuDetailActivity">
 
 
     <LinearLayout
         android:id="@+id/frameLayout2"
-        android:layout_width="411dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corner_cards"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,9 +24,8 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/menuItermCardView"
-            android:layout_width="402dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_corner_cards"
             android:checkable="true"
             android:clickable="true"
             android:focusable="true"
@@ -36,12 +38,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:background="@drawable/rounded_corner_cards"
                 android:orientation="horizontal"
                 android:padding="8dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/retailListImage"
+                    android:id="@+id/menuDetailsImage"
                     android:layout_width="104dp"
                     android:layout_height="102dp"
                     android:adjustViewBounds="true"
@@ -97,6 +98,7 @@
                 android:id="@+id/radioButtonB2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/main_theme"
                 android:text="Coke" />
 
             <RadioButton
@@ -176,7 +178,6 @@
                 android:text="Small" />
         </RadioGroup>
 
-
         <RadioGroup
             android:id="@+id/menuRadioGroupB21"
             android:layout_width="match_parent"
@@ -208,7 +209,58 @@
                 android:layout_height="wrap_content"
                 android:text="Orange" />
         </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/menuRadioGroupB211"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/menuRadioGroup1">
+
+            <TextView
+                android:id="@+id/textViewB112"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Which Flavour would you like" />
+
+            <RadioButton
+                android:id="@+id/radioButton1B22"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Coke" />
+
+            <RadioButton
+                android:id="@+id/radioButtonB132"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sprite" />
+
+            <RadioButton
+                android:id="@+id/radioButtonB142"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Orange" />
+
+        </RadioGroup>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:srcCompat="@drawable/cart_plus" />
     </LinearLayout>
 
 
+<!--    <ProgressBar-->
+<!--        android:id="@+id/menuProgressBar"-->
+<!--        style="@style/Widget.AppCompat.ProgressBar.Horizontal"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="8dp"-->
+<!--        android:layout_marginTop="51dp"-->
+<!--        android:indeterminate="true"-->
+<!--        android:theme="@style/ProgressBarStyle"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.533"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 </ScrollView>

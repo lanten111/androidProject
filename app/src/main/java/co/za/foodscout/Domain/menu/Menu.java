@@ -12,6 +12,7 @@ public class Menu {
     @SerializedName("Total Menu")
     @Expose
     private int totalMenu;
+
     @SerializedName("Result")
     @Expose
     private List<MenuDetails> result = null;
