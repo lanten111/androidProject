@@ -1,4 +1,4 @@
-package co.za.foodscout;
+package co.za.foodscout.activities;
 
 import android.content.Intent;
 import android.location.Address;
@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,9 +21,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -31,19 +38,27 @@ import java.util.List;
 import java.util.Locale;
 
 import co.za.foodscout.Adapters.MenuItemAdapter;
+import co.za.foodscout.Domain.Collections;
+import co.za.foodscout.Domain.DeliveryTime;
 import co.za.foodscout.Domain.FirestoreDelivery;
 import co.za.foodscout.Domain.FirestoreUser;
-import co.za.foodscout.Domain.menu.Menu;
-import co.za.foodscout.Domain.retail.Retail;
-import co.za.foodscout.Domain.retails.RetailDetails;
+import co.za.foodscout.Domain.DemoAPIDomain.menu.Menu;
+import co.za.foodscout.Domain.DemoAPIDomain.retail.Retail;
+import co.za.foodscout.Domain.DemoAPIDomain.retails.RetailDetails;
+import co.za.foodscout.Domain.Restaurant.Restaurant;
+import co.za.foodscout.Domain.matrixNew.DurationMatrix;
+import co.za.foodscout.Utils.Utils;
 import foodscout.R;
 
 public class MenuActivity extends DrawerActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirestoreUser firestoreUser = new FirestoreUser();
+    Restaurant restaurant = new Restaurant();
     FirestoreDelivery fireStoreDelivery = new FirestoreDelivery();
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,51 +77,84 @@ public class MenuActivity extends DrawerActivity {
         TextView retailRating = findViewById(R.id.menuRetailRating);
         ProgressBar progressBar = findViewById(R.id.menuProgressBar);
         Intent intent = getIntent();
-        String restaurantId = intent.getStringExtra("retailId");
+        String restaurantId = intent.getStringExtra("restaurantId");
+        retailDeliveryTime.setText(intent.getStringExtra("restaurantDetails"));
 
-        String url = "https://foodbukka.herokuapp.com/api/v1/restaurant/"+restaurantId;
-        RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
+        db.collection(Collections.restaurant.name()).document(restaurantId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onResponse(String response) {
-                Gson gson = new Gson();
-                Retail retail = gson.fromJson(response, Retail.class);
-                RetailDetails retailDetails= retail.getData();
-                Picasso.get().load(Uri.parse(retailDetails.getImage())).into(retailImage);
-                retailName.setText(retailDetails.getBusinessname());
-                retailAddress.setText(retailDetails.getAddress());
-                retailDeliveryTime.setText("30Mins 3KM away");
-                retailRating.setText(String.valueOf(retailDetails.getReviews()));
-
-                String url = "https://foodbukka.herokuapp.com/api/v1/menu";
-                StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                restaurant = documentSnapshot.toObject(Restaurant.class);
+                storageRef.child(restaurant.getMainImageId()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
-                    public void onResponse(String response) {
-                        Gson gson = new Gson();
-                         Menu menu = gson.fromJson(response, Menu.class);
-                        RecyclerView recyclerView = findViewById(R.id.menuRecycledView);
-                        MenuItemAdapter adapter = new MenuItemAdapter(MenuActivity.this, menu.getResult());
-                        recyclerView.setHasFixedSize(false);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(MenuActivity.this));
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.setHasFixedSize(false);
-                        progressBar.setVisibility(View.INVISIBLE);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(retailImage);
                     }
                 });
-                queue.add(stringRequest);
+                retailName.setText(restaurant.getName());
+                retailAddress.setText(restaurant.getAddress());
+                retailRating.setText(String.valueOf(restaurant.getRating()));
+
+                RecyclerView recyclerView = findViewById(R.id.menuRecycledView);
+                MenuItemAdapter adapter = new MenuItemAdapter(MenuActivity.this, restaurant.getMenu(), storageRef);
+                recyclerView.setHasFixedSize(false);
+                recyclerView.setLayoutManager(new LinearLayoutManager(MenuActivity.this));
+                recyclerView.setAdapter(adapter);
+                recyclerView.setHasFixedSize(false);
+                progressBar.setVisibility(View.INVISIBLE);
             }
-        }, new Response.ErrorListener() {
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onFailure(@NonNull Exception e) {
 
             }
         });
-        queue.add(stringRequest);
+
+
+
+//        String url = "https://foodbukka.herokuapp.com/api/v1/restaurant/"+restaurantId;
+//        RequestQueue queue = Volley.newRequestQueue(this);
+//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                Gson gson = new Gson();
+//                Retail retail = gson.fromJson(response, Retail.class);
+//                RetailDetails retailDetails= retail.getData();
+//                Picasso.get().load(Uri.parse(retailDetails.getImage())).into(retailImage);
+//                retailName.setText(retailDetails.getBusinessname());
+//                retailAddress.setText(retailDetails.getAddress());
+//                retailDeliveryTime.setText("30Mins 3KM away");
+//                retailRating.setText(String.valueOf(retailDetails.getReviews()));
+//
+//                String url = "https://foodbukka.herokuapp.com/api/v1/menu";
+//                StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        Gson gson = new Gson();
+//                         Menu menu = gson.fromJson(response, Menu.class);
+//                        RecyclerView recyclerView = findViewById(R.id.menuRecycledView);
+//                        MenuItemAdapter adapter = new MenuItemAdapter(MenuActivity.this, menu.getResult());
+//                        recyclerView.setHasFixedSize(false);
+//                        recyclerView.setLayoutManager(new LinearLayoutManager(MenuActivity.this));
+//                        recyclerView.setAdapter(adapter);
+//                        recyclerView.setHasFixedSize(false);
+//                        progressBar.setVisibility(View.INVISIBLE);
+//                    }
+//                }, new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//
+//                    }
+//                });
+//                queue.add(stringRequest);
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//            }
+//        });
+//        queue.add(stringRequest);
 
 
 
@@ -158,18 +206,6 @@ public class MenuActivity extends DrawerActivity {
         
     }
 
-
-    private String getAddress(GeoPoint geoPoint) {
-        Geocoder geocoder = new Geocoder(this, Locale.ENGLISH);
-        List<Address> addresses = null;
-        try {
-            addresses = geocoder.getFromLocation(geoPoint.getLatitude(), geoPoint.getLongitude(), 1);
-        }catch (IOException exception){
-            Toast.makeText(this, "Could not get you address", Toast.LENGTH_SHORT).show();
-        }
-        return addresses.get(0).getAddressLine(0);
-    }
-
     private String getRetailName(GeoPoint geoPoint) {
         Geocoder geocoder = new Geocoder(this, Locale.ENGLISH);
         List<Address> addresses = null;
@@ -180,4 +216,6 @@ public class MenuActivity extends DrawerActivity {
         }
         return addresses.get(0).getFeatureName();
     }
+
+
 }

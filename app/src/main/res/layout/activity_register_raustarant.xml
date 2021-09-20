@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="co.za.foodscout.activities.registerRestaurant">
+
+  <ProgressBar
+      android:id="@+id/registerProgressBar"
+      style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+      android:layout_width="0dp"
+      android:layout_height="8dp"
+      android:indeterminate="true"
+      android:theme="@style/ProgressBarStyle"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.545"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <Button
+      android:id="@+id/restaurantRegister"
+      android:layout_width="198dp"
+      android:layout_height="54dp"
+      android:layout_marginTop="167dp"
+      android:text="add raustrant"
+      android:textSize="12sp"
+      app:backgroundTint="@color/buttons"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/textInputLayout10" />
+
+  <TextView
+      android:id="@+id/textViewRestaurant"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="68dp"
+      android:text="Create a Restaurant Account below"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/textInputLayout7"
+      android:layout_width="250dp"
+      android:layout_height="48dp"
+      android:layout_marginTop="32dp"
+      app:boxStrokeColor="@color/main_theme"
+      app:hintTextColor="@color/main_theme"
+      app:layout_constraintTop_toTopOf="@id/textViewRestaurant"
+      app:startIconDrawable="@drawable/email"
+      tools:layout_editor_absoluteX="81dp">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/RestaurantEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/email"
+        android:inputType="none|textEmailAddress"
+        android:textSize="14sp" />
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/textInputLayout8"
+      android:layout_width="250dp"
+      android:layout_height="48dp"
+      android:layout_marginTop="16dp"
+      app:boxStrokeColor="@color/main_theme"
+      app:hintTextColor="@color/main_theme"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/textInputLayout7"
+      app:startIconDrawable="@drawable/account">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/RestaurantName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/name"
+        android:inputType="none|textPersonName"
+        android:textSize="14sp" />
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/textInputLayout9"
+      android:layout_width="250dp"
+      android:layout_height="48dp"
+      android:layout_marginTop="16dp"
+      app:boxStrokeColor="@color/main_theme"
+      app:hintTextColor="@color/main_theme"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/textInputLayout8"
+      app:startIconDrawable="@drawable/account">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/Restaurant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/surname"
+        android:inputType="textPersonName"
+        android:textSize="14sp" />
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/textInputLayout10"
+      android:layout_width="250dp"
+      android:layout_height="48dp"
+      android:layout_marginTop="16dp"
+      app:boxStrokeColor="@color/main_theme"
+      app:hintTextColor="@color/main_theme"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/textInputLayout12"
+      app:startIconDrawable="@drawable/password">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/RestaurantDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/password"
+        android:inputType="none|textPassword"
+        android:textSize="14sp" />
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/textInputLayout12"
+      android:layout_width="250dp"
+      android:layout_height="48dp"
+      android:layout_marginTop="16dp"
+      app:boxStrokeColor="@color/main_theme"
+      app:hintTextColor="@color/main_theme"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/textInputLayout9"
+      app:startIconDrawable="@drawable/phone">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/RestaurantPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone Number"
+        android:inputType="none|text|phone"
+        android:textSize="14sp" />
+  </com.google.android.material.textfield.TextInputLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

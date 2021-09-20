@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.za.foodscout.DeliveryDetailsActivity;
+import co.za.foodscout.activities.DeliveryDetailsActivity;
 import co.za.foodscout.Domain.FirestoreDelivery;
 import foodscout.R;
 

@@ -1,4 +1,4 @@
-package co.za.foodscout;
+package co.za.foodscout.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,7 +36,6 @@ import co.za.foodscout.Domain.Collections;
 import co.za.foodscout.Domain.FirestoreDelivery;
 import co.za.foodscout.Domain.FirestoreUser;
 import co.za.foodscout.Domain.Role;
-import co.za.foodscout.shared.PurchaseConfirmationDialogFragment;
 import foodscout.R;
 
 public class LoginActivity extends AppCompatActivity {

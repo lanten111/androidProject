@@ -42,5 +42,10 @@
         android:title="@string/logout"
         android:titleCondensed="Logout"/>
 
+    <item
+        android:id="@+id/nav_registerRestaurant"
+        android:title="@string/register_restaurant"
+        android:titleCondensed="register_restaurant"/>
+
 
 </menu>

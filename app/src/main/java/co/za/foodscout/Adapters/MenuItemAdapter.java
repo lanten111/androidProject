@@ -3,36 +3,47 @@ package co.za.foodscout.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import co.za.foodscout.Domain.menu.MenuDetails;
-import co.za.foodscout.MenuDetailActivity;
+import co.za.foodscout.Domain.DeliveryTime;
+import co.za.foodscout.Domain.Restaurant.Menu;
+import co.za.foodscout.Domain.matrixNew.DurationMatrix;
+import co.za.foodscout.activities.MenuDetailActivity;
 import foodscout.R;
 
 
 public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.ViewHolder>{
-    private List<MenuDetails> menuDetailsList;
+    private List<Menu> menuList;
     private LayoutInflater mInflater;
     private Context context;
+    private StorageReference storageReference;
 
    // RecyclerView recyclerView;
-    public MenuItemAdapter(Context context, List<MenuDetails> menuDetailsList) {
-        this.menuDetailsList = menuDetailsList;
+    public MenuItemAdapter(Context context, List<Menu> menuList, StorageReference storageReference) {
+        this.menuList = menuList;
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
+        this.storageReference = storageReference;
     }
 
     @Override  
@@ -43,19 +54,24 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.ViewHo
   
     @Override  
     public void onBindViewHolder(ViewHolder holder, int position) {  
-        final MenuDetails menuDetails = menuDetailsList.get(position);
+        final Menu menu = menuList.get(position);
         ImageView imageView = holder.imageView;
-        holder.menuItemName.setText(menuDetails.getMenuname());
-        holder.menuItemDescription.setText(menuDetails.getDescription());
-        Picasso.get().load(Uri.parse(menuDetails.getImages().get(1))).into(imageView);
+        holder.menuItemName.setText(menu.getMenuItemName());
+        holder.menuItemDescription.setText(menu.getMenuItemDescription());
+        storageReference.child(menu.getMenuItemImagesId().get(0)).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(imageView);
+            }
+        });
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, MenuDetailActivity.class);
-                intent.putExtra("menuItermId", menuDetails.getId());
-                intent.putExtra("menuItermName", menuDetails.getMenuname());
-                intent.putExtra("menuItermDesc", menuDetails.getDescription());
-                intent.putExtra("menuItermImage", menuDetails.getImages().get(0));
+                intent.putExtra("restaurantId", menu.getRestaurantId());
+                intent.putExtra("menuItermName", menu.getMenuItemName());
+                intent.putExtra("menuItermDesc", menu.getMenuItemDescription());
+                intent.putExtra("menuItermId", menu.getMenuItemId());
                 context.startActivity(intent);
             }
         });
@@ -64,7 +80,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.ViewHo
 
     @Override  
     public int getItemCount() {  
-        return menuDetailsList.size();
+        return menuList.size();
     }  
   
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -83,4 +99,5 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.ViewHo
         }
 
     }
+
 }

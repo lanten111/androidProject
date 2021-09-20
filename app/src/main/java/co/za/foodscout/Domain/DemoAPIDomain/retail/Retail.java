@@ -1,10 +1,10 @@
-package co.za.foodscout.Domain.retail;
+package co.za.foodscout.Domain.DemoAPIDomain.retail;
 
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import co.za.foodscout.Domain.retails.RetailDetails;
+import co.za.foodscout.Domain.DemoAPIDomain.retails.RetailDetails;
 
 @Generated("jsonschema2pojo")
 

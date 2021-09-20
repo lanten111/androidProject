@@ -1,4 +1,4 @@
-package co.za.foodscout.Domain.menu;
+package co.za.foodscout.Domain.DemoAPIDomain.menu;
 
 
 import java.util.List;

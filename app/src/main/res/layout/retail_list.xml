@@ -42,8 +42,7 @@
                 android:layout_height="116dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/roundedCornersImageView"
-                app:srcCompat="@drawable/chips" />
+                app:shapeAppearanceOverlay="@style/roundedCornersImageView" />
 
             <TextView
                 android:id="@+id/retailListName"

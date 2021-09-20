@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    tools:context="co.za.foodscout.LoginActivity">
+    tools:context="co.za.foodscout.activities.LoginActivity">
 
     <TextView
         android:id="@+id/forgotPassword"

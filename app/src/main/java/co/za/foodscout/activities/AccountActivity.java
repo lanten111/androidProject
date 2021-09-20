@@ -1,4 +1,4 @@
-package co.za.foodscout;
+package co.za.foodscout.activities;
 
 import android.content.Intent;
 import android.os.Bundle;

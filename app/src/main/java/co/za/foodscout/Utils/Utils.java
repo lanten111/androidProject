@@ -1,14 +1,21 @@
 package co.za.foodscout.Utils;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.firebase.firestore.GeoPoint;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class Utils {
 
@@ -42,4 +49,6 @@ public class Utils {
     public static void ZoomInLocation(GoogleMap mMap,LatLng location){
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15.0f));
     }
+
+
 }

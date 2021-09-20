@@ -1,4 +1,4 @@
-package co.za.foodscout.Domain.retail;
+package co.za.foodscout.Domain.DemoAPIDomain.retails;
 
 import java.util.List;
 import javax.annotation.Generated;

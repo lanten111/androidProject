@@ -1,4 +1,4 @@
-package co.za.foodscout;
+package co.za.foodscout.activities;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;

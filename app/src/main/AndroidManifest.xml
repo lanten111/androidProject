@@ -19,79 +19,85 @@ package="foodscout">
     android:supportsRtl="true"
     android:theme="@style/Theme.DeliverNow">
     <activity
-        android:name="co.za.foodscout.CartViewActivity"
+        android:name="co.za.foodscout.activities.CartViewActivity"
         android:theme="@style/Theme.DeliverNow.NoActionBar"
         android:exported="true"
         android:label="Your Cart" />
     <activity
-        android:name="co.za.foodscout.RetailsActivity"
+        android:name="co.za.foodscout.activities.RetailsActivity"
         android:theme="@style/Theme.DeliverNow.NoActionBar"
         android:exported="true"
         android:label="choose restaurant" />
     <activity
-        android:name="co.za.foodscout.UserOrderViewActivity"
+        android:name="co.za.foodscout.activities.UserOrderViewActivity"
         android:exported="true"
         android:theme="@style/Theme.DeliverNow.NoActionBar"
         android:label="View your Order" />
     <activity
-        android:name="co.za.foodscout.DeliveriesActivity"
+        android:name="co.za.foodscout.activities.DeliveriesActivity"
         android:exported="true"
         android:theme="@style/Theme.DeliverNow.NoActionBar"
         android:label="Deliveries Pending" />
     <activity
-        android:name="co.za.foodscout.AccountActivity"
+        android:name="co.za.foodscout.activities.AccountActivity"
         android:exported="true"
         android:theme="@style/Theme.DeliverNow.NoActionBar"
         android:label="Account Details" />
     <activity
-        android:name="co.za.foodscout.ResetPasswordActivity"
+        android:name="co.za.foodscout.activities.ResetPasswordActivity"
         android:label="@string/Login"
         android:exported="true" />
     <activity
-        android:name="co.za.foodscout.DeliveryDetailsActivity"
+        android:name="co.za.foodscout.activities.DeliveryDetailsActivity"
         android:exported="true"
         android:theme="@style/Theme.DeliverNow.NoActionBar"
         android:label="Delivery Details" />
     <activity
-        android:name="co.za.foodscout.DrawerActivity"
+        android:name="co.za.foodscout.activities.DrawerActivity"
         android:exported="true"
         android:theme="@style/Theme.DeliverNow.NoActionBar" />
     <activity
-        android:name="co.za.foodscout.MenuActivity"
+        android:name="co.za.foodscout.activities.MenuActivity"
         android:theme="@style/Theme.DeliverNow.NoActionBar"
         android:label="Menu" />
+
     <meta-data
         android:name="com.google.android.geo.API_KEY"
         android:value="@string/google_maps_key" />
 
     <activity
-        android:name="co.za.foodscout.MapActivity"
+        android:name="co.za.foodscout.activities.MapActivity"
         android:label="Choose delivery Location"
         android:theme="@style/Theme.DeliverNow.NoActionBar" />
     <activity
-        android:name="co.za.foodscout.LoginActivity"
+        android:name="co.za.foodscout.activities.LoginActivity"
         android:theme="@style/Theme.DeliverNow.NoActionBar"
         android:label="@string/Login" />
     <activity
-        android:name="co.za.foodscout.RegisterActivity"
+        android:name="co.za.foodscout.activities.RegisterActivity"
         android:label="@string/title_activity_register"
         android:theme="@style/Theme.DeliverNow.NoActionBar" />
     <activity
-        android:name="co.za.foodscout.SettingsActivity"
+        android:name="co.za.foodscout.activities.SettingsActivity"
         android:label="@string/settings"
         android:theme="@style/Theme.DeliverNow.NoActionBar" />
     <activity
-        android:name="co.za.foodscout.SellerViewActivity"
+        android:name="co.za.foodscout.activities.SellerViewActivity"
         android:exported="true"
         android:label="Orders"
         android:theme="@style/Theme.DeliverNow.NoActionBar" />
     <activity
-        android:name="co.za.foodscout.MenuDetailActivity"
+        android:name="co.za.foodscout.activities.MenuDetailActivity"
         android:exported="true"
         android:label="Orders"
         android:theme="@style/Theme.DeliverNow.NoActionBar" />
     <activity
-        android:name="co.za.foodscout.MainActivity"
+        android:name="co.za.foodscout.activities.registerRestaurant"
+        android:exported="true"
+        android:label="Register new Restaurant"
+        android:theme="@style/Theme.DeliverNow.NoActionBar" />
+    <activity
+        android:name="co.za.foodscout.activities.MainActivity"
         android:theme="@style/Theme.DeliverNow.NoActionBar">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -99,5 +105,5 @@ package="foodscout">
         </intent-filter>
     </activity>
 </application>
-
 </manifest>
+

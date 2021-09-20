@@ -9,7 +9,4 @@ public class FireStoreCart {
     String ItemSize;
     String Quantity;
     String ItemPrice;
-
-
-
 }

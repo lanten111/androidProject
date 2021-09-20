@@ -25,7 +25,6 @@
         android:id="@+id/retailRecycledView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/rounded_corner_recycle_view"
         android:paddingTop="7dp"
         android:paddingBottom="7dp"
         android:scrollbarSize="5dp"

@@ -52,10 +52,12 @@
         <entry key="app/src/main/res/layout/activity_order_view.xml" value="0.2980072463768116" />
         <entry key="app/src/main/res/layout/activity_password.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_register_raustarant.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_reset_password.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_retails.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_seller_view.xml" value="0.23641304347826086" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_user_order_view.xml" value="0.2617753623188406" />
         <entry key="app/src/main/res/layout/activity_welcome.xml" value="0.309375" />
         <entry key="app/src/main/res/layout/content_draawer.xml" value="0.23541666666666666" />
         <entry key="app/src/main/res/layout/delivery_list.xml" value="0.33" />

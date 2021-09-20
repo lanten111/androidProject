@@ -1,4 +1,4 @@
-package co.za.foodscout;
+package co.za.foodscout.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -108,6 +108,9 @@ public abstract class DrawerActivity extends AppCompatActivity {
             startActivity(new Intent(this, SettingsActivity.class));
         } else if (item.getTitle().toString().equals(getResources().getString(R.string.active_delivery))){
             Intent intent = new Intent(this, DeliveriesActivity.class);
+            startActivity(intent);
+        } else if (item.getTitle().toString().equals(getResources().getString(R.string.register_restaurant))){
+            Intent intent = new Intent(this, registerRestaurant.class);
             startActivity(intent);
         }
     }

@@ -1,4 +1,4 @@
-package co.za.foodscout;
+package co.za.foodscout.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
