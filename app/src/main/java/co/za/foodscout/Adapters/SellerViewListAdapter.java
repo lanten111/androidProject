@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.za.foodscout.Utils.Utils;
 import co.za.foodscout.activities.DeliveryDetailsActivity;
 import co.za.foodscout.Domain.FirestoreDelivery;
 import foodscout.R;
@@ -37,8 +38,8 @@ public class SellerViewListAdapter extends RecyclerView.Adapter<SellerViewListAd
     @Override  
     public void onBindViewHolder(ViewHolder holder, int position) {  
         final FirestoreDelivery delivery = firestoreDeliveryList.get(position);
-        holder.fromRetail.setText("From: "+delivery.getRetailAddress());
-        holder.userDestination.setText("To: "+delivery.getUserAddress());
+        holder.fromRetail.setText("From: "+ Utils.getAddress(delivery.getRetailLocation(), context));
+        holder.userDestination.setText("To: "+Utils.getAddress(delivery.getUserLocation(), context));
         holder.orderDetails.setText("Order for "+delivery.getUserNames()+"  Contact No: "+delivery.getContactNo());
         if (delivery.isAssigned()){
             holder.deliveryStatus.setText(delivery.getDeliveryStatus() +" by "+delivery.getDriverName());

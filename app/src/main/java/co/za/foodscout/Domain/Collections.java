@@ -4,5 +4,6 @@ public enum Collections {
     delivery,
     user,
     cart,
-    restaurant
+    restaurant,
+    order
 }

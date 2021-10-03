@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,8 +71,8 @@ public class RetailListAdapter extends RecyclerView.Adapter<RetailListAdapter.Vi
         final Restaurant restaurant = retailList.get(position);
         getDeliveryTime(Utils.getLatLong(firestoreUser.getLocation()), Utils.getLatLong(restaurant.getLocation()),holder.retailDeliveryTime, key );
         holder.retailName.setText(restaurant.getName());
-        holder.retailAddress.setText(getAddress(restaurant.getLocation()));
-        holder.retailRating.setText(String.valueOf(restaurant.getRating()));
+        holder.retailAddress.setText(Utils.getAddress(restaurant.getLocation(), context));
+        holder.retailRating.setRating(restaurant.getRating());
         ImageView imageView = holder.imageView;
         storageReference.child(restaurant.getMainImageId()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -101,7 +102,7 @@ public class RetailListAdapter extends RecyclerView.Adapter<RetailListAdapter.Vi
         TextView retailName;
         TextView retailDeliveryTime;
         TextView retailDistance;
-        TextView retailRating;
+        RatingBar retailRating;
         TextView retailAddress;
         View relativeLayout;
 
@@ -111,7 +112,7 @@ public class RetailListAdapter extends RecyclerView.Adapter<RetailListAdapter.Vi
             retailName = itemView.findViewById(R.id.retailListName);
             retailDeliveryTime = itemView.findViewById(R.id.retailListDeliveryTime);
 //            retailDistance = itemView.findViewById(R.id.retailListDistance);
-            retailRating = itemView.findViewById(R.id.retailListRating);
+            retailRating = itemView.findViewById(R.id.retailRestaurantRatingBar);
             retailAddress = itemView.findViewById(R.id.retailListAddress);
             relativeLayout = itemView.findViewById(R.id.retailCardView);
 
@@ -147,17 +148,6 @@ public class RetailListAdapter extends RecyclerView.Adapter<RetailListAdapter.Vi
             }
         });
         queue.add(stringRequest);
-    }
-
-    private String getAddress(GeoPoint geoPoint) {
-        Geocoder geocoder = new Geocoder(context, Locale.ENGLISH);
-        List<Address> addresses = null;
-        try {
-            addresses = geocoder.getFromLocation(geoPoint.getLatitude(), geoPoint.getLongitude(), 1);
-        }catch (IOException exception){
-            Toast.makeText(context, "Could not get you address", Toast.LENGTH_SHORT).show();
-        }
-        return addresses.get(0).getAddressLine(0);
     }
 
 }

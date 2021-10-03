@@ -1,5 +1,6 @@
 package co.za.foodscout.Utils;
 
+import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -50,5 +51,15 @@ public class Utils {
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15.0f));
     }
 
+    public static String getAddress(GeoPoint geoPoint, Context context) {
+        Geocoder geocoder = new Geocoder(context, Locale.ENGLISH);
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocation(geoPoint.getLatitude(), geoPoint.getLongitude(), 1);
+        }catch (IOException exception){
+            Toast.makeText(context, "Could not get you address", Toast.LENGTH_SHORT).show();
+        }
+        return addresses.get(0).getAddressLine(0);
+    }
 
 }

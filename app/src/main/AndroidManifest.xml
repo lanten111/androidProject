@@ -89,13 +89,19 @@ package="foodscout">
     <activity
         android:name="co.za.foodscout.activities.MenuDetailActivity"
         android:exported="true"
-        android:label="Orders"
+        android:label="Menu"
         android:theme="@style/Theme.DeliverNow.NoActionBar" />
     <activity
         android:name="co.za.foodscout.activities.registerRestaurant"
         android:exported="true"
         android:label="Register new Restaurant"
         android:theme="@style/Theme.DeliverNow.NoActionBar" />
+    <activity
+        android:name="co.za.foodscout.activities.CheckOutActivity"
+        android:exported="true"
+        android:label="Chekout"
+        android:theme="@style/Theme.DeliverNow.NoActionBar"
+        />
     <activity
         android:name="co.za.foodscout.activities.MainActivity"
         android:theme="@style/Theme.DeliverNow.NoActionBar">

@@ -32,7 +32,7 @@ public abstract class DrawerActivity extends AppCompatActivity {
     protected FrameLayout frameLayout;
     private DrawerLayout mDrawerLayout;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public abstract class DrawerActivity extends AppCompatActivity {
     private void setupDrawerContent(NavigationView navigationView) {
         Menu menu = navigationView.getMenu();
         if (firebaseAuth.getCurrentUser() != null){
-            db.collection(Collections.user.name()).document(firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            firestore.collection(Collections.user.name()).document(firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     FirestoreUser firestoreUser = documentSnapshot.toObject(FirestoreUser.class);

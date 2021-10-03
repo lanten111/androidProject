@@ -16,7 +16,7 @@ public class Menu {
     Double menuItemPrice;
     List<String> menuItemImagesId;
     MenuCatagories menuCatagories;
-    Map<String, HashMap<String, Double>> addOns;
+    List<MenuAddons> addOns;
 
     public String getMenuItemId() {
         return menuItemId;
@@ -74,11 +74,11 @@ public class Menu {
         this.menuCatagories = menuCatagories;
     }
 
-    public Map<String, HashMap<String, Double>> getAddOns() {
+    public List<MenuAddons> getAddOns() {
         return addOns;
     }
 
-    public void setAddOns(Map<String, HashMap<String, Double>> addOns) {
+    public void setAddOns(List<MenuAddons> addOns) {
         this.addOns = addOns;
     }
 }

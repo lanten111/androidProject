@@ -2,9 +2,10 @@ package co.za.foodscout.Domain.Restaurant;
 
 import com.google.firebase.firestore.GeoPoint;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Restaurant {
+public class Restaurant implements Serializable {
 
     String id;
     String name;

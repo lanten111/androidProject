@@ -4,5 +4,7 @@ public enum MenuCatagories {
 
     BURGER,
     PAP,
+    Pizza,
+    VEGETARIAN
 
 }

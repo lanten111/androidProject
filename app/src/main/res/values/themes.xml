@@ -26,6 +26,17 @@
         <item name="colorAccent">@color/loading</item>
     </style>
 
+    <style name="tabTextSize" parent="TextAppearance.Design.Tab">
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="12sp"
+    </style>
+    <style name="ratingBar"
+        parent="android:style/Widget.Material.RatingBar.Small">
+        <item name="colorControlNormal">@color/main_theme</item>
+        <item name="colorControlActivated">@color/main_theme</item>
+    </style>
+
+
     <style name="roundedCornersImageView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">12dp</item>

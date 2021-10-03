@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/deliveryList"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:theme="@style/Theme.DeliverNow">
+
+    <!--    <TableLayout-->
+    <!--        android:id="@+id/orderDetailTableLayout"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="32dp"-->
+    <!--        android:layout_marginLeft="32dp"-->
+    <!--        android:layout_marginTop="32dp"-->
+    <!--        android:layout_marginEnd="32dp"-->
+    <!--        android:layout_marginRight="32dp"-->
+    <!--        android:baselineAligned="false"-->
+    <!--        android:orientation="vertical"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/textView9">-->
+
+    <!--        <TableRow-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent">-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/orderName"-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_weight="5"-->
+    <!--                android:text="1 x Small tropple Decker + Free Drink"-->
+    <!--                android:textStyle="bold" />-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/orderPrice"-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:layout_gravity="fill_vertical|end"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:text="R 78"-->
+    <!--                android:textStyle="bold" />-->
+
+    <!--        </TableRow>-->
+
+    <!--    </TableLayout>-->
+
+    <LinearLayout
+        android:id="@+id/orderDetailLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/main_theme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/orderDetailLayout" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

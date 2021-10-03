@@ -6,13 +6,11 @@ import com.google.firebase.firestore.GeoPoint;
 public class FirestoreDelivery {
 
     String id;
-    GeoPoint userDestination;
-    String userAddress;
+    GeoPoint userLocation;
     String userId;
     String retailId;
     String retailName;
     GeoPoint retailLocation;
-    String retailAddress;
     Boolean isDelivered;
     String assigneeId;
     Boolean isAssigned;
@@ -105,21 +103,6 @@ public class FirestoreDelivery {
         isAssigned = assigned;
     }
 
-    public String getUserAddress() {
-        return userAddress;
-    }
-
-    public void setUserAddress(String userAddress) {
-        this.userAddress = userAddress;
-    }
-
-    public String getRetailAddress() {
-        return retailAddress;
-    }
-
-    public void setRetailAddress(String retailAddress) {
-        this.retailAddress = retailAddress;
-    }
 
     public String getAssigneeId() {
         return assigneeId;
@@ -137,12 +120,12 @@ public class FirestoreDelivery {
         isDelivered = delivered;
     }
 
-    public GeoPoint getUserDestination() {
-        return userDestination;
+    public GeoPoint getUserLocation() {
+        return userLocation;
     }
 
-    public void setUserDestination(GeoPoint userDestination) {
-        this.userDestination = userDestination;
+    public void setUserLocation(GeoPoint userLocation) {
+        this.userLocation = userLocation;
     }
 
     public String getUserId() {
@@ -177,20 +160,4 @@ public class FirestoreDelivery {
         this.retailLocation = retailLocation;
     }
 
-    @Override
-    public String toString() {
-        return "DeliveryTo{" +
-                "id='" + id + '\'' +
-                ", userDestination=" + userDestination +
-                ", userAddress='" + userAddress + '\'' +
-                ", userId='" + userId + '\'' +
-                ", retailId='" + retailId + '\'' +
-                ", retailName='" + retailName + '\'' +
-                ", retailLocation=" + retailLocation +
-                ", retailAddress='" + retailAddress + '\'' +
-                ", IsDelivered=" + isDelivered +
-                ", assigneeId='" + assigneeId + '\'' +
-                ", isAssigned=" + isAssigned +
-                '}';
-    }
 }

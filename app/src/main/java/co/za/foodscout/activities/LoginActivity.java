@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         addDetails.setVisibility(View.INVISIBLE);
 
         phone.setText("+27659599252");
-        email.setText("user1@123.co.za");
+        email.setText("user2@123.co.za");
         password.setText("123456");
 
 
@@ -259,7 +259,7 @@ public class LoginActivity extends AppCompatActivity {
                 firestoreUser1.setEmail(firebaseAuth.getCurrentUser().getEmail());
                 firestoreUser1.setDateCreated(new Date());
                 firestoreUser1.setRole(Role.USER);
-                firestoreUser1.setUserId(firebaseAuth.getCurrentUser().getUid());
+                firestoreUser1.setId(firebaseAuth.getCurrentUser().getUid());
                 firestoreUser1.setPhone(firebaseAuth.getCurrentUser().getPhoneNumber());
                 db.collection(Collections.user.name()).document(firebaseAuth.getCurrentUser().getUid()).set(firestoreUser1).addOnSuccessListener(new OnSuccessListener() {
                     @Override
@@ -331,18 +331,18 @@ public class LoginActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.INVISIBLE);
                 } else {
                     if (firestoreUser.getRole().equals(Role.DRIVER)){
-                        Toast.makeText(LoginActivity.this, "Authentication Successful", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(LoginActivity.this, "Authentication Successful", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), DeliveryDetailsActivity.class);
                         progressBar.setVisibility(View.INVISIBLE);
                         startActivity(intent);
                     } else if(firestoreUser.getRole().equals(Role.SELLER)) {
-                        Toast.makeText(LoginActivity.this, "Authentication Successful", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(LoginActivity.this, "Authentication Successful", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), SellerViewActivity.class);
                         progressBar.setVisibility(View.INVISIBLE);
                         startActivity(intent);
                     }else {
                         progressBar.setVisibility(View.INVISIBLE);
-                        Toast.makeText(LoginActivity.this, "Authentication Successful", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(LoginActivity.this, "Authentication Successful", Toast.LENGTH_SHORT).show();
                         db.collection(Collections.delivery.name()).whereEqualTo("userId", userId).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {

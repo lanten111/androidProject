@@ -50,9 +50,7 @@ import co.za.foodscout.Utils.DirectionsJSONParser;
 import co.za.foodscout.Utils.Utils;
 import foodscout.R;
 
-public class UserOrderViewActivity extends DrawerActivity implements GoogleMap.OnMyLocationButtonClickListener,
-        GoogleMap.OnMyLocationClickListener,
-        OnMapReadyCallback {
+public class UserOrderViewActivity extends DrawerActivity implements GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener, OnMapReadyCallback {
 
     private GoogleMap mMap;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -89,7 +87,7 @@ public class UserOrderViewActivity extends DrawerActivity implements GoogleMap.O
 
         progressBar.setVisibility(View.INVISIBLE);
 
-        db.collection(Collections.delivery.name()).whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid()).whereEqualTo("delivered", false).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection(Collections.delivery.name()).whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid()).whereEqualTo("isDelivered", false).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (value != null){
@@ -98,9 +96,9 @@ public class UserOrderViewActivity extends DrawerActivity implements GoogleMap.O
                         firestoreDelivery = firestoreDeliveryList.get(0);
                         documentId = value.getDocuments().get(0).getId();
                         mOrigin = Utils.getLatLong(firestoreDelivery.getRetailLocation());
-                        mDestination = Utils.getLatLong(firestoreDelivery.getUserDestination());
-                        orderFrom.setText("From: " + firestoreDelivery.getRetailAddress());
-                        orderTo.setText("TO: " + firestoreDelivery.getUserAddress());
+                        mDestination = Utils.getLatLong(firestoreDelivery.getUserLocation());
+                        orderFrom.setText("From: " + Utils.getAddress(firestoreDelivery.getRetailLocation(), UserOrderViewActivity.this));
+                        orderTo.setText("TO: " + Utils.getAddress(firestoreDelivery.getUserLocation(), UserOrderViewActivity.this));
                         if (firestoreDelivery.isAssigned() &&  firestoreDelivery.isDeliveryPicked()){
                             getDeliveryTime(mOrigin, mDestination);
                         } else {
@@ -109,7 +107,7 @@ public class UserOrderViewActivity extends DrawerActivity implements GoogleMap.O
                         }
                         setDirection();
                     } else {
-                        Toast.makeText(UserOrderViewActivity.this, "Order completed", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(UserOrderViewActivity.this, "Order completed", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(UserOrderViewActivity.this, RetailsActivity.class));
                     }
                 }

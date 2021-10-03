@@ -56,6 +56,7 @@ public class RetailsActivity extends DrawerActivity {
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_retails, frameLayout);
 
+        getIntent().setAction("retail");
         ProgressBar progressBar = findViewById(R.id.retailProgressBar);
         Button changeLocation = findViewById(R.id.retailChnageLocation);
 
@@ -67,57 +68,32 @@ public class RetailsActivity extends DrawerActivity {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     firestoreUser = documentSnapshot.toObject(FirestoreUser.class);
-                    if (firestoreUser != null){
-                        if (firestoreUser.getRole().equals(Role.DRIVER)){
-                            signOut();
+                    db.collection(Collections.restaurant.toString()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            List<Restaurant> restaurant =  queryDocumentSnapshots.toObjects(Restaurant.class);
+                            RecyclerView recyclerView = findViewById(R.id.retailRecycledView);
+                            RetailListAdapter adapter = new RetailListAdapter(RetailsActivity.this, restaurant,storageRef, firestoreUser, getString(R.string.google_maps_key));
+                            recyclerView.setHasFixedSize(false);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(RetailsActivity.this));
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.setHasFixedSize(false);
+                            progressBar.setVisibility(View.INVISIBLE);
                         }
-                    }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+//                    if (firestoreUser != null){
+//                        if (firestoreUser.getRole().equals(Role.DRIVER)){
+//                            signOut();
+//                        }
+//                    }
                 }
             });
         }
-
-        db.collection(Collections.restaurant.toString()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                List<Restaurant> restaurant =  queryDocumentSnapshots.toObjects(Restaurant.class);
-                RecyclerView recyclerView = findViewById(R.id.retailRecycledView);
-                RetailListAdapter adapter = new RetailListAdapter(RetailsActivity.this, restaurant,storageRef, firestoreUser, getString(R.string.google_maps_key));
-                recyclerView.setHasFixedSize(false);
-                recyclerView.setLayoutManager(new LinearLayoutManager(RetailsActivity.this));
-                recyclerView.setAdapter(adapter);
-                recyclerView.setHasFixedSize(false);
-                progressBar.setVisibility(View.INVISIBLE);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
-
-//        String url = "https://foodbukka.herokuapp.com/api/v1/restaurant";
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                Gson gson = new Gson();
-//                Retails retails = gson.fromJson(response, Retails.class);
-//                RecyclerView recyclerView = findViewById(R.id.retailRecycledView);
-//                RetailListAdapter adapter = new RetailListAdapter(RetailsActivity.this, retails.getResult());
-//                recyclerView.setHasFixedSize(false);
-//                recyclerView.setLayoutManager(new LinearLayoutManager(RetailsActivity.this));
-//                recyclerView.setAdapter(adapter);
-//                recyclerView.setHasFixedSize(false);
-//                progressBar.setVisibility(View.INVISIBLE);
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//
-//            }
-//        });
-//        queue.add(stringRequest);
-        getIntent().setAction("retail");
 
         changeLocation.setOnClickListener(new View.OnClickListener() {
             @Override

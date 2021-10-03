@@ -150,7 +150,7 @@ public class RegisterActivity extends AppCompatActivity {
                         firestoreUser.setEmail(email);
                         firestoreUser.setDateCreated(new Date());
                         firestoreUser.setRole(Role.USER);
-                        firestoreUser.setUserId(firebaseAuth.getCurrentUser().getUid());
+                        firestoreUser.setId(firebaseAuth.getCurrentUser().getUid());
                         firestoreUser.setPhone(formatPhoneNumber(phone));
                         db.collection(Collections.user.name()).document(firebaseAuth.getCurrentUser().getUid()).set(firestoreUser).addOnSuccessListener(new OnSuccessListener() {
                             @Override

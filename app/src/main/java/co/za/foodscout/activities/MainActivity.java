@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -38,6 +37,7 @@ public class MainActivity extends DrawerActivity{
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private long pressedTime;
+    FirestoreUser firestoreUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class MainActivity extends DrawerActivity{
             db.collection(Collections.user.name()).document(firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    FirestoreUser firestoreUser = documentSnapshot.toObject(FirestoreUser.class);
+                    firestoreUser = documentSnapshot.toObject(FirestoreUser.class);
                     if ( firestoreUser != null){
                         if (firestoreUser.getName() != null || !firestoreUser.getName().trim().equals("")){
                             welcomeText.setText("Welcome back "+firestoreUser.getName());
@@ -92,57 +92,33 @@ public class MainActivity extends DrawerActivity{
                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                    startActivity(intent);
                 } else {
-                    db.collection(Collections.user.name()).document(firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            FirestoreUser firestoreUser = documentSnapshot.toObject(FirestoreUser.class);
-                            if (firestoreUser.getRole().equals(Role.DRIVER)){
-                                Toast.makeText(MainActivity.this, "Authentication Successful", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(), DeliveriesActivity.class);
-                                startActivity(intent);
-                                loginProgressBar.setVisibility(View.INVISIBLE);
-                            } else{
-                                Toast.makeText(MainActivity.this, "Authentication Successful", Toast.LENGTH_SHORT).show();
-                                db.collection(Collections.delivery.name()).whereEqualTo("userId", documentSnapshot.getReference().getId()).whereEqualTo("delivered", false).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                        List<FirestoreDelivery> firestoreDeliveryList = new ArrayList<>();
-                                        firestoreDeliveryList = queryDocumentSnapshots.toObjects(FirestoreDelivery.class);
-                                        if (firestoreDeliveryList.size() > 0){
-                                            startActivity(new Intent(MainActivity.this, UserOrderViewActivity.class));
-                                            Toast.makeText(MainActivity.this, "View pending Order", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            db.collection(Collections.delivery.name()).whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid()).whereEqualTo("delivered", false).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                                    List<FirestoreDelivery> firestoreDeliveryList = new ArrayList<>();
-                                                    firestoreDeliveryList = queryDocumentSnapshots.toObjects(FirestoreDelivery.class);
-                                                    if (firestoreDeliveryList.size() > 0){
-                                                        Toast.makeText(getApplicationContext(), "View pending Order", Toast.LENGTH_SHORT).show();
-                                                        startActivity(new Intent(getApplicationContext(), UserOrderViewActivity.class));
-                                                    } else {
-                                                        if (firestoreUser.getLocation() !=null){
-                                                            startActivity(new Intent(getApplicationContext(), RetailsActivity.class));
-                                                        } else {
-                                                            Toast.makeText(getApplicationContext(), "Please choose location for delivery", Toast.LENGTH_SHORT).show();
-                                                            startActivity( new Intent(getApplicationContext(), MapActivity.class));
-                                                        }
-                                                    }
-                                                }
-                                            });
-                                        }
-                                        loginProgressBar.setVisibility(View.INVISIBLE);
+                    if (firestoreUser.getRole().equals(Role.DRIVER)){
+                        Intent intent = new Intent(getApplicationContext(), DeliveriesActivity.class);
+                        startActivity(intent);
+                        loginProgressBar.setVisibility(View.INVISIBLE);
+                    } else{
+                        //check of there order peindng
+                        db.collection(Collections.delivery.name()).whereEqualTo("userId", firestoreUser.getId()).whereEqualTo("delivered", false).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                List<FirestoreDelivery> firestoreDeliveryList = new ArrayList<>();
+                                firestoreDeliveryList = queryDocumentSnapshots.toObjects(FirestoreDelivery.class);
+                                if (firestoreDeliveryList.size() > 0){
+                                    Toast.makeText(MainActivity.this, "View pending Order", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(MainActivity.this, UserOrderViewActivity.class));
+                                } else {
+                                    if (firestoreUser.getLocation() !=null){
+                                        startActivity(new Intent(getApplicationContext(), RetailsActivity.class));
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Please choose location for delivery", Toast.LENGTH_SHORT).show();
+                                        startActivity( new Intent(getApplicationContext(), MapActivity.class));
                                     }
-                                });
+                                }
                             }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            Toast.makeText(MainActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
-                            loginProgressBar.setVisibility(View.INVISIBLE);
-                        }
-                    });
+                        });
+                    }
+                    loginProgressBar.setVisibility(View.INVISIBLE);
+
                 }
             }
         });

@@ -192,7 +192,7 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         firestoreDelivery = documentSnapshot.toObject(FirestoreDelivery.class);
                         firestoreDelivery.setDeliveryPicked(true);
-                        mDestination = Utils.getLatLong(firestoreDelivery.getUserDestination());
+                        mDestination = Utils.getLatLong(firestoreDelivery.getUserLocation());
                         mOrigin = Utils.getLatLong(firestoreDelivery.getRetailLocation());
                         setDirection();
                         db.collection(Collections.delivery.name()).document(documentId).set(firestoreDelivery);
@@ -262,15 +262,15 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 firestoreDelivery = documentSnapshot.toObject(FirestoreDelivery.class);
-                destination.setText(firestoreDelivery.getRetailAddress());
-                fromRetail.setText(firestoreDelivery.getUserAddress());
+                destination.setText(Utils.getAddress(firestoreDelivery.getUserLocation(), DeliveryDetailsActivity.this));
+                fromRetail.setText(Utils.getAddress(firestoreDelivery.getRetailLocation(), DeliveryDetailsActivity.this));
                 userDetails.setText("Order for " + firestoreDelivery.getUserNames() + "  Contact No: " + firestoreDelivery.getContactNo());
                 retailName.setText(" Pick up from: "+firestoreDelivery.getRetailName());
                 if (firestoreDelivery.isDeliveryPicked()) {
                     delivered.setVisibility(View.VISIBLE);
                     toCardView.setVisibility(View.VISIBLE);
                     pickUpDelivery.setVisibility(View.INVISIBLE);
-                    mDestination = Utils.getLatLong(firestoreDelivery.getUserDestination());
+                    mDestination = Utils.getLatLong(firestoreDelivery.getUserLocation());
                     mOrigin = Utils.getLatLong(firestoreDelivery.getRetailLocation());
                     setDirection();
                 } else {
