@@ -59,7 +59,11 @@ public class Utils {
         }catch (IOException exception){
             Toast.makeText(context, "Could not get you address", Toast.LENGTH_SHORT).show();
         }
-        return addresses.get(0).getAddressLine(0);
+        if (addresses != null && addresses.size() > 0){
+            return addresses.get(0).getAddressLine(0);
+        } else {
+            return "";
+        }
     }
 
 }

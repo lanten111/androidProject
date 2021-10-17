@@ -8,11 +8,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import co.za.foodscout.Domain.Enum.Collections;
+import co.za.foodscout.Domain.Enum.OrderStatus;
+import co.za.foodscout.Domain.FirestoreUser;
 import co.za.foodscout.Utils.Utils;
-import co.za.foodscout.activities.DeliveryDetailsActivity;
+import co.za.foodscout.activities.delivery.DeliveryDetailsActivity;
 import co.za.foodscout.Domain.FirestoreDelivery;
 import foodscout.R;
 
@@ -21,12 +28,16 @@ public class DeliveryListAdapter extends RecyclerView.Adapter<DeliveryListAdapte
     private List<FirestoreDelivery> firestoreDeliveryList = new ArrayList<>();
     private LayoutInflater mInflater;
     private Context context;
+    private FirebaseFirestore firestore;
+    private FirestoreUser firestoreUser;
   
    // RecyclerView recyclerView;  
-    public DeliveryListAdapter(Context context, List<FirestoreDelivery> firestoreDeliveryList) {
+    public DeliveryListAdapter(Context context, List<FirestoreDelivery> firestoreDeliveryList, FirebaseFirestore firestore, FirestoreUser firestoreUser) {
         this.firestoreDeliveryList = firestoreDeliveryList;
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
+        this.firestore = firestore;
+        this.firestoreUser = firestoreUser;
     }
 
     @Override  
@@ -37,21 +48,31 @@ public class DeliveryListAdapter extends RecyclerView.Adapter<DeliveryListAdapte
   
     @Override  
     public void onBindViewHolder(ViewHolder holder, int position) {  
-        final FirestoreDelivery delivery = firestoreDeliveryList.get(position);
-        holder.fromRetail.setText("From: "+ Utils.getAddress(delivery.getRetailLocation(), context));
-        holder.userDestination.setText("To: "+Utils.getAddress(delivery.getUserLocation(), context));
-        holder.orderDetails.setText("Order for "+delivery.getUserNames()+"  Contact No: "+delivery.getContactNo());
-        if (delivery.isAssigned()){
-            holder.deliveryStatus.setText(delivery.getDeliveryStatus() +" by "+delivery.getDriverName());
+        final FirestoreDelivery firestoreDelivery = firestoreDeliveryList.get(position);
+        holder.fromRetail.setText("From: "+ Utils.getAddress(firestoreDelivery.getRetailLocation(), context));
+        holder.userDestination.setText("To: "+Utils.getAddress(firestoreDelivery.getUserLocation(), context));
+        holder.orderDetails.setText("Order for "+firestoreDelivery.getUserNames()+"  Contact No: "+firestoreDelivery.getContactNo());
+        if (firestoreDelivery.isAssigned()){
+            holder.deliveryStatus.setText(firestoreDelivery.getDeliveryStatus() +" by "+firestoreDelivery.getDriverName());
         } else {
-            holder.deliveryStatus.setText(delivery.getDeliveryStatus());
+            holder.deliveryStatus.setText(firestoreDelivery.getDeliveryStatus());
         }
+        holder.deliveryStatus.setText(OrderStatus.Preparing.getDescription());
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, DeliveryDetailsActivity.class);
-                intent.putExtra("deliveryUid", delivery.getId());
-                context.startActivity(intent);
+                firestoreDelivery.setDeliveryStatus(OrderStatus.OnRoute.name());
+//                firestoreDelivery.setDeliveryPicked(true);
+                firestoreDelivery.setAssigned(true);
+                firestoreDelivery.setAssigneeId(firestoreUser.getId());
+                firestoreDelivery.setDriverName(firestoreUser.getName());
+                firestore.collection(Collections.delivery.name()).document(firestoreDelivery.getId()).set(firestoreDelivery).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Intent intent = new Intent(context, DeliveryDetailsActivity.class);
+                        context.startActivity(intent);
+                    }
+                });
             }
         });
     }
@@ -72,7 +93,7 @@ public class DeliveryListAdapter extends RecyclerView.Adapter<DeliveryListAdapte
         public ViewHolder(View itemView) {
             super(itemView);
             fromRetail = itemView.findViewById(R.id.deliveriesFromTxt);
-            userDestination = itemView.findViewById(R.id.deliveriesToTxt);
+            userDestination = itemView.findViewById(R.id.SellerDeliveriesTo);
             orderDetails = itemView.findViewById(R.id.deliveriesOrderDetailTxt);
             relativeLayout = itemView.findViewById(R.id.deliveriesCardView);
             deliveryStatus = itemView.findViewById(R.id.deliveriesStatusTxt);

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="co.za.foodscout.activities.DeliveryDetailsActivity">
+    tools:context="co.za.foodscout.activities.delivery.DeliveryDetailsActivity">
 
   <Button
       android:id="@+id/deliveryCompleteBtn"
@@ -89,6 +89,12 @@
         android:padding="8dp">
 
       <!-- Title, secondary and supporting text -->
+
+      <TextView
+          android:id="@+id/orderNumber"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="TextView" />
 
       <TextView
           android:id="@+id/deliveryFromDetails"

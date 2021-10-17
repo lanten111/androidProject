@@ -1,4 +1,4 @@
-package co.za.foodscout.activities;
+package co.za.foodscout.activities.order;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,13 +24,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import co.za.foodscout.Domain.Collections;
+import co.za.foodscout.Domain.Enum.Collections;
 import co.za.foodscout.Domain.FireStoreCart;
 import co.za.foodscout.Domain.FireStoreOrders;
 import co.za.foodscout.Domain.FirestoreDelivery;
 import co.za.foodscout.Domain.FirestoreUser;
 import co.za.foodscout.Domain.Restaurant.Restaurant;
 import co.za.foodscout.Utils.Utils;
+import co.za.foodscout.activities.DrawerActivity;
+import co.za.foodscout.activities.retail.RetailsActivity;
+import co.za.foodscout.activities.user.UserOrderViewActivity;
 import foodscout.R;
 
 public class CheckOutActivity extends DrawerActivity {
@@ -59,6 +62,7 @@ public class CheckOutActivity extends DrawerActivity {
         RadioGroup paymentMethod = findViewById(R.id.paymentMethod);
         Button placeOrder = findViewById(R.id.placeOderButton);
         EditText additionalNote  = findViewById(R.id.additionalNote);
+        TextView retailLocation = findViewById(R.id.retailLocation);
         TextView retailName = findViewById(R.id.retailName);
 
         progressBar.setVisibility(View.VISIBLE);
@@ -67,7 +71,8 @@ public class CheckOutActivity extends DrawerActivity {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 fireStoreCartList = queryDocumentSnapshots.toObjects(FireStoreCart.class);
-                retailName.setText(" "+fireStoreCartList.get(0).getRetailName() +"\n"+ " " +Utils.getAddress(fireStoreCartList.get(0).getDestination(), CheckOutActivity.this));
+                retailName.setText(fireStoreCartList.get(0).getRetailName());
+                retailLocation.setText(" " +Utils.getAddress(fireStoreCartList.get(0).getDestination(), CheckOutActivity.this));
                 orderOrigin.setText("Restaurant Adress: "+Utils.getAddress(fireStoreCartList.get(0).getOrigin(), CheckOutActivity.this));
                 for (FireStoreCart fireStoreCart: fireStoreCartList){
                     totalPrice = totalPrice + fireStoreCart.getItemPrice();
@@ -125,6 +130,8 @@ public class CheckOutActivity extends DrawerActivity {
                                 firestoreDelivery.setRetailLocation(fireStoreOrders.getRetailLocation());
                                 firestoreDelivery.setRetailName(fireStoreOrders.getRetailName());
                                 firestoreDelivery.setRetailId(fireStoreOrders.getRetailId());
+                                firestoreDelivery.setOrderId(fireStoreOrders.getId());
+                                firestoreDelivery.setOrderNumber(fireStoreOrders.getOrderNumber());
                                 firestore.collection(Collections.user.name()).document(firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                     @Override
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {

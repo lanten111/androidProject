@@ -1,14 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 package="foodscout">
-<!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the "MyLocation" functionality.
-    -->
+
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 <uses-permission android:name="android.permission.INTERNET" />
-
 
 <application
     android:hardwareAccelerated="false"
@@ -19,36 +14,36 @@ package="foodscout">
     android:supportsRtl="true"
     android:theme="@style/Theme.DeliverNow">
     <activity
-        android:name="co.za.foodscout.activities.CartViewActivity"
+        android:name="co.za.foodscout.activities.order.CartViewActivity"
         android:theme="@style/Theme.DeliverNow.NoActionBar"
         android:exported="true"
         android:label="Your Cart" />
     <activity
-        android:name="co.za.foodscout.activities.RetailsActivity"
+        android:name="co.za.foodscout.activities.retail.RetailsActivity"
         android:theme="@style/Theme.DeliverNow.NoActionBar"
         android:exported="true"
         android:label="choose restaurant" />
     <activity
-        android:name="co.za.foodscout.activities.UserOrderViewActivity"
+        android:name="co.za.foodscout.activities.user.UserOrderViewActivity"
         android:exported="true"
         android:theme="@style/Theme.DeliverNow.NoActionBar"
         android:label="View your Order" />
     <activity
-        android:name="co.za.foodscout.activities.DeliveriesActivity"
+        android:name="co.za.foodscout.activities.delivery.DeliveriesActivity"
         android:exported="true"
         android:theme="@style/Theme.DeliverNow.NoActionBar"
         android:label="Deliveries Pending" />
     <activity
-        android:name="co.za.foodscout.activities.AccountActivity"
+        android:name="co.za.foodscout.activities.account.AccountActivity"
         android:exported="true"
         android:theme="@style/Theme.DeliverNow.NoActionBar"
         android:label="Account Details" />
     <activity
-        android:name="co.za.foodscout.activities.ResetPasswordActivity"
+        android:name="co.za.foodscout.activities.account.ResetPasswordActivity"
         android:label="@string/Login"
         android:exported="true" />
     <activity
-        android:name="co.za.foodscout.activities.DeliveryDetailsActivity"
+        android:name="co.za.foodscout.activities.delivery.DeliveryDetailsActivity"
         android:exported="true"
         android:theme="@style/Theme.DeliverNow.NoActionBar"
         android:label="Delivery Details" />
@@ -57,7 +52,7 @@ package="foodscout">
         android:exported="true"
         android:theme="@style/Theme.DeliverNow.NoActionBar" />
     <activity
-        android:name="co.za.foodscout.activities.MenuActivity"
+        android:name="co.za.foodscout.activities.menu.MenuActivity"
         android:theme="@style/Theme.DeliverNow.NoActionBar"
         android:label="Menu" />
 
@@ -70,11 +65,11 @@ package="foodscout">
         android:label="Choose delivery Location"
         android:theme="@style/Theme.DeliverNow.NoActionBar" />
     <activity
-        android:name="co.za.foodscout.activities.LoginActivity"
+        android:name="co.za.foodscout.activities.account.LoginActivity"
         android:theme="@style/Theme.DeliverNow.NoActionBar"
         android:label="@string/Login" />
     <activity
-        android:name="co.za.foodscout.activities.RegisterActivity"
+        android:name="co.za.foodscout.activities.account.RegisterActivity"
         android:label="@string/title_activity_register"
         android:theme="@style/Theme.DeliverNow.NoActionBar" />
     <activity
@@ -82,26 +77,29 @@ package="foodscout">
         android:label="@string/settings"
         android:theme="@style/Theme.DeliverNow.NoActionBar" />
     <activity
-        android:name="co.za.foodscout.activities.SellerViewActivity"
+        android:name="co.za.foodscout.activities.seller.SellerViewActivity"
         android:exported="true"
         android:label="Orders"
         android:theme="@style/Theme.DeliverNow.NoActionBar" />
     <activity
-        android:name="co.za.foodscout.activities.MenuDetailActivity"
+        android:name="co.za.foodscout.activities.menu.MenuDetailActivity"
         android:exported="true"
         android:label="Menu"
         android:theme="@style/Theme.DeliverNow.NoActionBar" />
     <activity
-        android:name="co.za.foodscout.activities.registerRestaurant"
+        android:name="co.za.foodscout.activities.retail.registerRestaurant"
         android:exported="true"
         android:label="Register new Restaurant"
         android:theme="@style/Theme.DeliverNow.NoActionBar" />
     <activity
-        android:name="co.za.foodscout.activities.CheckOutActivity"
+        android:name="co.za.foodscout.activities.order.CheckOutActivity"
         android:exported="true"
         android:label="Chekout"
-        android:theme="@style/Theme.DeliverNow.NoActionBar"
-        />
+        android:theme="@style/Theme.DeliverNow.NoActionBar" />
+    <activity
+        android:name="co.za.foodscout.activities.seller.SellerDetailsActivity"
+        android:exported="true"
+        android:theme="@style/Theme.DeliverNow.NoActionBar"/>
     <activity
         android:name="co.za.foodscout.activities.MainActivity"
         android:theme="@style/Theme.DeliverNow.NoActionBar">
@@ -112,4 +110,3 @@ package="foodscout">
     </activity>
 </application>
 </manifest>
-

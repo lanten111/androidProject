@@ -20,9 +20,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import co.za.foodscout.Domain.Collections;
+import co.za.foodscout.Domain.Enum.Collections;
 import co.za.foodscout.Domain.FirestoreUser;
-import co.za.foodscout.Domain.Role;
+import co.za.foodscout.Domain.Enum.Role;
+import co.za.foodscout.activities.account.AccountActivity;
+import co.za.foodscout.activities.account.LoginActivity;
+import co.za.foodscout.activities.retail.registerRestaurant;
+import co.za.foodscout.activities.delivery.DeliveriesActivity;
+import co.za.foodscout.activities.retail.RetailsActivity;
 import foodscout.R;
 
 public abstract class DrawerActivity extends AppCompatActivity {
@@ -111,6 +116,9 @@ public abstract class DrawerActivity extends AppCompatActivity {
             startActivity(intent);
         } else if (item.getTitle().toString().equals(getResources().getString(R.string.register_restaurant))){
             Intent intent = new Intent(this, registerRestaurant.class);
+            startActivity(intent);
+        } else if (item.getTitle().toString().equals(getResources().getString(R.string.home))){
+            Intent intent = new Intent(this, RetailsActivity.class);
             startActivity(intent);
         }
     }

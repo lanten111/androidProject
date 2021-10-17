@@ -1,4 +1,4 @@
-package co.za.foodscout.activities;
+package co.za.foodscout.activities.menu;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -31,11 +31,10 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import co.za.foodscout.Domain.Collections;
+import co.za.foodscout.Domain.Enum.Collections;
 import co.za.foodscout.Domain.FireStoreCart;
 import co.za.foodscout.Domain.FirestoreDelivery;
 import co.za.foodscout.Domain.FirestoreUser;
@@ -43,6 +42,8 @@ import co.za.foodscout.Domain.Restaurant.Addons;
 import co.za.foodscout.Domain.Restaurant.Menu;
 import co.za.foodscout.Domain.Restaurant.MenuAddons;
 import co.za.foodscout.Domain.Restaurant.Restaurant;
+import co.za.foodscout.activities.DrawerActivity;
+import co.za.foodscout.activities.order.CartViewActivity;
 import foodscout.R;
 
 public class MenuDetailActivity extends DrawerActivity {

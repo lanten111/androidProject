@@ -1,4 +1,4 @@
-package co.za.foodscout.activities;
+package co.za.foodscout.activities.menu;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -44,7 +44,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 import co.za.foodscout.Adapters.MenuViewPagerAdapter;
-import co.za.foodscout.Domain.Collections;
+import co.za.foodscout.Domain.Enum.Collections;
 import co.za.foodscout.Domain.DeliveryTime;
 import co.za.foodscout.Domain.FirestoreDelivery;
 import co.za.foodscout.Domain.FirestoreUser;
@@ -52,6 +52,8 @@ import co.za.foodscout.Domain.Restaurant.Menu;
 import co.za.foodscout.Domain.Restaurant.Restaurant;
 import co.za.foodscout.Domain.matrixNew.DurationMatrix;
 import co.za.foodscout.Utils.Utils;
+import co.za.foodscout.activities.DrawerActivity;
+import co.za.foodscout.activities.account.LoginActivity;
 import foodscout.R;
 
 public class MenuActivity extends DrawerActivity {

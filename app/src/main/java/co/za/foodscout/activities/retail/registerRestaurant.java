@@ -1,4 +1,4 @@
-package co.za.foodscout.activities;
+package co.za.foodscout.activities.retail;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,14 +19,12 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.UUID;
 
-import co.za.foodscout.Domain.Collections;
-import co.za.foodscout.Domain.MenuCatagories;
+import co.za.foodscout.Domain.Enum.Collections;
+import co.za.foodscout.Domain.Enum.MenuCatagories;
 import co.za.foodscout.Domain.Restaurant.Addons;
 import co.za.foodscout.Domain.Restaurant.Menu;
 import co.za.foodscout.Domain.Restaurant.MenuAddons;
@@ -295,14 +293,14 @@ public class registerRestaurant extends AppCompatActivity {
 //                        Toast.makeText(registerRestaurant.this, "successfully added new restaurant",Toast.LENGTH_SHORT).show();
 //                    }
 //                });
-                db.collection("restaurant").add(restaurant).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                db.collection("restaurant").document(firebaseAuth.getCurrentUser().getUid()).set(restaurant).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        restaurant.setId(documentReference.getId());
+                    public void onSuccess(Void unused) {
+                        restaurant.setId(firebaseAuth.getCurrentUser().getUid());
                         for (Menu menu: restaurant.getMenu()){
-                            menu.setRestaurantId(documentReference.getId());
+                            menu.setRestaurantId(firebaseAuth.getCurrentUser().getUid());
                         }
-                        db.collection(Collections.restaurant.name()).document(documentReference.getId()).set(restaurant).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        db.collection(Collections.restaurant.name()).document(firebaseAuth.getCurrentUser().getUid()).set(restaurant).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
                                 Toast.makeText(registerRestaurant.this, "successfully added new restaurant",Toast.LENGTH_SHORT).show();

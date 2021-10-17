@@ -2,8 +2,6 @@ package co.za.foodscout.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,22 +20,18 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 import co.za.foodscout.Domain.DeliveryTime;
-import co.za.foodscout.Domain.DemoAPIDomain.retails.RetailDetails;
 import co.za.foodscout.Domain.FirestoreUser;
 import co.za.foodscout.Domain.Restaurant.Restaurant;
 import co.za.foodscout.Domain.matrixNew.DurationMatrix;
 import co.za.foodscout.Utils.Utils;
-import co.za.foodscout.activities.MenuActivity;
+import co.za.foodscout.activities.menu.MenuActivity;
 import foodscout.R;
 
 

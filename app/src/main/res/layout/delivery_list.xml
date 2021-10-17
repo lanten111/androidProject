@@ -38,7 +38,7 @@
                 android:layout_margin="2dp"
                 android:text="@string/pending_delivery"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/deliveriesOrderDetailTxt"
@@ -48,7 +48,7 @@
                 android:text="@string/loading"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textColor="?android:attr/textColorSecondary"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
 
@@ -60,18 +60,18 @@
                 android:text="from"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textColor="?android:attr/textColorSecondary"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/deliveriesToTxt"
+                android:id="@+id/SellerDeliveriesTo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
                 android:text="to"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textColor="?android:attr/textColorSecondary"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 android:textStyle="italic" />
         </LinearLayout>
 

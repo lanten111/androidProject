@@ -1,4 +1,4 @@
-package co.za.foodscout.activities;
+package co.za.foodscout.activities.account;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,10 +32,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import co.za.foodscout.Domain.Collections;
+import co.za.foodscout.Domain.Enum.Collections;
 import co.za.foodscout.Domain.FirestoreDelivery;
 import co.za.foodscout.Domain.FirestoreUser;
-import co.za.foodscout.Domain.Role;
+import co.za.foodscout.Domain.Enum.Role;
+import co.za.foodscout.activities.MapActivity;
+import co.za.foodscout.activities.retail.RetailsActivity;
+import co.za.foodscout.activities.delivery.DeliveriesActivity;
+import co.za.foodscout.activities.seller.SellerViewActivity;
+import co.za.foodscout.activities.user.UserOrderViewActivity;
 import foodscout.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -105,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
         addDetails.setVisibility(View.INVISIBLE);
 
         phone.setText("+27659599252");
-        email.setText("user2@123.co.za");
+        email.setText("seller@123.co.za");
         password.setText("123456");
 
 
@@ -332,7 +337,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     if (firestoreUser.getRole().equals(Role.DRIVER)){
 //                        Toast.makeText(LoginActivity.this, "Authentication Successful", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), DeliveryDetailsActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, DeliveriesActivity.class);
                         progressBar.setVisibility(View.INVISIBLE);
                         startActivity(intent);
                     } else if(firestoreUser.getRole().equals(Role.SELLER)) {

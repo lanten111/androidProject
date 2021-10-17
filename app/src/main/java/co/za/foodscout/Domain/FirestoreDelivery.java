@@ -9,6 +9,7 @@ public class FirestoreDelivery {
     GeoPoint userLocation;
     String userId;
     String retailId;
+    String orderId;
     String retailName;
     GeoPoint retailLocation;
     Boolean isDelivered;
@@ -22,69 +23,14 @@ public class FirestoreDelivery {
     Timestamp dateUpdated;
     Timestamp dateDelivered;
     Boolean isDeliveryPicked;
+    int OrderNumber;
 
-    public Boolean isDeliveryPicked() {
-        return isDeliveryPicked;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setDeliveryPicked(Boolean deliveryPicked) {
-        isDeliveryPicked = deliveryPicked;
-    }
-
-    public String getDriverName() {
-        return driverName;
-    }
-
-    public void setDriverName(String driverName) {
-        this.driverName = driverName;
-    }
-
-    public Timestamp getDateDelivered() {
-        return dateDelivered;
-    }
-
-    public void setDateDelivered(Timestamp dateDelivered) {
-        this.dateDelivered = dateDelivered;
-    }
-
-    public Timestamp getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(Timestamp dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public Timestamp getDateUpdated() {
-        return dateUpdated;
-    }
-
-    public void setDateUpdated(Timestamp dateUpdated) {
-        this.dateUpdated = dateUpdated;
-    }
-
-    public String getDeliveryStatus() {
-        return deliveryStatus;
-    }
-
-    public void setDeliveryStatus(String deliveryStatus) {
-        this.deliveryStatus = deliveryStatus;
-    }
-
-    public String getUserNames() {
-        return userNames;
-    }
-
-    public void setUserNames(String userNames) {
-        this.userNames = userNames;
-    }
-
-    public String getContactNo() {
-        return contactNo;
-    }
-
-    public void setContactNo(String contactNo) {
-        this.contactNo = contactNo;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public String getId() {
@@ -93,31 +39,6 @@ public class FirestoreDelivery {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Boolean isAssigned() {
-        return isAssigned;
-    }
-
-    public void setAssigned(Boolean assigned) {
-        isAssigned = assigned;
-    }
-
-
-    public String getAssigneeId() {
-        return assigneeId;
-    }
-
-    public void setAssigneeId(String assigneeId) {
-        this.assigneeId = assigneeId;
-    }
-
-    public Boolean isDelivered() {
-        return isDelivered;
-    }
-
-    public void setDelivered(Boolean delivered) {
-        isDelivered = delivered;
     }
 
     public GeoPoint getUserLocation() {
@@ -160,4 +81,99 @@ public class FirestoreDelivery {
         this.retailLocation = retailLocation;
     }
 
+    public Boolean isDelivered() {
+        return isDelivered;
+    }
+
+    public void setDelivered(Boolean delivered) {
+        isDelivered = delivered;
+    }
+
+    public String getAssigneeId() {
+        return assigneeId;
+    }
+
+    public void setAssigneeId(String assigneeId) {
+        this.assigneeId = assigneeId;
+    }
+
+    public Boolean isAssigned() {
+        return isAssigned;
+    }
+
+    public void setAssigned(Boolean assigned) {
+        isAssigned = assigned;
+    }
+
+    public String getUserNames() {
+        return userNames;
+    }
+
+    public void setUserNames(String userNames) {
+        this.userNames = userNames;
+    }
+
+    public String getDriverName() {
+        return driverName;
+    }
+
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
+    }
+
+    public String getContactNo() {
+        return contactNo;
+    }
+
+    public void setContactNo(String contactNo) {
+        this.contactNo = contactNo;
+    }
+
+    public String getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public void setDeliveryStatus(String deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
+    }
+
+    public Timestamp getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Timestamp dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public Timestamp getDateUpdated() {
+        return dateUpdated;
+    }
+
+    public void setDateUpdated(Timestamp dateUpdated) {
+        this.dateUpdated = dateUpdated;
+    }
+
+    public Timestamp getDateDelivered() {
+        return dateDelivered;
+    }
+
+    public void setDateDelivered(Timestamp dateDelivered) {
+        this.dateDelivered = dateDelivered;
+    }
+
+    public Boolean isDeliveryPicked() {
+        return isDeliveryPicked;
+    }
+
+    public void setDeliveryPicked(Boolean deliveryPicked) {
+        isDeliveryPicked = deliveryPicked;
+    }
+
+    public int getOrderNumber() {
+        return OrderNumber;
+    }
+
+    public void setOrderNumber(int orderNumber) {
+        OrderNumber = orderNumber;
+    }
 }

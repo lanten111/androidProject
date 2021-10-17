@@ -1,4 +1,4 @@
-package co.za.foodscout.activities;
+package co.za.foodscout.activities.account;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -24,10 +24,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
 
-import co.za.foodscout.Domain.Collections;
+import co.za.foodscout.Domain.Enum.Collections;
 import co.za.foodscout.Domain.FirestoreUser;
-import co.za.foodscout.Domain.Role;
+import co.za.foodscout.Domain.Enum.Role;
 import co.za.foodscout.Utils.Utils;
+import co.za.foodscout.activities.MapActivity;
 import foodscout.R;
 
 public class RegisterActivity extends AppCompatActivity {

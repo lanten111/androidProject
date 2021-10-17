@@ -4,6 +4,8 @@ import com.google.firebase.firestore.GeoPoint;
 
 import java.util.Date;
 
+import co.za.foodscout.Domain.Enum.Role;
+
 public class FirestoreUser {
 
     private String id;

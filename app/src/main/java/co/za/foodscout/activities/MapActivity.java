@@ -37,9 +37,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import co.za.foodscout.Domain.Collections;
+import co.za.foodscout.Domain.Enum.Collections;
 import co.za.foodscout.Domain.FirestoreDelivery;
 import co.za.foodscout.Domain.FirestoreUser;
+import co.za.foodscout.activities.account.LoginActivity;
+import co.za.foodscout.activities.retail.RetailsActivity;
 import foodscout.R;
 
 

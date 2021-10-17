@@ -9,7 +9,7 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    tools:context="co.za.foodscout.activities.MenuDetailActivity">
+    tools:context="co.za.foodscout.activities.menu.MenuDetailActivity">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/menuItermCardView"

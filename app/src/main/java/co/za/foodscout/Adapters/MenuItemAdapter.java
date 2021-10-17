@@ -11,24 +11,14 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import co.za.foodscout.Domain.DeliveryTime;
 import co.za.foodscout.Domain.Restaurant.Menu;
-import co.za.foodscout.Domain.matrixNew.DurationMatrix;
-import co.za.foodscout.activities.MenuDetailActivity;
+import co.za.foodscout.activities.menu.MenuDetailActivity;
 import foodscout.R;
 
 

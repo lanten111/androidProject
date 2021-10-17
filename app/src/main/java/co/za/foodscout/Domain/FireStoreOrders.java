@@ -11,7 +11,7 @@ public class FireStoreOrders {
     String retailId;
     String retailName;
     GeoPoint retailLocation;
-    private int orderNumber;
+    int orderNumber;
     String userId;
     String additionalOrderNote;
     String PaymentMethod;

@@ -1,4 +1,4 @@
-package co.za.foodscout.Domain;
+package co.za.foodscout.Domain.Enum;
 
 public enum Role {
     USER,

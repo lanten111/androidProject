@@ -1,11 +1,8 @@
 package co.za.foodscout.Domain.Restaurant;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import co.za.foodscout.Domain.MenuCatagories;
+import co.za.foodscout.Domain.Enum.MenuCatagories;
 
 public class Menu {
 

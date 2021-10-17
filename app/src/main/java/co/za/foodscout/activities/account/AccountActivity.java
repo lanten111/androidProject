@@ -1,4 +1,4 @@
-package co.za.foodscout.activities;
+package co.za.foodscout.activities.account;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,9 +18,10 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import co.za.foodscout.Domain.Collections;
+import co.za.foodscout.Domain.Enum.Collections;
 import co.za.foodscout.Domain.FirestoreUser;
 import co.za.foodscout.Utils.Utils;
+import co.za.foodscout.activities.DrawerActivity;
 import foodscout.R;
 
 public class AccountActivity extends DrawerActivity {

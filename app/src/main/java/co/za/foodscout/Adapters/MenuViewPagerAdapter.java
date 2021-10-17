@@ -31,7 +31,7 @@ public class MenuViewPagerAdapter extends RecyclerView.Adapter<MenuViewPagerAdap
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.view_pager, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.menu_view_pager, parent, false);
         return new MyViewHolder(view);
     }
 

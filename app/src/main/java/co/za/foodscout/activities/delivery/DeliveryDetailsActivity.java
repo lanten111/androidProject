@@ -1,4 +1,4 @@
-package co.za.foodscout.activities;
+package co.za.foodscout.activities.delivery;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -8,8 +8,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,7 +37,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -51,15 +48,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
-import co.za.foodscout.Domain.Collections;
+import co.za.foodscout.Domain.Enum.Collections;
 import co.za.foodscout.Domain.DeliveryTime;
 import co.za.foodscout.Domain.FirestoreDelivery;
-import co.za.foodscout.Domain.FirestoreUser;
 import co.za.foodscout.Domain.matrixNew.DurationMatrix;
 import co.za.foodscout.Utils.DirectionsJSONParser;
 import co.za.foodscout.Utils.Utils;
+import co.za.foodscout.activities.DrawerActivity;
+import co.za.foodscout.activities.account.LoginActivity;
 import foodscout.R;
 
 public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap.OnMyLocationButtonClickListener,
@@ -72,7 +69,7 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
     FirestoreDelivery firestoreDelivery = new FirestoreDelivery();
     private Polyline mPolyline;
     ArrayList<LatLng> mMarkerPoints;
-    String documentId;
+    String currentDeliveryId;
     LatLng mOrigin;
     LatLng mDestination;
     TextView fromHeader;
@@ -100,6 +97,7 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
         Button openMap = findViewById(R.id.openMapsBtn);
         TextView userDetails = findViewById(R.id.driverDeliveryUserDetails);
         TextView retailName = findViewById(R.id.deliveryFromDetails);
+        TextView orderNumber = findViewById(R.id.orderNumber);
         Button delivered = findViewById(R.id.deliveryCompleteBtn);
         CardView toCardView = findViewById(R.id.deliveriesToCardView);
         Button pickUpDelivery = findViewById(R.id.deliveryPickUpBtn);
@@ -113,42 +111,13 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
         mapFragment.getMapAsync(this);
 
         mMarkerPoints = new ArrayList<>();
-        Bundle extras = getIntent().getExtras();
-        documentId = extras.getString("deliveryUid");
 
         //update delivery with driver id
-        db.collection(Collections.delivery.name()).whereEqualTo("delivered", false).orderBy("dateCreated").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                List<FirestoreDelivery> firestoreDeliveryList = queryDocumentSnapshots.toObjects(FirestoreDelivery.class);
-                for (FirestoreDelivery delivery : firestoreDeliveryList) {
-                    if (delivery.isAssigned() && delivery.getAssigneeId().equals(firebaseAuth.getCurrentUser().getUid())) {
-                        if (!documentId.equals(delivery.getId())) {
-                            delivered.setVisibility(View.VISIBLE);
-                            Toast.makeText(DeliveryDetailsActivity.this, "You have pending delivery, Please complete before taking new delivery", Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(DeliveryDetailsActivity.this, DeliveriesActivity.class));
-                        } else {
-                            setNewDelivery(firebaseAuth.getCurrentUser(), destination, fromRetail, userDetails, retailName, pickUpDelivery, documentId, delivered, toCardView,  progressBar);
-                        }
+        delivered.setVisibility(View.VISIBLE);
+//        Toast.makeText(DeliveryDetailsActivity.this, "You have pending delivery, Please complete before taking new delivery", Toast.LENGTH_LONG).show();
+        setNewDelivery(firebaseAuth.getCurrentUser().getUid(), destination, fromRetail, userDetails, retailName, pickUpDelivery, delivered, toCardView, orderNumber,  progressBar);
 
-                        return;
-                    } else if (delivery.getId().equals(documentId)) {
-                        delivery.setAssigneeId(firebaseAuth.getCurrentUser().getUid());
-                        delivery.setAssigned(true);
-                        delivery.setDeliveryStatus("In Progress");
-                        delivery.setDateUpdated(Timestamp.now());
-                        db.collection(Collections.delivery.name()).document(documentId).set(delivery);
-                        setNewDelivery(firebaseAuth.getCurrentUser(), destination, fromRetail, userDetails, retailName, pickUpDelivery, documentId, delivered, toCardView, progressBar);
-                        return;
-                    }
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(DeliveryDetailsActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+
 //        open direction in google maps
         openMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,7 +133,7 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
         delivered.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db.collection(Collections.delivery.name()).document(documentId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                db.collection(Collections.delivery.name()).document(currentDeliveryId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         firestoreDelivery = documentSnapshot.toObject(FirestoreDelivery.class);
@@ -172,7 +141,7 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
                         firestoreDelivery.setDelivered(true);
                         firestoreDelivery.setDateUpdated(Timestamp.now());
                         firestoreDelivery.setDeliveryStatus("Completed");
-                        db.collection(Collections.delivery.name()).document(documentId).set(firestoreDelivery);
+                        db.collection(Collections.delivery.name()).document(currentDeliveryId).set(firestoreDelivery);
                         Toast.makeText(DeliveryDetailsActivity.this, "Delivery Completed", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(DeliveryDetailsActivity.this, DeliveriesActivity.class);
                         startActivity(intent);
@@ -187,7 +156,7 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
             public void onClick(View view) {
                 toCardView.setVisibility(View.VISIBLE);
                 pickUpDelivery.setVisibility(View.INVISIBLE);
-                db.collection(Collections.delivery.name()).document(documentId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                db.collection(Collections.delivery.name()).document(currentDeliveryId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         firestoreDelivery = documentSnapshot.toObject(FirestoreDelivery.class);
@@ -195,7 +164,7 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
                         mDestination = Utils.getLatLong(firestoreDelivery.getUserLocation());
                         mOrigin = Utils.getLatLong(firestoreDelivery.getRetailLocation());
                         setDirection();
-                        db.collection(Collections.delivery.name()).document(documentId).set(firestoreDelivery);
+                        db.collection(Collections.delivery.name()).document(currentDeliveryId).set(firestoreDelivery);
                         delivered.setVisibility(View.VISIBLE);
                     }
                 });
@@ -217,55 +186,48 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
     }
 
     void setDirection() {
-        db.collection("delivery").document(documentId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                firestoreDelivery = documentSnapshot.toObject(FirestoreDelivery.class);
-                mMarkerPoints = new ArrayList<>();
-                mMap.clear();
-                mMarkerPoints.add(mOrigin);
-                mMarkerPoints.add(mDestination);
-                for (int i = 0; i < mMarkerPoints.size(); i++) {
-                    LatLng markerPoint = mMarkerPoints.get(i);
-                    MarkerOptions options = new MarkerOptions();
-                    options.position(markerPoint);
-                    if (i == 0) {
-                        options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                    } else if (i == 1) {
-                        options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                    }
-                    mMap.addMarker(options);
-                }
-                // Checks, whether start and end locations are captured
-                if (mMarkerPoints.size() >= 2) {
-                    mOrigin = mMarkerPoints.get(0);
-                    mDestination = mMarkerPoints.get(1);
-                    drawRoute(getDirectionsUrl(mOrigin, mDestination));
-                }
-                Utils.zoomInTwoPoints(mMap, mOrigin, mDestination);
-                try {
-                    getDeliveryTime(mOrigin, mDestination);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+        mMarkerPoints = new ArrayList<>();
+        mMap.clear();
+        mMarkerPoints.add(mOrigin);
+        mMarkerPoints.add(mDestination);
+        for (int i = 0; i < mMarkerPoints.size(); i++) {
+            LatLng markerPoint = mMarkerPoints.get(i);
+            MarkerOptions options = new MarkerOptions();
+            options.position(markerPoint);
+            if (i == 0) {
+                options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+            } else if (i == 1) {
+                options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(DeliveryDetailsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+            mMap.addMarker(options);
+        }
+        // Checks, whether start and end locations are captured
+        if (mMarkerPoints.size() >= 2) {
+            mOrigin = mMarkerPoints.get(0);
+            mDestination = mMarkerPoints.get(1);
+            drawRoute(getDirectionsUrl(mOrigin, mDestination));
+        }
+        Utils.zoomInTwoPoints(mMap, mOrigin, mDestination);
+        try {
+            getDeliveryTime(mOrigin, mDestination);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    void setNewDelivery(FirebaseUser firebaseUser, TextView destination, TextView fromRetail, TextView userDetails, TextView retailName, Button pickUpDelivery, String documentId,Button delivered, CardView toCardView, ProgressBar progressBar) {
-        db.collection("delivery").document(documentId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+    void setNewDelivery(String id, TextView destination, TextView fromRetail, TextView userDetails, TextView retailName, Button pickUpDelivery,Button delivered, CardView toCardView, TextView orderNumber, ProgressBar progressBar) {
+        db.collection(Collections.delivery.name()).whereEqualTo("assigneeId", id).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                firestoreDelivery = documentSnapshot.toObject(FirestoreDelivery.class);
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<FirestoreDelivery> firestoreDeliveryList = queryDocumentSnapshots.toObjects(FirestoreDelivery.class);
+                firestoreDelivery = firestoreDeliveryList.get(0);
+                currentDeliveryId = firestoreDelivery.getId();
                 destination.setText(Utils.getAddress(firestoreDelivery.getUserLocation(), DeliveryDetailsActivity.this));
                 fromRetail.setText(Utils.getAddress(firestoreDelivery.getRetailLocation(), DeliveryDetailsActivity.this));
                 userDetails.setText("Order for " + firestoreDelivery.getUserNames() + "  Contact No: " + firestoreDelivery.getContactNo());
                 retailName.setText(" Pick up from: "+firestoreDelivery.getRetailName());
+//                orderNumber.setText(firestoreDelivery.getOrderNumber());
                 if (firestoreDelivery.isDeliveryPicked()) {
                     delivered.setVisibility(View.VISIBLE);
                     toCardView.setVisibility(View.VISIBLE);
@@ -280,14 +242,6 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
                     mDestination = Utils.getLatLong(firestoreDelivery.getRetailLocation());
                     getCurrentLocation();
                 }
-                db.collection(Collections.user.name()).document(firebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        FirestoreUser firestoreUser = documentSnapshot.toObject(FirestoreUser.class);
-                        firestoreDelivery.setDriverName(firestoreUser.getName() + " " + firestoreUser.getSurname());
-                        db.collection(Collections.delivery.name()).document(documentId).set(firestoreDelivery);
-                    }
-                });
                 progressBar.setVisibility(View.INVISIBLE);
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -297,17 +251,6 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
                 progressBar.setVisibility(View.INVISIBLE);
             }
         });
-    }
-
-    private String getDeliveryAddress(LatLng latLng) {
-        Geocoder geocoder = new Geocoder(this, Locale.ENGLISH);
-        List<Address> addresses = null;
-        try {
-            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-        } catch (IOException exception) {
-            Toast.makeText(this, "Could not get you address", Toast.LENGTH_SHORT).show();
-        }
-        return addresses.get(0).getAddressLine(0);
     }
 
     @Override

@@ -23,7 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
-import co.za.foodscout.Domain.Collections;
+import co.za.foodscout.Domain.Enum.Collections;
 import co.za.foodscout.Domain.FireStoreCart;
 import co.za.foodscout.Domain.Restaurant.Addons;
 import co.za.foodscout.Domain.Restaurant.MenuAddons;

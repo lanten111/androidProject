@@ -1,24 +1,16 @@
-package co.za.foodscout.activities;
+package co.za.foodscout.activities.retail;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,25 +19,23 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.gson.Gson;
 
 import java.util.List;
 
 import co.za.foodscout.Adapters.RetailListAdapter;
-import co.za.foodscout.Domain.Collections;
-import co.za.foodscout.Domain.DeliveryTime;
+import co.za.foodscout.Domain.Enum.Collections;
 import co.za.foodscout.Domain.FirestoreUser;
-import co.za.foodscout.Domain.DemoAPIDomain.retails.Retails;
 import co.za.foodscout.Domain.Restaurant.Restaurant;
-import co.za.foodscout.Domain.Role;
-import co.za.foodscout.Domain.matrixNew.DurationMatrix;
+import co.za.foodscout.activities.DrawerActivity;
+import co.za.foodscout.activities.MapActivity;
+import co.za.foodscout.activities.account.LoginActivity;
 import foodscout.R;;
 
 
 public class RetailsActivity extends DrawerActivity {
 
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     FirestoreUser firestoreUser = new FirestoreUser();
@@ -64,11 +54,11 @@ public class RetailsActivity extends DrawerActivity {
             startActivity(new Intent(this, LoginActivity.class));
             Toast.makeText(this, "Please login first", Toast.LENGTH_LONG).show();
         } else {
-            db.collection(Collections.user.name()).document(firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            firestore.collection(Collections.user.name()).document(firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     firestoreUser = documentSnapshot.toObject(FirestoreUser.class);
-                    db.collection(Collections.restaurant.toString()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    firestore.collection(Collections.restaurant.toString()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             List<Restaurant> restaurant =  queryDocumentSnapshots.toObjects(Restaurant.class);

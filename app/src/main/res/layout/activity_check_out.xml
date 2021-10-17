@@ -4,102 +4,174 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="co.za.foodscout.activities.CheckOutActivity">
+    tools:context="co.za.foodscout.activities.order.CheckOutActivity">
 
-  <TextView
-      android:id="@+id/orderAmount"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="32dp"
-      android:layout_marginLeft="32dp"
-      android:layout_marginTop="32dp"
-      android:text="TextView"
-      android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-      android:textSize="16sp"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-  <TextView
-      android:id="@+id/textView7"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="32dp"
-      android:text="Total Ammount"
-      android:textAppearance="@style/TextAppearance.AppCompat.Large"
-      android:textStyle="bold"
+  <LinearLayout
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_marginTop="58dp"
+      android:orientation="vertical"
+      app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.247"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/orderOrigin" />
+      app:layout_constraintTop_toTopOf="parent">
 
-  <TextView
-      android:id="@+id/textView9"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="32dp"
-      android:text="Payment Method"
-      android:textAppearance="@style/TextAppearance.AppCompat.Large"
-      android:textStyle="bold"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.264"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/orderAmount" />
 
-  <TextView
-      android:id="@+id/textView4"
-      android:layout_width="wrap_content"
-      android:layout_height="30dp"
-      android:layout_marginTop="80dp"
-      android:text="Deliver"
-      android:textAppearance="@style/TextAppearance.AppCompat.Large"
-      android:textStyle="bold"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.187"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="12dp"
+        android:text="Order and Delivder details"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.187"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-  <TextView
-      android:id="@+id/orderOrigin"
-      android:layout_width="258dp"
-      android:layout_height="27dp"
-      android:layout_marginStart="32dp"
-      android:layout_marginLeft="32dp"
-      android:layout_marginTop="20dp"
-      android:drawableLeft="@drawable/location"
-      android:text="TextView"
-      android:textStyle="italic"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/retailName" />
+    <TextView
+        android:id="@+id/retailName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="TextView" />
 
-  <RadioGroup
-      android:id="@+id/paymentMethod"
-      android:layout_width="282dp"
-      android:layout_height="100dp"
-      android:layout_marginStart="32dp"
-      android:layout_marginLeft="32dp"
-      android:layout_marginTop="32dp"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textView9">
-
-    <RadioButton
-        android:id="@+id/radioButton1"
+    <TextView
+        android:id="@+id/textView5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/cash_100"
-        android:text="Cash on Delivery" />
+        android:layout_margin="12dp"
+        android:text="Delivery address"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.247"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/orderOrigin" />
 
-    <RadioButton
-        android:id="@+id/radioButton2"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/retailLocation"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/credit_card"
-        android:text="Other" />
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:drawableLeft="@drawable/business"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-  </RadioGroup>
+    <TextView
+        android:id="@+id/orderOrigin"
+        android:layout_width="258dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:drawableLeft="@drawable/location"
+        android:text="TextView"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/retailName" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:text="Total Ammount"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.247"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/orderOrigin" />
+
+    <TextView
+        android:id="@+id/orderAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="Payment Method"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.264"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/orderAmount" />
+
+    <RadioGroup
+        android:id="@+id/paymentMethod"
+        android:layout_width="282dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9">
+
+      <RadioButton
+          android:id="@+id/radioButton1"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:drawableLeft="@drawable/cash_100"
+          android:text="Cash on Delivery" />
+
+      <RadioButton
+          android:id="@+id/radioButton2"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:drawableLeft="@drawable/credit_card"
+          android:text="Other" />
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/additionalNote"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="12dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Additional note: "
+        android:inputType="textMultiLine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paymentMethod" />
+
+  </LinearLayout>
 
   <Button
       android:id="@+id/placeOderButton"
-      android:layout_width="0dp"
+      android:layout_width="match_parent"
       android:layout_height="46dp"
       android:text="Place Order"
       android:textColor="@color/white"
@@ -107,32 +179,6 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent" />
-
-  <EditText
-      android:id="@+id/additionalNote"
-      android:layout_width="219dp"
-      android:layout_height="72dp"
-      android:layout_marginStart="32dp"
-      android:layout_marginLeft="32dp"
-      android:layout_marginTop="32dp"
-      android:ems="10"
-      android:gravity="start|top"
-      android:hint="Additional note: "
-      android:inputType="textMultiLine"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/paymentMethod" />
-
-  <TextView
-      android:id="@+id/retailName"
-      android:layout_width="254dp"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="32dp"
-      android:layout_marginLeft="32dp"
-      android:layout_marginTop="20dp"
-      android:drawableLeft="@drawable/business"
-      android:text="TextView"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
   <ProgressBar
       android:id="@+id/ChekoutProgressBar"

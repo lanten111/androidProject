@@ -1,4 +1,4 @@
-package co.za.foodscout.activities;
+package co.za.foodscout.activities.order;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,11 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.za.foodscout.Adapters.OrderViewAdapter;
-import co.za.foodscout.Domain.Collections;
+import co.za.foodscout.Domain.Enum.Collections;
 import co.za.foodscout.Domain.FireStoreCart;
 import co.za.foodscout.Domain.FirestoreDelivery;
 import co.za.foodscout.Domain.FirestoreUser;
 import co.za.foodscout.Domain.Restaurant.Restaurant;
+import co.za.foodscout.activities.DrawerActivity;
 import foodscout.R;
 
 public class CartViewActivity extends DrawerActivity {
