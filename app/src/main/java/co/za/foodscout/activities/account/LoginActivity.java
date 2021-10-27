@@ -151,6 +151,7 @@ public class LoginActivity extends AppCompatActivity {
         emailLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                emailLoginButton.setEnabled(false);
                 loginProgressBar.setVisibility(View.VISIBLE);
                 login(email.getText().toString(), password.getText().toString(), loginProgressBar);
             }
@@ -223,12 +224,14 @@ public class LoginActivity extends AppCompatActivity {
         verifyOpt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                verifyOpt.setEnabled(false);
                 String otpUserCodeStr = otpUserCode.getText().toString();
                 if (!otpUserCodeStr.isEmpty()){
                     PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(verificationId, otpUserCodeStr);
                     phoneSignIn(phoneAuthCredential, loginProgressBar);
                 } else {
                     Toast.makeText(LoginActivity.this, "OTP Code cannot be empty", Toast.LENGTH_SHORT).show();
+                    verifyOpt.setEnabled(true);
                 }
             }
         });
@@ -292,12 +295,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(AuthResult authResult) {
                 checkUserRole(progressBar, firebaseAuth.getCurrentUser().getUid());
+                verifyOpt.setEnabled(true);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                verifyOpt.setEnabled(true);
             }
         });
     }

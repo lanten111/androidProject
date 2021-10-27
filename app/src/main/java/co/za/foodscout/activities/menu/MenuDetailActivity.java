@@ -73,9 +73,9 @@ public class MenuDetailActivity extends DrawerActivity {
         TextView menuItemDesc = findViewById(R.id.menuItemtDesc);
         ImageView imageView = findViewById(R.id.menuDetailsImage);
         FloatingActionButton addToCart = findViewById(R.id.addToCartButton);
-        Button viewCart = findViewById(R.id.viewCartButton);
-        Chip viewPrice = findViewById(R.id.viewcartPrice);
-        Chip itemInCart = findViewById(R.id.itemInCart);
+        Button viewCart = findViewById(R.id.menuDetailsViewCartButton);
+        Chip viewPrice = findViewById(R.id.menuDetailsViewcartPrice);
+        Chip itemInCart = findViewById(R.id.menuDetailsItemInCart);
 //        Button addItem = findViewById(R.id.addMenuButton);
 //        Button removeItem = findViewById(R.id.removeMenuButton);
 
@@ -84,16 +84,20 @@ public class MenuDetailActivity extends DrawerActivity {
 //        TableRow tableRow = findViewById(R.id.RadioGroulinearLayoutchild0);
 
         //cchek if there is something in the cart
+        viewCart.setEnabled(false);
         firestore.collection(Collections.cart.name()).whereEqualTo("complete", false).whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 intemNumebrInCart = queryDocumentSnapshots.size();
                 List<FireStoreCart> fireStoreCartList = queryDocumentSnapshots.toObjects(FireStoreCart.class);
-                for (FireStoreCart fireStoreCart: fireStoreCartList){
-                    totalPrice = totalPrice + fireStoreCart.getItemPrice();
+                if (fireStoreCartList.size() > 0){
+                    viewCart.setEnabled(false);
+                    for (FireStoreCart fireStoreCart: fireStoreCartList){
+                        totalPrice = totalPrice + fireStoreCart.getItemPrice();
+                    }
+                    viewPrice.setText("R "+totalPrice.toString());
+                    itemInCart.setText("In cart "+ String.valueOf(intemNumebrInCart));
                 }
-                viewPrice.setText("R "+totalPrice.toString());
-                itemInCart.setText("In cart "+ String.valueOf(intemNumebrInCart));
             }
         });
 
@@ -260,6 +264,7 @@ public class MenuDetailActivity extends DrawerActivity {
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                addToCart.setEnabled(false);
                 totalPrice = totalPrice + menu.getMenuItemPrice();
                 List<MenuAddons> menuAddonsList = new ArrayList<>();
                 for (MenuAddons menuAddons : cartMenuAddonsList) {
@@ -305,6 +310,7 @@ public class MenuDetailActivity extends DrawerActivity {
                             public void onSuccess(Void unused) {
                                 viewPrice.setText("R " + totalPrice.toString());
                                 Toast.makeText(MenuDetailActivity.this, "Added item to cart", Toast.LENGTH_SHORT).show();
+                                addToCart.setEnabled(true);
                                 firestore.collection(Collections.cart.name()).whereEqualTo("complete", false).whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                     @Override
                                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {

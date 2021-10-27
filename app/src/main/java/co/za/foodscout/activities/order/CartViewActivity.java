@@ -26,6 +26,7 @@ import co.za.foodscout.Domain.FirestoreDelivery;
 import co.za.foodscout.Domain.FirestoreUser;
 import co.za.foodscout.Domain.Restaurant.Restaurant;
 import co.za.foodscout.activities.DrawerActivity;
+import co.za.foodscout.activities.retail.RetailsActivity;
 import foodscout.R;
 
 public class CartViewActivity extends DrawerActivity {
@@ -53,6 +54,9 @@ public class CartViewActivity extends DrawerActivity {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 fireStoreCartList = queryDocumentSnapshots.toObjects(FireStoreCart.class);
+                if (fireStoreCartList.size() <= 0){
+                    startActivity(new Intent(getApplicationContext(), RetailsActivity.class));
+                }
                 RecyclerView recyclerView = findViewById(R.id.orderSummaryRecycleView);
                 OrderViewAdapter adapter = new OrderViewAdapter(CartViewActivity.this, fireStoreCartList, firestore);
                 recyclerView.setHasFixedSize(false);
@@ -66,7 +70,9 @@ public class CartViewActivity extends DrawerActivity {
         checkOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                checkOutButton.setEnabled(false);
                 startActivity(new Intent(CartViewActivity.this, CheckOutActivity.class));
+                checkOutButton.setEnabled(true);
             }
         });
     }

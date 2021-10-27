@@ -31,17 +31,17 @@
     </LinearLayout>
 
 
-<!--    <ProgressBar-->
-<!--        android:id="@+id/orderProgressBar"-->
-<!--        style="@style/Widget.AppCompat.ProgressBar.Horizontal"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="8dp"-->
-<!--        android:layout_marginTop="51dp"-->
-<!--        android:indeterminate="true"-->
-<!--        android:theme="@style/ProgressBarStyle"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.533"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <ProgressBar
+        android:id="@+id/userViewProgressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="8dp"
+        android:layout_marginTop="51dp"
+        android:indeterminate="true"
+        android:theme="@style/ProgressBarStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

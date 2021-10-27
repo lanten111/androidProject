@@ -2,6 +2,7 @@ package co.za.foodscout.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,9 +54,14 @@ public class SellerViewListAdapter extends RecyclerView.Adapter<SellerViewListAd
                 FirestoreUser firestoreUser = documentSnapshot.toObject(FirestoreUser.class);
                 holder.orderNumber.setText("Order#"+orders.getOrderNumber());
                 holder.user.setText("Order by "+firestoreUser.getName());
+                holder.sellerPhone.setText(firestoreUser.getPhone());
+                holder.amount.setText(Html.fromHtml("Paid amount:" + "<font color=#f57f17>" +" R"+orders.getTotalPrice()));
                 for (FireStoreCart cart: orders.getCartList()){
                     TextView textView = new TextView(context);
-                    textView.setText(" - " + cart.getItemName());
+                    textView.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.food, 0, 0 ,0);
+                    textView.setText(cart.getItemName());
+                    textView.setTextSize(16);
+                    textView.setCompoundDrawablePadding(12);
                     holder.layout.addView(textView);
                 }
             }
@@ -80,6 +86,8 @@ public class SellerViewListAdapter extends RecyclerView.Adapter<SellerViewListAd
         TextView user;
         TextView orderNumber;
         TextView orderName;
+        TextView sellerPhone;
+        TextView amount;
         MaterialCardView cardView;
         LinearLayout layout;
 
@@ -88,6 +96,8 @@ public class SellerViewListAdapter extends RecyclerView.Adapter<SellerViewListAd
             user = itemView.findViewById(R.id.SellerUserName);
             orderNumber = itemView.findViewById(R.id.SellerOrderNumber);
             orderName = itemView.findViewById(R.id.SellerOrderContact);
+            sellerPhone = itemView.findViewById(R.id.sellerPhone);
+            amount = itemView.findViewById(R.id.amount);
             layout = itemView.findViewById(R.id.sellerOrderListLayout);
             cardView = itemView.findViewById(R.id.sellerCardView);
         }

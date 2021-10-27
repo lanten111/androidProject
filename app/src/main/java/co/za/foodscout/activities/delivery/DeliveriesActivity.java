@@ -1,6 +1,7 @@
 package co.za.foodscout.activities.delivery;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,7 +16,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
@@ -60,10 +63,10 @@ public class DeliveriesActivity extends DrawerActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 firestoreUser = documentSnapshot.toObject(FirestoreUser.class);
-                firestore.collection(Collections.delivery.name()).whereEqualTo("delivered", false).orderBy("dateCreated").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                firestore.collection(Collections.delivery.name()).whereEqualTo("delivered", false).orderBy("dateCreated").addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        List<FirestoreDelivery> firestoreDeliveryList = queryDocumentSnapshots.toObjects(FirestoreDelivery.class);
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        List<FirestoreDelivery> firestoreDeliveryList = value.toObjects(FirestoreDelivery.class);
                         if (firestoreDeliveryList.size() == 0){
                             noDelivery.setVisibility(View.VISIBLE);
                         }
@@ -75,17 +78,9 @@ public class DeliveriesActivity extends DrawerActivity {
                         recyclerView.setHasFixedSize(false);
                         loginProgressBar.setVisibility(View.INVISIBLE);
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        System.out.println(e.getMessage());
-                        Toast.makeText(DeliveriesActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        loginProgressBar.setVisibility(View.INVISIBLE);
-                    }
                 });
             }
         });
-
 
     }
 

@@ -18,8 +18,17 @@ public class FireStoreOrders {
     Boolean complete;
     List<FireStoreCart> cartList;
     Boolean isPaid;
+    Double totalPrice;
     Timestamp dateCreated;
     Timestamp dateUpdated;
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
     public Timestamp getDateCreated() {
         return dateCreated;

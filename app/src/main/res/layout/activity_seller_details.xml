@@ -10,7 +10,8 @@
       android:id="@+id/deliveriesCardView"
       android:layout_width="0dp"
       android:layout_height="0dp"
-      android:layout_marginTop="8dp"
+      android:layout_marginTop="50dp"
+      android:layout_marginBottom="50dp"
       android:background="@drawable/rounded_corner_cards"
       android:checkable="true"
       android:clickable="true"
@@ -22,99 +23,99 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="@id/SellerProgressBar">
 
-    <LinearLayout
-        android:id="@+id/sellerOrderLayout"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:background="@drawable/rounded_corner_cards"
-        android:orientation="vertical">
-
-      <!-- Title, secondary and supporting text -->
-
-
-      <TextView
-          android:id="@+id/SellerUserName"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginStart="8dp"
-          android:layout_marginLeft="8dp"
-          android:layout_marginTop="8dp"
-          android:layout_marginBottom="8dp"
-          android:drawableLeft="@drawable/account"
-          android:text="TextView" />
-
-      <TextView
-          android:id="@+id/SellerOrderContact"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginStart="8dp"
-          android:layout_marginLeft="8dp"
-          android:layout_marginBottom="8dp"
-          android:drawableLeft="@drawable/phone"
-          android:text="TextView"
-          android:textSize="16sp" />
-
-      <TextView
-          android:id="@+id/SellerOrderNumber"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginStart="8dp"
-          android:layout_marginLeft="8dp"
-          android:layout_marginBottom="8dp"
-          android:text="TextView"
-          android:textSize="16sp" />
+        android:layout_height="match_parent">
 
       <LinearLayout
-          android:id="@+id/SellerOrderDetailLinearLayout"
+          android:id="@+id/sellerOrderLayout"
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginStart="16dp"
-          android:layout_marginLeft="16dp"
-          android:layout_marginBottom="8dp"
+          android:layout_height="match_parent"
+          android:layout_margin="8dp"
+          android:background="@drawable/rounded_corner_cards"
           android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/SellerOrderNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:text="TextView"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/SellerUserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="2dp"
+            android:drawablePadding="4dp"
+            android:drawableLeft="@drawable/account"
+            android:text="TextView"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/SellerOrderContact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="2dp"
+            android:drawablePadding="4dp"
+            android:drawableLeft="@drawable/phone"
+            android:text="TextView"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/totalPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="8dp"
+            android:drawablePadding="4dp"
+            android:drawableLeft="@drawable/cash_100"
+            android:text="TextView"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/SellerOrderDetailLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/sellerAdditionaHead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="end"
+            android:text="User additional Notes"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/SellerAddtionalNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="TextView"
+            android:textSize="16sp" />
 
       </LinearLayout>
 
-      <TextView
-          android:id="@+id/SellerAddtionalNotes"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginStart="16dp"
-          android:layout_marginLeft="16dp"
-          android:layout_marginBottom="8dp"
-          android:text="TextView"
-          android:textSize="16sp" />
-
-      <TextView
-          android:id="@+id/SellerDeliveriesTo"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginStart="8dp"
-          android:layout_marginLeft="8dp"
-          android:layout_marginBottom="8dp"
-          android:text="to"
-          android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-          android:textColor="?android:attr/textColorSecondary"
-          android:textSize="16sp"
-          android:textStyle="italic" />
-
-      <Button
-          android:id="@+id/sellerCancelOrder2"
-          android:layout_width="match_parent"
-          android:layout_height="50dp"
-          android:layout_marginStart="8dp"
-          android:layout_marginLeft="8dp"
-          android:layout_marginEnd="8dp"
-          android:layout_marginRight="8dp"
-          android:text="Order Ready"
-          android:textSize="12sp"
-          app:backgroundTint="@color/buttons"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/textInputLayout10" />
-
-    </LinearLayout>
+    </ScrollView>
 
   </com.google.android.material.card.MaterialCardView>
 
@@ -130,5 +131,29 @@
       app:layout_constraintHorizontal_bias="0.0"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
+
+
+  <Button
+      android:id="@+id/orderReady"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:text="Order Ready"
+      android:textSize="12sp"
+      app:backgroundTint="@color/buttons"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent" />
+
+  <Button
+      android:id="@+id/sellerCancelOrder"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:drawableLeft="@drawable/phone"
+      android:text="Call User"
+      android:textSize="12sp"
+      app:backgroundTint="@color/main_theme_second"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/SellerProgressBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

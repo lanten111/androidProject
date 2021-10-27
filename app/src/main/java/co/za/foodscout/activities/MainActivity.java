@@ -47,7 +47,7 @@ public class MainActivity extends DrawerActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
+        getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
 
 //        ProgressBar loginProgressBar = findViewById(R.id.MainProgressBar);
 //        TextView welcomeText = findViewById(R.id.welcomeTextView);
@@ -57,8 +57,8 @@ public class MainActivity extends DrawerActivity{
         getIntent().setAction("main");
 
 //        firstButtonSignIn = findViewById(R.id.Mainbutton);
-//        permissionButton = findViewById(R.id.permissionButton);
-//        permissionButton.setVisibility(View.INVISIBLE);
+        permissionButton = findViewById(R.id.permissionButton);
+
         checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, 13);
         if (firebaseAuth.getCurrentUser() != null){
             db.collection(Collections.user.name()).document(firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -126,15 +126,18 @@ public class MainActivity extends DrawerActivity{
         LocationDeniedToast = Toast.makeText(MainActivity.this, "Location Permission Denied, please allow location permission in order to use the app", Toast.LENGTH_LONG);
         if (requestCode == 13) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                firstButtonSignIn.setVisibility(View.VISIBLE);
-                permissionButton.setVisibility(View.INVISIBLE);
+//                firstButtonSignIn.setVisibility(View.VISIBLE);
+//                permissionButton.setVisibility(View.INVISIBLE);
                 LocationDeniedToast.cancel();
                 Toast.makeText(MainActivity.this, "Location Permission Granted", Toast.LENGTH_SHORT) .show();
+                initialCheck();
             }
             else {
-                firstButtonSignIn.setVisibility(View.INVISIBLE);
-                permissionButton.setVisibility(View.VISIBLE);
+//                firstButtonSignIn.setVisibility(View.INVISIBLE);
+//                permissionButton.setVisibility(View.VISIBLE);
                 LocationDeniedToast.show();
+                return;
+//                checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, 13);
             }
         }
     }

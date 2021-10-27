@@ -3,6 +3,8 @@ package co.za.foodscout.Domain;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.GeoPoint;
 
+import co.za.foodscout.Domain.Enum.DeliveryStatus;
+
 public class FirestoreDelivery {
 
     String id;
@@ -18,7 +20,7 @@ public class FirestoreDelivery {
     String userNames;
     String driverName;
     String contactNo;
-    String deliveryStatus;
+    DeliveryStatus deliveryStatus;
     Timestamp dateCreated;
     Timestamp dateUpdated;
     Timestamp dateDelivered;
@@ -129,11 +131,11 @@ public class FirestoreDelivery {
         this.contactNo = contactNo;
     }
 
-    public String getDeliveryStatus() {
+    public DeliveryStatus getDeliveryStatus() {
         return deliveryStatus;
     }
 
-    public void setDeliveryStatus(String deliveryStatus) {
+    public void setDeliveryStatus(DeliveryStatus deliveryStatus) {
         this.deliveryStatus = deliveryStatus;
     }
 

@@ -59,18 +59,13 @@ public class UserOrderViewActivity extends DrawerActivity {
             Toast.makeText(this, "Please login first", Toast.LENGTH_LONG).show();
         }
 
-        ProgressBar progressBar = findViewById(R.id.userOrderProgressBar);
+        ProgressBar progressBar = findViewById(R.id.userViewProgressBar);
 
         ViewPager2 viewpager = findViewById(R.id.view_pager);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
 
         getIntent().setAction("orderView");
 
-//        SupportMapFragment mapFragment = (SupportMapFragment) this.getSupportFragmentManager()
-//                .findFragmentById(R.id.OrderDeliveryMap);
-
-
-//        progressBar.setVisibility(View.INVISIBLE);
         firestore.collection(Collections.delivery.name()).whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid()).whereEqualTo("delivered", false).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {

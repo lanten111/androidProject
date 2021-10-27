@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.za.foodscout.Domain.Enum.Collections;
-import co.za.foodscout.Domain.Enum.OrderStatus;
+import co.za.foodscout.Domain.Enum.DeliveryStatus;
 import co.za.foodscout.Domain.FirestoreUser;
 import co.za.foodscout.Utils.Utils;
 import co.za.foodscout.activities.delivery.DeliveryDetailsActivity;
@@ -51,28 +51,21 @@ public class DeliveryListAdapter extends RecyclerView.Adapter<DeliveryListAdapte
         final FirestoreDelivery firestoreDelivery = firestoreDeliveryList.get(position);
         holder.fromRetail.setText("From: "+ Utils.getAddress(firestoreDelivery.getRetailLocation(), context));
         holder.userDestination.setText("To: "+Utils.getAddress(firestoreDelivery.getUserLocation(), context));
-        holder.orderDetails.setText("Order for "+firestoreDelivery.getUserNames()+"  Contact No: "+firestoreDelivery.getContactNo());
+        holder.orderDetails.setText("Order for "+firestoreDelivery.getUserNames());
+        holder.contact.setText(firestoreDelivery.getContactNo());
+        holder.orderNumber.setText("Order#"+firestoreDelivery.getOrderNumber());
         if (firestoreDelivery.isAssigned()){
-            holder.deliveryStatus.setText(firestoreDelivery.getDeliveryStatus() +" by "+firestoreDelivery.getDriverName());
+            holder.deliveryStatus.setText("Order Status: "+ firestoreDelivery.getDeliveryStatus() +" by "+firestoreDelivery.getDriverName());
         } else {
-            holder.deliveryStatus.setText(firestoreDelivery.getDeliveryStatus());
+            holder.deliveryStatus.setText("Order Status: "+ firestoreDelivery.getDeliveryStatus().getDescription());
         }
-        holder.deliveryStatus.setText(OrderStatus.Preparing.getDescription());
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                firestoreDelivery.setDeliveryStatus(OrderStatus.OnRoute.name());
-//                firestoreDelivery.setDeliveryPicked(true);
-                firestoreDelivery.setAssigned(true);
-                firestoreDelivery.setAssigneeId(firestoreUser.getId());
-                firestoreDelivery.setDriverName(firestoreUser.getName());
-                firestore.collection(Collections.delivery.name()).document(firestoreDelivery.getId()).set(firestoreDelivery).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Intent intent = new Intent(context, DeliveryDetailsActivity.class);
-                        context.startActivity(intent);
-                    }
-                });
+                Intent intent = new Intent(context, DeliveryDetailsActivity.class);
+                intent.putExtra("deliveryId", firestoreDelivery.getId());
+                context.startActivity(intent);
+
             }
         });
     }
@@ -89,6 +82,8 @@ public class DeliveryListAdapter extends RecyclerView.Adapter<DeliveryListAdapte
         TextView orderDetails;
         TextView deliveryStatus;
         View relativeLayout;
+        TextView contact;
+        TextView orderNumber;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -97,6 +92,8 @@ public class DeliveryListAdapter extends RecyclerView.Adapter<DeliveryListAdapte
             orderDetails = itemView.findViewById(R.id.deliveriesOrderDetailTxt);
             relativeLayout = itemView.findViewById(R.id.deliveriesCardView);
             deliveryStatus = itemView.findViewById(R.id.deliveriesStatusTxt);
+            contact = itemView.findViewById(R.id.userContact);
+            orderNumber = itemView.findViewById(R.id.driverOrderNumber);
         }
 
     }

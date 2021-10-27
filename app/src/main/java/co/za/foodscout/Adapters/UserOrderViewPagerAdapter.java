@@ -27,7 +27,6 @@ import java.util.List;
 
 import co.za.foodscout.Domain.Enum.Collections;
 import co.za.foodscout.Domain.DeliveryTime;
-import co.za.foodscout.Domain.Enum.OrderStatus;
 import co.za.foodscout.Domain.FireStoreCart;
 import co.za.foodscout.Domain.FireStoreOrders;
 import co.za.foodscout.Domain.FirestoreDelivery;
@@ -74,17 +73,12 @@ public class UserOrderViewPagerAdapter extends RecyclerView.Adapter<UserOrderVie
                     orderName.setText(cart.getItemName());
                     holder.retailNameLayout.addView(orderName);
                 }
-//                holder.orderName.setText(items.toString());
                 holder.retailName.setText(fireStoreOrders.getRetailName());
                 holder.orderFrom.setText("  From: " + Utils.getAddress(firestoreDelivery.getRetailLocation(), context));
                 holder.orderTo.setText("TO: " + Utils.getAddress(firestoreDelivery.getUserLocation(), context));
                 getDeliveryTime(mOrigin, mDestination, holder.deliveryTime);
-                holder.orderHead.setText("Order Status: "+ OrderStatus.Preparing.getDescription());
-
-//                progressBar.setVisibility(View.INVISIBLE);
-//                setDirection(firestoreDelivery.getId());
-//        Toast.makeText(context, "Order completed", Toast.LENGTH_SHORT).show();
-//        context.startActivity(new Intent(UserOrderViewActivity.this, RetailsActivity.class));
+                holder.orderHead.setText("Order Status: "+ firestoreDelivery.getDeliveryStatus().getDescription());
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 

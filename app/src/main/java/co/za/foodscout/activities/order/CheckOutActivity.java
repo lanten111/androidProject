@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.UUID;
 
 import co.za.foodscout.Domain.Enum.Collections;
+import co.za.foodscout.Domain.Enum.DeliveryStatus;
 import co.za.foodscout.Domain.FireStoreCart;
 import co.za.foodscout.Domain.FireStoreOrders;
 import co.za.foodscout.Domain.FirestoreDelivery;
@@ -71,6 +72,9 @@ public class CheckOutActivity extends DrawerActivity {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 fireStoreCartList = queryDocumentSnapshots.toObjects(FireStoreCart.class);
+                if (fireStoreCartList.size() <= 0){
+                    startActivity(new Intent(getApplicationContext(), RetailsActivity.class));
+                }
                 retailName.setText(fireStoreCartList.get(0).getRetailName());
                 retailLocation.setText(" " +Utils.getAddress(fireStoreCartList.get(0).getDestination(), CheckOutActivity.this));
                 orderOrigin.setText("Restaurant Adress: "+Utils.getAddress(fireStoreCartList.get(0).getOrigin(), CheckOutActivity.this));
@@ -95,9 +99,11 @@ public class CheckOutActivity extends DrawerActivity {
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                placeOrder.setEnabled(false);
                 String orderId = UUID.randomUUID().toString();
                 if (paymentMethod.getCheckedRadioButtonId() == -1){
                     Toast.makeText(CheckOutActivity.this, "Please select payment method", Toast.LENGTH_SHORT).show();
+                    placeOrder.setEnabled(true);
                     return;
                 }
                 progressBar.setVisibility(View.VISIBLE);
@@ -110,6 +116,7 @@ public class CheckOutActivity extends DrawerActivity {
                 fireStoreOrders.setCartList(fireStoreCartList);
                 fireStoreOrders.setPaid(false);
                 fireStoreOrders.setRetailName(fireStoreCartList.get(0).getRetailName());
+                fireStoreOrders.setTotalPrice(totalPrice);
                 fireStoreOrders.setDateCreated(Timestamp.now());
                 fireStoreOrders.setDateUpdated(Timestamp.now());
                 firestore.collection(Collections.order.name()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -132,6 +139,7 @@ public class CheckOutActivity extends DrawerActivity {
                                 firestoreDelivery.setRetailId(fireStoreOrders.getRetailId());
                                 firestoreDelivery.setOrderId(fireStoreOrders.getId());
                                 firestoreDelivery.setOrderNumber(fireStoreOrders.getOrderNumber());
+                                firestoreDelivery.setDeliveryStatus(DeliveryStatus.Preparing);
                                 firestore.collection(Collections.user.name()).document(firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                     @Override
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -151,6 +159,7 @@ public class CheckOutActivity extends DrawerActivity {
                                                         @Override
                                                         public void onSuccess(Void unused) {
                                                             Toast.makeText(CheckOutActivity.this, "Order successfully placed", Toast.LENGTH_SHORT).show();
+                                                            placeOrder.setEnabled(true);
                                                         }
                                                     });
                                                 }
@@ -167,6 +176,7 @@ public class CheckOutActivity extends DrawerActivity {
             }
         });
     }
+
     @Override
     protected void onResume() {
         String action = getIntent().getAction();

@@ -6,6 +6,62 @@
     android:layout_height="match_parent"
     tools:context=".MenuActivity">
 
+
+    <LinearLayout
+        android:id="@+id/BottoPaneMenuLayout"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/menuItemInCart"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_gravity="start"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:textColor="@color/buttons"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/menuDetailsViewCartButton"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/menuIViewCartButton"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="2"
+            android:text="View Cart"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/buttons"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/menuIViewcartPrice"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_gravity="right"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_weight="1"
+            android:textColor="@color/buttons"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/menuDetailsViewCartButton" />
+
+    </LinearLayout>
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/menuRetailCardView"
         android:layout_width="0dp"
@@ -15,7 +71,7 @@
         android:focusable="true"
         android:gravity="center"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/BottoPaneMenuLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/menuProgressBar">
@@ -75,16 +131,16 @@
                 app:drawableStartCompat="@drawable/location_small" />
 
 
-<!--            <TextView-->
-<!--                android:id="@+id/menuRetailRating"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_margin="2dp"-->
-<!--                android:text="@string/loading"-->
-<!--                android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
-<!--                android:textSize="12sp"-->
-<!--                android:textStyle="bold"-->
-<!--                app:drawableLeftCompat="@drawable/star_outline" />-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/menuRetailRating"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_margin="2dp"-->
+            <!--                android:text="@string/loading"-->
+            <!--                android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+            <!--                android:textSize="12sp"-->
+            <!--                android:textStyle="bold"-->
+            <!--                app:drawableLeftCompat="@drawable/star_outline" />-->
 
             <TextView
                 android:id="@+id/menuRetailDeliveryTime"
@@ -108,7 +164,7 @@
                     android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    app:tabTextAppearance="@style/tabTextSize"/>
+                    app:tabTextAppearance="@style/tabTextSize" />
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/view_pager"

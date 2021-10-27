@@ -39,44 +39,62 @@
 
 
             <TextView
-                android:id="@+id/orderTxt"
+                android:id="@+id/SellerOrderNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:text="New Order"
+                android:text="TextView"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/SellerUserName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="2dp"
+                android:drawableLeft="@drawable/account"
+                android:drawablePadding="4dp"
                 android:text="TextView"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/SellerOrderNumber"
+                android:id="@+id/amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginLeft="18dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="2dp"
+                android:drawableLeft="@drawable/cash_100"
+                android:drawablePadding="4dp"
+                android:text="TextView"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/sellerPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="TextView" />
+                android:drawableLeft="@drawable/phone"
+                android:drawablePadding="4dp"
+                android:text="TextView"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:id="@+id/sellerOrderListLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginLeft="28dp"
                 android:layout_marginBottom="8dp"
                 android:orientation="vertical"></LinearLayout>
 

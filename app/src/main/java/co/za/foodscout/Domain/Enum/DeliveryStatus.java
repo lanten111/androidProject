@@ -1,16 +1,17 @@
 package co.za.foodscout.Domain.Enum;
 
-public enum OrderStatus {
+public enum DeliveryStatus {
 
     Preparing("Order bing prepared"),
     OnRoute("Delivery On route"),
     Arrived("Driver has arrived"),
     Ready("Ready for Pickup"),
-    New("New order, Click for more details");
+    New("New order, Click for more details"),
+    Completed("Order Complete");
 
     private final String status;
 
-    OrderStatus(String status) {
+    DeliveryStatus(String status) {
         this.status = status;
     }
 
