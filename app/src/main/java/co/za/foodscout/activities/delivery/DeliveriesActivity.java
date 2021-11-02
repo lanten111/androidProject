@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -53,11 +54,11 @@ public class DeliveriesActivity extends DrawerActivity {
         TextView orderDetail = findViewById(R.id.deliveriesOrderDetailTxt);
         TextView deliveryStatus = findViewById(R.id.deliveriesStatusTxt);
         TextView noDelivery = findViewById(R.id.NoDeliveryTxt);
+        CircularProgressIndicator circularProgressBar = findViewById(R.id.loadingBar);
+        RecyclerView recyclerView = findViewById(R.id.deliveriesRecycleView);
 
         noDelivery.setVisibility(View.INVISIBLE);
-        ProgressBar loginProgressBar = findViewById(R.id.DeliveriesProgressBar);
-        loginProgressBar.setProgress(50);
-        loginProgressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
 
         firestore.collection(Collections.user.name()).document(firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -66,17 +67,17 @@ public class DeliveriesActivity extends DrawerActivity {
                 firestore.collection(Collections.delivery.name()).whereEqualTo("delivered", false).orderBy("dateCreated").addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        recyclerView.setVisibility(View.VISIBLE);
+                        circularProgressBar.setVisibility(View.INVISIBLE);
                         List<FirestoreDelivery> firestoreDeliveryList = value.toObjects(FirestoreDelivery.class);
                         if (firestoreDeliveryList.size() == 0){
                             noDelivery.setVisibility(View.VISIBLE);
                         }
-                        RecyclerView recyclerView = findViewById(R.id.deliveriesRecycleView);
                         DeliveryListAdapter adapter = new DeliveryListAdapter(DeliveriesActivity.this, firestoreDeliveryList, firestore, firestoreUser);
                         recyclerView.setHasFixedSize(false);
                         recyclerView.setLayoutManager(new LinearLayoutManager(DeliveriesActivity.this));
                         recyclerView.setAdapter(adapter);
                         recyclerView.setHasFixedSize(false);
-                        loginProgressBar.setVisibility(View.INVISIBLE);
                     }
                 });
             }

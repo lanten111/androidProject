@@ -4,10 +4,14 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -23,6 +27,8 @@ import co.za.foodscout.Domain.Enum.Collections;
 import co.za.foodscout.Domain.FireStoreOrders;
 import co.za.foodscout.Domain.FirestoreUser;
 import co.za.foodscout.activities.DrawerActivity;
+import co.za.foodscout.activities.account.LoginActivity;
+import co.za.foodscout.activities.delivery.DeliveryDetailsActivity;
 import foodscout.R;
 
 public class SellerViewActivity extends DrawerActivity {
@@ -37,22 +43,45 @@ public class SellerViewActivity extends DrawerActivity {
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_seller_view, frameLayout);
 
-        ProgressBar progressBar = findViewById(R.id.SellerProgressBar);
+        getIntent().setAction("seller");
 
-        firestore.collection(Collections.order.name()).whereEqualTo("retailId", firebaseAuth.getCurrentUser().getUid()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        RecyclerView recyclerView = findViewById(R.id.selleerViewRecycledView);
+        CircularProgressIndicator circularProgressBar = findViewById(R.id.loadingBar);
+        TextView noData = findViewById(R.id.noDeliveryTxt);
+        recyclerView.setVisibility(View.INVISIBLE);
+
+        checkIfUserLoggedIn();
+        noData.setVisibility(View.INVISIBLE);
+        String id = firebaseAuth.getCurrentUser().getUid();
+        firestore.collection(Collections.order.name()).whereEqualTo("retailId", id).whereEqualTo("orderReady", false).whereEqualTo("complete", false).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                progressBar.setVisibility(View.VISIBLE);
+                noData.setVisibility(View.INVISIBLE);
                 List<FireStoreOrders> fireStoreOrdersList = value.toObjects(FireStoreOrders.class);
-                RecyclerView recyclerView = findViewById(R.id.selleerViewRecycledView);
-                SellerViewListAdapter adapter = new SellerViewListAdapter(SellerViewActivity.this, fireStoreOrdersList, firestore);
+                if (fireStoreOrdersList.size() == 0){
+                    circularProgressBar.setVisibility(View.INVISIBLE);
+                    noData.setVisibility(View.VISIBLE);
+                    return;
+                }
+                SellerViewListAdapter adapter = new SellerViewListAdapter(SellerViewActivity.this, fireStoreOrdersList, firestore, circularProgressBar, recyclerView);
                 recyclerView.setHasFixedSize(false);
                 recyclerView.setLayoutManager(new LinearLayoutManager(SellerViewActivity.this));
                 recyclerView.setAdapter(adapter);
                 recyclerView.setHasFixedSize(false);
-                progressBar.setVisibility(View.INVISIBLE);
             }
         });
+    }
 
+    @Override
+    protected void onResume() {
+        String action = getIntent().getAction();
+        if(action == null || !action.equals("seller")) {
+            Intent intent = new Intent(this, SellerViewActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else
+            getIntent().setAction(null);
+        super.onResume();
     }
 }

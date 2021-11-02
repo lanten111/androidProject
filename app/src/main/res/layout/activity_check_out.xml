@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context="co.za.foodscout.activities.order.CheckOutActivity">
 
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/secondayLayout"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
+
   <LinearLayout
       android:layout_width="0dp"
       android:layout_height="0dp"
@@ -126,29 +136,13 @@
 
     <RadioGroup
         android:id="@+id/paymentMethod"
-        android:layout_width="282dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9">
-
-      <RadioButton
-          android:id="@+id/radioButton1"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:drawableLeft="@drawable/cash_100"
-          android:text="Cash on Delivery" />
-
-      <RadioButton
-          android:id="@+id/radioButton2"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:drawableLeft="@drawable/credit_card"
-          android:text="Other" />
-
-    </RadioGroup>
+        app:layout_constraintTop_toBottomOf="@+id/textView9"/>
 
     <EditText
         android:id="@+id/additionalNote"
@@ -180,14 +174,15 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent" />
 
-  <ProgressBar
-      android:id="@+id/ChekoutProgressBar"
-      style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-      android:layout_width="0dp"
-      android:layout_height="8dp"
-      android:layout_marginTop="51dp"
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <com.google.android.material.progressindicator.CircularProgressIndicator
+      android:id="@+id/loadingBar"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:elevation="7dp"
       android:indeterminate="true"
-      android:theme="@style/ProgressBarStyle"
+      app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />

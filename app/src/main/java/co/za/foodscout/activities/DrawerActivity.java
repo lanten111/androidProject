@@ -10,12 +10,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -121,6 +124,23 @@ public abstract class DrawerActivity extends AppCompatActivity {
             Intent intent = new Intent(this, RetailsActivity.class);
             startActivity(intent);
         }
+    }
+
+    public void checkIfUserLoggedIn(){
+        if (firebaseAuth.getCurrentUser() == null){
+            Toast.makeText(getApplicationContext(), "please login first", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        }
+    }
+
+    public void disabledWindow(CircularProgressIndicator circularProgressIndicator){
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        circularProgressIndicator.setVisibility(View.VISIBLE);
+    }
+
+    public void enableWindow(CircularProgressIndicator circularProgressIndicator){
+        circularProgressIndicator.setVisibility(View.INVISIBLE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     @Override

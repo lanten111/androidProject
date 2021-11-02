@@ -3,6 +3,7 @@ package co.za.foodscout.activities.order;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -11,7 +12,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -26,6 +30,7 @@ import java.util.UUID;
 
 import co.za.foodscout.Domain.Enum.Collections;
 import co.za.foodscout.Domain.Enum.DeliveryStatus;
+import co.za.foodscout.Domain.Enum.PaymentMethod;
 import co.za.foodscout.Domain.FireStoreCart;
 import co.za.foodscout.Domain.FireStoreOrders;
 import co.za.foodscout.Domain.FirestoreDelivery;
@@ -57,7 +62,11 @@ public class CheckOutActivity extends DrawerActivity {
         getLayoutInflater().inflate(R.layout.activity_check_out, frameLayout);
 
         getIntent().setAction("checkout");
-        ProgressBar progressBar = findViewById(R.id.ChekoutProgressBar);
+
+        CircularProgressIndicator circularProgressBar = findViewById(R.id.loadingBar);
+        ConstraintLayout constraintLayout = findViewById(R.id.secondayLayout);
+        constraintLayout.setVisibility(View.INVISIBLE);
+
         TextView orderOrigin = findViewById(R.id.orderOrigin);
         TextView orderAmount = findViewById(R.id.orderAmount);
         RadioGroup paymentMethod = findViewById(R.id.paymentMethod);
@@ -66,11 +75,21 @@ public class CheckOutActivity extends DrawerActivity {
         TextView retailLocation = findViewById(R.id.retailLocation);
         TextView retailName = findViewById(R.id.retailName);
 
-        progressBar.setVisibility(View.VISIBLE);
+
+        for (int i = 0; i < PaymentMethod.values().length; i++){
+            RadioButton radioButton = new RadioButton(CheckOutActivity.this);
+            radioButton.setId(i);
+            radioButton.setText(PaymentMethod.values()[i].getDescription());
+            radioButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.credit_card, 0, 0, 0);
+            paymentMethod.addView(radioButton);
+        }
 
         firestore.collection(Collections.cart.name()).whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid()).whereEqualTo("complete", false).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                circularProgressBar.setVisibility(View.INVISIBLE);
+                constraintLayout.setVisibility(View.VISIBLE);
+
                 fireStoreCartList = queryDocumentSnapshots.toObjects(FireStoreCart.class);
                 if (fireStoreCartList.size() <= 0){
                     startActivity(new Intent(getApplicationContext(), RetailsActivity.class));
@@ -82,31 +101,27 @@ public class CheckOutActivity extends DrawerActivity {
                     totalPrice = totalPrice + fireStoreCart.getItemPrice();
                 }
                 orderAmount.setText("R"+totalPrice.toString());
-                progressBar.setVisibility(View.INVISIBLE);
-//                placeOrder.setText("PLACE ORDER     R"+totalPrice);
             }
         });
 
         paymentMethod.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                RadioButton radioButton = new RadioButton(CheckOutActivity.this);
-                radioButton.setId(i);
-                fireStoreOrders.setPaymentMethod(radioButton.getText().toString());
+                RadioButton radioButton = findViewById(i);
+                fireStoreOrders.setPaymentMethod(PaymentMethod.findByDescription(radioButton.getText().toString()));
             }
         });
 
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                placeOrder.setEnabled(false);
+                disabledWindow(circularProgressBar);
                 String orderId = UUID.randomUUID().toString();
                 if (paymentMethod.getCheckedRadioButtonId() == -1){
                     Toast.makeText(CheckOutActivity.this, "Please select payment method", Toast.LENGTH_SHORT).show();
-                    placeOrder.setEnabled(true);
+                    enableWindow(circularProgressBar);
                     return;
                 }
-                progressBar.setVisibility(View.VISIBLE);
                 fireStoreOrders.setAdditionalOrderNote(additionalNote.getText().toString());
                 fireStoreOrders.setRetailId(fireStoreCartList.get(0).getRestaurantId());
                 fireStoreOrders.setUserId(firebaseAuth.getCurrentUser().getUid());
@@ -119,6 +134,7 @@ public class CheckOutActivity extends DrawerActivity {
                 fireStoreOrders.setTotalPrice(totalPrice);
                 fireStoreOrders.setDateCreated(Timestamp.now());
                 fireStoreOrders.setDateUpdated(Timestamp.now());
+                fireStoreOrders.setOrderReady(false);
                 firestore.collection(Collections.order.name()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -159,11 +175,10 @@ public class CheckOutActivity extends DrawerActivity {
                                                         @Override
                                                         public void onSuccess(Void unused) {
                                                             Toast.makeText(CheckOutActivity.this, "Order successfully placed", Toast.LENGTH_SHORT).show();
-                                                            placeOrder.setEnabled(true);
+                                                            enableWindow(circularProgressBar);
                                                         }
                                                     });
                                                 }
-                                                progressBar.setVisibility(View.INVISIBLE);
                                                 startActivity(new Intent(CheckOutActivity.this, UserOrderViewActivity.class));
                                             }
                                         });

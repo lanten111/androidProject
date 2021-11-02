@@ -60,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout otpUserCodeLayout;
     Button signInWithEmail;
     private long pressedTime;
+    Button emailLoginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +72,10 @@ public class LoginActivity extends AppCompatActivity {
 //            Toast.makeText(this, "Please login first", Toast.LENGTH_LONG).show();
 //        }
 
+        getIntent().setAction("login");
         ProgressBar loginProgressBar = findViewById(R.id.loginProgressBar);
         TextView registerButton = findViewById(R.id.buttonRegisterLogin);
-        Button emailLoginButton = findViewById(R.id.LoginEmailButton);
+        emailLoginButton = findViewById(R.id.LoginEmailButton);
         Button phoneLoginButton = findViewById(R.id.loginPhoneButton);
         signInWithEmail = findViewById(R.id.loginEmailPassword);
         Button signInWithPhone = findViewById(R.id.loginPhone);
@@ -110,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
         addDetails.setVisibility(View.INVISIBLE);
 
         phone.setText("+27659599252");
-        email.setText("seller@123.co.za");
+        email.setText("dev@123.co.za");
         password.setText("123456");
 
 
@@ -319,6 +321,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.INVISIBLE);
+                emailLoginButton.setEnabled(false);
             }
         });
     }
@@ -405,6 +408,19 @@ public class LoginActivity extends AppCompatActivity {
     Boolean isValidEmail(EditText email){
         CharSequence str = email.getText();
         return  !(Patterns.EMAIL_ADDRESS.matcher(str).matches());
+    }
+
+    @Override
+    protected void onResume() {
+        String action = getIntent().getAction();
+        if(action == null || !action.equals("login")) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else
+            getIntent().setAction(null);
+        super.onResume();
     }
 
     @Override

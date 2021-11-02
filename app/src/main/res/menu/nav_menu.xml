@@ -16,10 +16,19 @@
         android:titleCondensed="active_delivery"/>
 
     <item
+        android:id="@+id/nav_Completed_orders"
+        android:title="Completed orders"
+        android:titleCondensed="Completed_orders"/>
+
+    <item
         android:id="@+id/nav_completed_deliveries"
         android:title="@string/completed_deliveries"
-        android:titleCondensed="complete deliveries"/>
+        android:titleCondensed="complete_deliveries"/>
 
+    <item
+        android:id="@+id/nav_Active_Orders"
+        android:title="@string/active_orders"
+        android:titleCondensed="Active_orders"/>
 
     <item
         android:id="@+id/nav_order_history"

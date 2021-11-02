@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -31,12 +32,16 @@ public class SellerViewListAdapter extends RecyclerView.Adapter<SellerViewListAd
     private LayoutInflater mInflater;
     private Context context;
     private FirebaseFirestore firestore;
+    CircularProgressIndicator circularProgressIndicator;
+    RecyclerView recyclerView;
 
-    public SellerViewListAdapter(Context context, List<FireStoreOrders> firestoreDeliveryList, FirebaseFirestore firestore) {
+    public SellerViewListAdapter(Context context, List<FireStoreOrders> firestoreDeliveryList, FirebaseFirestore firestore, CircularProgressIndicator circularProgressIndicator, RecyclerView recyclerView) {
         this.fireStoreOrdersList = firestoreDeliveryList;
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.firestore = firestore;
+        this.circularProgressIndicator  = circularProgressIndicator;
+        this.recyclerView = recyclerView;
     }
 
     @Override  
@@ -64,6 +69,8 @@ public class SellerViewListAdapter extends RecyclerView.Adapter<SellerViewListAd
                     textView.setCompoundDrawablePadding(12);
                     holder.layout.addView(textView);
                 }
+                circularProgressIndicator.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
         });
         holder.cardView.setOnClickListener(new View.OnClickListener() {

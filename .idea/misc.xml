@@ -12,6 +12,7 @@
         <entry key="app/src/main/res/drawable-v21/ic_menu_slideshow.xml" value="0.5364583333333334" />
         <entry key="app/src/main/res/drawable-v21/rounded_corner_cards.xml" value="0.2942708333333333" />
         <entry key="app/src/main/res/drawable-v21/rounded_corner_recycle_view.xml" value="0.5215384615384615" />
+        <entry key="app/src/main/res/drawable-v24/devider.xml" value="0.19074074074074074" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.5364583333333334" />
         <entry key="app/src/main/res/drawable/account.xml" value="0.2578125" />
         <entry key="app/src/main/res/drawable/business.xml" value="0.2537037037037037" />
@@ -20,6 +21,8 @@
         <entry key="app/src/main/res/drawable/check_circle_outline.xml" value="0.34814814814814815" />
         <entry key="app/src/main/res/drawable/checkbox_blank_circle.xml" value="0.30462962962962964" />
         <entry key="app/src/main/res/drawable/circle_double.xml" value="0.2777777777777778" />
+        <entry key="app/src/main/res/drawable/circle_shape.xml" value="0.45" />
+        <entry key="app/src/main/res/drawable/circular_progresBar.xml" value="0.45" />
         <entry key="app/src/main/res/drawable/clock-small.xml" value="0.2942708333333333" />
         <entry key="app/src/main/res/drawable/clock_small.xml" value="0.2388888888888889" />
         <entry key="app/src/main/res/drawable/clock_time_eight_outline1.xml" value="0.2942708333333333" />
@@ -55,7 +58,7 @@
         <entry key="app/src/main/res/layout/activity_drawer.xml" value="0.353125" />
         <entry key="app/src/main/res/layout/activity_driver.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_log_in_with_phone.xml" value="0.3171875" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3578125" />
         <entry key="app/src/main/res/layout/activity_map.xml" value="0.43043043043043044" />
         <entry key="app/src/main/res/layout/activity_menu.xml" value="0.3412698412698413" />
@@ -65,8 +68,8 @@
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_register_raustarant.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_reset_password.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_retails.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/activity_seller_details.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/activity_retails.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_seller_details.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_seller_view.xml" value="0.23641304347826086" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_user_order_view.xml" value="0.2617753623188406" />
@@ -78,6 +81,7 @@
         <entry key="app/src/main/res/layout/fragment_nav.xml" value="0.23541666666666666" />
         <entry key="app/src/main/res/layout/fragment_welcome.xml" value="0.309375" />
         <entry key="app/src/main/res/layout/menu_items.xml" value="0.32222222222222224" />
+        <entry key="app/src/main/res/layout/menu_view_pager.xml" value="0.4361413043478261" />
         <entry key="app/src/main/res/layout/order_summary_list.xml" value="0.33" />
         <entry key="app/src/main/res/layout/raunded_corner.xml" value="0.24974670719351572" />
         <entry key="app/src/main/res/layout/retail_list.xml" value="0.4238921001926782" />

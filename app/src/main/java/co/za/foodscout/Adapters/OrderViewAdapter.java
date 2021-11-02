@@ -1,12 +1,15 @@
 package co.za.foodscout.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -19,7 +22,9 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.type.Color;
 
 import java.util.List;
 
@@ -27,6 +32,8 @@ import co.za.foodscout.Domain.Enum.Collections;
 import co.za.foodscout.Domain.FireStoreCart;
 import co.za.foodscout.Domain.Restaurant.Addons;
 import co.za.foodscout.Domain.Restaurant.MenuAddons;
+import co.za.foodscout.activities.delivery.DeliveryDetailsActivity;
+import co.za.foodscout.activities.order.CartViewActivity;
 import foodscout.R;
 
 public class OrderViewAdapter extends RecyclerView.Adapter<OrderViewAdapter.ViewHolder>{
@@ -35,12 +42,17 @@ public class OrderViewAdapter extends RecyclerView.Adapter<OrderViewAdapter.View
     private final Context context;
     private final List<FireStoreCart> fireStoreCartList;
     private final FirebaseFirestore firestore;
+    private final Window window;
+    private final CircularProgressIndicator circularProgressIndicator;
 
-    public OrderViewAdapter(Context context, List<FireStoreCart> fireStoreCartList, FirebaseFirestore firestore){
+    public OrderViewAdapter(Context context, List<FireStoreCart> fireStoreCartList, FirebaseFirestore firestore, Window window, CircularProgressIndicator circularProgressIndicator){
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.fireStoreCartList = fireStoreCartList;
         this.firestore = firestore;
+        this.circularProgressIndicator = circularProgressIndicator;
+        this.window = window;
+
     }
 
     @Override
@@ -101,6 +113,8 @@ public class OrderViewAdapter extends RecyclerView.Adapter<OrderViewAdapter.View
         deleteItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                circularProgressIndicator.setVisibility(View.VISIBLE);
                 FireStoreCart fireStoreCart1 = fireStoreCartList.get(deleteItemBtn.getId());
                 firestore.collection(Collections.cart.name()).document(fireStoreCart1.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -109,6 +123,8 @@ public class OrderViewAdapter extends RecyclerView.Adapter<OrderViewAdapter.View
                         notifyItemRemoved(deleteItemBtn.getId());
                         Toast.makeText(context, "item removed", Toast.LENGTH_SHORT).show();
                         notifyDataSetChanged();
+                        circularProgressIndicator.setVisibility(View.INVISIBLE);
+                        window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     }
                 });
             }

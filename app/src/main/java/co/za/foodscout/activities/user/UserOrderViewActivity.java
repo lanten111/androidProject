@@ -5,6 +5,9 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +15,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,11 +63,13 @@ public class UserOrderViewActivity extends DrawerActivity {
             Toast.makeText(this, "Please login first", Toast.LENGTH_LONG).show();
         }
 
-        ProgressBar progressBar = findViewById(R.id.userViewProgressBar);
+        CircularProgressIndicator circularProgressBar = findViewById(R.id.loadingBar);
+        LinearLayout linearLayout = findViewById(R.id.linearLayout);
+        linearLayout.setVisibility(View.INVISIBLE);
 
         ViewPager2 viewpager = findViewById(R.id.view_pager);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
-
+        Button continueShopping = findViewById(R.id.continueShop);
         getIntent().setAction("orderView");
 
         firestore.collection(Collections.delivery.name()).whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid()).whereEqualTo("delivered", false).addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -72,7 +78,7 @@ public class UserOrderViewActivity extends DrawerActivity {
                 if (value != null){
                     List<FirestoreDelivery> firestoreDeliveryList = value.toObjects(FirestoreDelivery.class);
                     if (firestoreDeliveryList.size() > 0){
-                        MyAdapter = new UserOrderViewPagerAdapter(UserOrderViewActivity.this, firestoreDeliveryList, firestore, progressBar);
+                        MyAdapter = new UserOrderViewPagerAdapter(UserOrderViewActivity.this, firestoreDeliveryList, firestore, linearLayout, circularProgressBar);
                         viewpager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
                         viewpager.setAdapter(MyAdapter);
                         new TabLayoutMediator(tabLayout, viewpager,
@@ -89,10 +95,17 @@ public class UserOrderViewActivity extends DrawerActivity {
                                     }
                                 }).attach();
                     } else {
-                        Toast.makeText(UserOrderViewActivity.this, "No Pending order to view", Toast.LENGTH_SHORT).show();
+                        circularProgressBar.setVisibility(View.INVISIBLE);
                         startActivity(new Intent(UserOrderViewActivity.this, RetailsActivity.class));
                     }
                 }
+            }
+        });
+
+        continueShopping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), RetailsActivity.class));
             }
         });
     }

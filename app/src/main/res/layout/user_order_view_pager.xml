@@ -59,10 +59,23 @@
 
 
         <TextView
+            android:id="@+id/totalPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="8dp"
+            android:drawableLeft="@drawable/cash_100"
+            android:drawablePadding="4dp"
+            android:text="TextView"
+            android:textSize="16sp" />
+
+        <TextView
             android:id="@+id/deliveryTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:drawableLeft="@drawable/clock_small"
             android:text="TextView" />
 
         <TextView
@@ -97,11 +110,11 @@
             android:id="@+id/retailNameLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="12dp"
+            android:showDividers="middle">
 
         </LinearLayout>
 

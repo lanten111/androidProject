@@ -5,6 +5,8 @@ import com.google.firebase.firestore.GeoPoint;
 
 import java.util.List;
 
+import co.za.foodscout.Domain.Enum.PaymentMethod;
+
 public class FireStoreOrders {
 
     String id;
@@ -14,13 +16,22 @@ public class FireStoreOrders {
     int orderNumber;
     String userId;
     String additionalOrderNote;
-    String PaymentMethod;
+    PaymentMethod PaymentMethod;
     Boolean complete;
     List<FireStoreCart> cartList;
     Boolean isPaid;
     Double totalPrice;
     Timestamp dateCreated;
     Timestamp dateUpdated;
+    Boolean orderReady;
+
+    public Boolean isOrderReady() {
+        return orderReady;
+    }
+
+    public void setOrderReady(Boolean orderReady) {
+        this.orderReady = orderReady;
+    }
 
     public Double getTotalPrice() {
         return totalPrice;
@@ -126,11 +137,11 @@ public class FireStoreOrders {
         this.additionalOrderNote = additionalOrderNote;
     }
 
-    public String getPaymentMethod() {
+    public co.za.foodscout.Domain.Enum.PaymentMethod getPaymentMethod() {
         return PaymentMethod;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
+    public void setPaymentMethod(co.za.foodscout.Domain.Enum.PaymentMethod paymentMethod) {
         PaymentMethod = paymentMethod;
     }
 }

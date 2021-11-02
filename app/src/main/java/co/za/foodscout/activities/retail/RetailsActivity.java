@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -46,9 +49,13 @@ public class RetailsActivity extends DrawerActivity {
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_retails, frameLayout);
 
+        RecyclerView recyclerView = findViewById(R.id.retailRecycledView);
+        CircularProgressIndicator circularProgressBar = findViewById(R.id.loadingBar);
+        recyclerView.setVisibility(View.INVISIBLE);
+
         getIntent().setAction("retail");
-        ProgressBar progressBar = findViewById(R.id.retailProgressBar);
         Button changeLocation = findViewById(R.id.retailChnageLocation);
+        changeLocation.setVisibility(View.INVISIBLE);
 
         if (firebaseAuth.getCurrentUser() == null){
             startActivity(new Intent(this, LoginActivity.class));
@@ -57,18 +64,21 @@ public class RetailsActivity extends DrawerActivity {
             firestore.collection(Collections.user.name()).document(firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
+
                     firestoreUser = documentSnapshot.toObject(FirestoreUser.class);
                     firestore.collection(Collections.restaurant.toString()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            circularProgressBar.setVisibility(View.INVISIBLE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            changeLocation.setVisibility(View.VISIBLE);
+
                             List<Restaurant> restaurant =  queryDocumentSnapshots.toObjects(Restaurant.class);
-                            RecyclerView recyclerView = findViewById(R.id.retailRecycledView);
                             RetailListAdapter adapter = new RetailListAdapter(RetailsActivity.this, restaurant,storageRef, firestoreUser, getString(R.string.google_maps_key));
                             recyclerView.setHasFixedSize(false);
                             recyclerView.setLayoutManager(new LinearLayoutManager(RetailsActivity.this));
                             recyclerView.setAdapter(adapter);
                             recyclerView.setHasFixedSize(false);
-                            progressBar.setVisibility(View.INVISIBLE);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -76,11 +86,6 @@ public class RetailsActivity extends DrawerActivity {
 
                         }
                     });
-//                    if (firestoreUser != null){
-//                        if (firestoreUser.getRole().equals(Role.DRIVER)){
-//                            signOut();
-//                        }
-//                    }
                 }
             });
         }

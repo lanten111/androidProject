@@ -17,29 +17,15 @@
         app:layout_constraintTop_toBottomOf="@+id/permissionButton"
         app:srcCompat="@drawable/logo_full" />
 
-    <ProgressBar
-        android:id="@+id/MainProgressBar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="0dp"
-        android:layout_height="8dp"
-        android:layout_marginTop="51dp"
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loadingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:indeterminate="true"
-        android:theme="@style/ProgressBarStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!--    <Button-->
-<!--        android:id="@+id/Mainbutton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="48dp"-->
-<!--        android:layout_marginTop="51dp"-->
-<!--        android:text="@string/lets_begin"-->
-<!--        android:textColor="@color/white"-->
-<!--        app:backgroundTint="@color/buttons"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/welcomeTextView" />-->
 
     <TextView
         android:id="@+id/welcomeTextView"
@@ -50,7 +36,7 @@
         android:layout_marginTop="156dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:text="We need location permision in order to know where to deiver you order, Please clikc onthe button below to allow location Permsision"
+        android:text="@string/locationDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"

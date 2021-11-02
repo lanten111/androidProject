@@ -2,13 +2,15 @@ package co.za.foodscout.activities.menu;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -21,6 +23,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -44,6 +47,7 @@ import co.za.foodscout.Domain.Restaurant.MenuAddons;
 import co.za.foodscout.Domain.Restaurant.Restaurant;
 import co.za.foodscout.activities.DrawerActivity;
 import co.za.foodscout.activities.order.CartViewActivity;
+import co.za.foodscout.activities.seller.SellerViewActivity;
 import foodscout.R;
 
 public class MenuDetailActivity extends DrawerActivity {
@@ -59,6 +63,12 @@ public class MenuDetailActivity extends DrawerActivity {
     FireStoreCart fireStoreCart = new FireStoreCart();
     Double totalPrice = Double.valueOf(0);
     int intemNumebrInCart = 0;
+    LinearLayout topLayout;
+    LinearLayout bottomLayout;
+    CircularProgressIndicator circularProgressBar;
+    Button viewCart;
+    Chip viewPrice;
+    Chip itemInCart;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,40 +76,27 @@ public class MenuDetailActivity extends DrawerActivity {
         getLayoutInflater().inflate(R.layout.activity_menu_details, frameLayout);
 
         Intent intent = getIntent();
-//        String menuItermId = intent.getStringExtra("menuItermId");
-        ProgressBar progressBar = findViewById(R.id.menuProgressBar);
+//        getIntent().setAction("menuDetails");
+
+        topLayout = findViewById(R.id.topLinearLayout);
+        bottomLayout = findViewById(R.id.bottomLinearLayout);
+        circularProgressBar = findViewById(R.id.loadingBar);
+        topLayout.setVisibility(View.INVISIBLE);
+        bottomLayout.setVisibility(View.INVISIBLE);
 
         TextView menuItemName = findViewById(R.id.menuItemtName);
         TextView menuItemDesc = findViewById(R.id.menuItemtDesc);
         ImageView imageView = findViewById(R.id.menuDetailsImage);
         FloatingActionButton addToCart = findViewById(R.id.addToCartButton);
-        Button viewCart = findViewById(R.id.menuDetailsViewCartButton);
-        Chip viewPrice = findViewById(R.id.menuDetailsViewcartPrice);
-        Chip itemInCart = findViewById(R.id.menuDetailsItemInCart);
-//        Button addItem = findViewById(R.id.addMenuButton);
-//        Button removeItem = findViewById(R.id.removeMenuButton);
+        viewCart = findViewById(R.id.menuDetailsViewCartButton);
+        viewPrice = findViewById(R.id.menuDetailsViewcartPrice);
+        itemInCart = findViewById(R.id.menuDetailsItemInCart);
 
 
         TableLayout tableLayout = findViewById(R.id.RadioGroulinearLayout);
-//        TableRow tableRow = findViewById(R.id.RadioGroulinearLayoutchild0);
 
         //cchek if there is something in the cart
-        viewCart.setEnabled(false);
-        firestore.collection(Collections.cart.name()).whereEqualTo("complete", false).whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                intemNumebrInCart = queryDocumentSnapshots.size();
-                List<FireStoreCart> fireStoreCartList = queryDocumentSnapshots.toObjects(FireStoreCart.class);
-                if (fireStoreCartList.size() > 0){
-                    viewCart.setEnabled(false);
-                    for (FireStoreCart fireStoreCart: fireStoreCartList){
-                        totalPrice = totalPrice + fireStoreCart.getItemPrice();
-                    }
-                    viewPrice.setText("R "+totalPrice.toString());
-                    itemInCart.setText("In cart "+ String.valueOf(intemNumebrInCart));
-                }
-            }
-        });
+        getCart();
 
         List<MenuAddons> groupedCartMenuAddonsList = new ArrayList<>();
         List<MenuAddons> cartMenuAddonsList = new ArrayList<>();
@@ -107,6 +104,9 @@ public class MenuDetailActivity extends DrawerActivity {
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                constraintLayout.setVisibility(View.VISIBLE);
+//                circularProgressBar.setVisibility(View.INVISIBLE);
+
                 restaurant = documentSnapshot.toObject(Restaurant.class);
                 for (Menu menuI: restaurant.getMenu()){
                     if (menuI.getMenuItemId().equals(intent.getStringExtra("menuItermId"))){
@@ -260,12 +260,15 @@ public class MenuDetailActivity extends DrawerActivity {
             }
         });
 
-
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addToCart.setEnabled(false);
+                disabledWindow(circularProgressBar);
+
+                totalPrice = 0.0;
                 totalPrice = totalPrice + menu.getMenuItemPrice();
+                viewCart.setVisibility(View.VISIBLE);
+                viewCart.setBackgroundColor(getResources().getColor( R.color.main_theme));
                 List<MenuAddons> menuAddonsList = new ArrayList<>();
                 for (MenuAddons menuAddons : cartMenuAddonsList) {
                     menuAddonsList.add(menuAddons);
@@ -316,25 +319,28 @@ public class MenuDetailActivity extends DrawerActivity {
                                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                         intemNumebrInCart = queryDocumentSnapshots.size();
                                         itemInCart.setText("In cart "+ String.valueOf(intemNumebrInCart));
+                                        addToCart.setEnabled(true);
+                                        circularProgressBar.setVisibility(View.INVISIBLE);
+                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-
+                                        addToCart.setEnabled(true);
                                     }
                                 });
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-
+                                addToCart.setEnabled(true);
                             }
                         });
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        addToCart.setEnabled(true);
                     }
                 });
             }
@@ -343,8 +349,50 @@ public class MenuDetailActivity extends DrawerActivity {
         viewCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                disabledWindow(circularProgressBar);
                 startActivity(new Intent(MenuDetailActivity.this, CartViewActivity.class));
+                enableWindow(circularProgressBar);
+            }
+        });
+
+    }
+
+    private void getCart(){
+        firestore.collection(Collections.cart.name()).whereEqualTo("complete", false).whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                totalPrice = 0.0;
+                topLayout.setVisibility(View.VISIBLE);
+                bottomLayout.setVisibility(View.VISIBLE);
+                circularProgressBar.setVisibility(View.INVISIBLE);
+                viewCart.setVisibility(View.INVISIBLE);
+                viewCart.setBackgroundColor(getResources().getColor( R.color.main_theme_second));
+                viewPrice.setText("");
+                itemInCart.setText("");
+                intemNumebrInCart = queryDocumentSnapshots.size();
+                List<FireStoreCart> fireStoreCartList = queryDocumentSnapshots.toObjects(FireStoreCart.class);
+                if (fireStoreCartList.size() > 0){
+                    viewCart.setVisibility(View.VISIBLE);
+                    viewCart.setBackgroundColor(getResources().getColor( R.color.main_theme));
+                    for (FireStoreCart fireStoreCart: fireStoreCartList){
+                        totalPrice = totalPrice + fireStoreCart.getItemPrice();
+                    }
+                    viewPrice.setText("R "+totalPrice.toString());
+                    itemInCart.setText("In cart "+ String.valueOf(intemNumebrInCart));
+                }
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        String action = getIntent().getAction();
+        if(action == null || !action.equals("menuDetails")) {
+            getCart();
+        }
+        else
+            getIntent().setAction(null);
+        super.onResume();
+    }
+
 }

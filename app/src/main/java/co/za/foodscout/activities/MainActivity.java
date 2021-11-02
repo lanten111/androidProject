@@ -6,7 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,8 +37,10 @@ import foodscout.R;
 
 public class MainActivity extends DrawerActivity{
 
-    Button firstButtonSignIn;
     Button permissionButton;
+    ImageView imageView;
+    CircularProgressIndicator circularProgressBar;
+    TextView welcomeText;
     Toast LocationDeniedToast;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -49,15 +52,16 @@ public class MainActivity extends DrawerActivity{
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
 
-//        ProgressBar loginProgressBar = findViewById(R.id.MainProgressBar);
-//        TextView welcomeText = findViewById(R.id.welcomeTextView);
-//        loginProgressBar.setProgress(50);
-//        loginProgressBar.setVisibility(View.VISIBLE);
-
+        welcomeText = findViewById(R.id.welcomeTextView);
+        circularProgressBar = findViewById(R.id.loadingBar);
         getIntent().setAction("main");
-
-//        firstButtonSignIn = findViewById(R.id.Mainbutton);
         permissionButton = findViewById(R.id.permissionButton);
+        imageView = findViewById(R.id.imageView3);
+
+        permissionButton.setVisibility(View.INVISIBLE);
+        welcomeText.setVisibility(View.INVISIBLE);
+        imageView.setVisibility(View.INVISIBLE);
+
 
         checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, 13);
         if (firebaseAuth.getCurrentUser() != null){
@@ -74,6 +78,13 @@ public class MainActivity extends DrawerActivity{
                 }
             });
         }
+
+        permissionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, 13);
+            }
+        });
     }
 
     public void initialCheck(){
@@ -89,6 +100,7 @@ public class MainActivity extends DrawerActivity{
                 db.collection(Collections.delivery.name()).whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid()).whereEqualTo("delivered", false).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        circularProgressBar.setVisibility(View.INVISIBLE);
                         List<FirestoreDelivery> firestoreDeliveryList = new ArrayList<>();
                         firestoreDeliveryList = queryDocumentSnapshots.toObjects(FirestoreDelivery.class);
                         if (firestoreDeliveryList.size() > 0){
@@ -109,13 +121,15 @@ public class MainActivity extends DrawerActivity{
 
     }
 
+
+
     public void checkPermission(String permission, int requestCode)
     {
         if (ContextCompat.checkSelfPermission(MainActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[] { permission }, requestCode);
         }
         else {
-//            Toast.makeText(MainActivity.this, "Permission already granted", Toast.LENGTH_SHORT).show();
+//            initialCheck();
         }
     }
 
@@ -133,11 +147,11 @@ public class MainActivity extends DrawerActivity{
                 initialCheck();
             }
             else {
-//                firstButtonSignIn.setVisibility(View.INVISIBLE);
-//                permissionButton.setVisibility(View.VISIBLE);
-                LocationDeniedToast.show();
+                permissionButton.setVisibility(View.VISIBLE);
+                welcomeText.setVisibility(View.VISIBLE);
+                imageView.setVisibility(View.VISIBLE);
+                circularProgressBar.setVisibility(View.INVISIBLE);
                 return;
-//                checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, 13);
             }
         }
     }
@@ -154,16 +168,16 @@ public class MainActivity extends DrawerActivity{
         pressedTime = System.currentTimeMillis();
     }
 
-    @Override
-    protected void onResume() {
-        String action = getIntent().getAction();
-        if(action == null || !action.equals("main")) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-        else
-            getIntent().setAction(null);
-        super.onResume();
-    }
+//    @Override
+//    protected void onResume() {
+//        String action = getIntent().getAction();
+//        if(action == null || !action.equals("main")) {
+//            Intent intent = new Intent(this, MainActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
+//        else
+//            getIntent().setAction(null);
+//        super.onResume();
+//    }
 }

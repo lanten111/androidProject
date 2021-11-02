@@ -1,6 +1,8 @@
 package co.za.foodscout.activities.delivery;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
@@ -34,10 +36,14 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
@@ -78,6 +84,8 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
     Location currentLocation;
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     FirestoreUser firestoreUser;
+    CircularProgressIndicator circularProgressBar;
+    ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +99,11 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        ProgressBar progressBar = findViewById(R.id.DeliveriesDProgressBar);
+        circularProgressBar = findViewById(R.id.loadingBar);
+        constraintLayout = findViewById(R.id.secondayLayout);
+        constraintLayout.setVisibility(View.INVISIBLE);
 
+//        ProgressBar progressBar = findViewById(R.id.DeliveriesDProgressBar);
         TextView destination = findViewById(R.id.driverDeliveryDestination);
         TextView fromRetail = findViewById(R.id.deliveryFromTxt);
         TextView destinationHeader = findViewById(R.id.destinationHeaderTxt);
@@ -103,10 +114,8 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
         TextView orderNumber = findViewById(R.id.deliveryOrderNumber);
         Button delivered = findViewById(R.id.deliveryCompleteBtn);
         Button pickUpDelivery = findViewById(R.id.deliveryPickUpBtn);
+        FloatingActionButton callUser = findViewById(R.id.callUser);
 
-//        toCardView.setVisibility(View.INVISIBLE);
-//        delivered.setVisibility(View.INVISIBLE);
-        getIntent().setAction("deliveriesDetails");
 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getSupportFragmentManager().findFragmentById(R.id.driverDeliveryMap);
         mapFragment.getMapAsync(this);
@@ -118,7 +127,7 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 firestoreUser = documentSnapshot.toObject(FirestoreUser.class);
-                setNewDelivery(deliveryId, destination, fromRetail, userDetails, retailName, pickUpDelivery, delivered, orderNumber,  progressBar);
+                setNewDelivery(deliveryId, destination, fromRetail, userDetails, retailName, pickUpDelivery, delivered, orderNumber);
             }
         });
 
@@ -174,10 +183,10 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
                         firestoreDelivery = documentSnapshot.toObject(FirestoreDelivery.class);
                         firestoreDelivery.setDeliveryPicked(true);
                         firestoreDelivery.setDeliveryStatus(DeliveryStatus.OnRoute);
-                        firestoreDelivery.setDeliveryStatus(DeliveryStatus.OnRoute);
                         firestoreDelivery.setAssigned(true);
                         firestoreDelivery.setAssigneeId(firestoreUser.getId());
                         firestoreDelivery.setDriverName(firestoreUser.getName());
+                        firestoreDelivery.setDateUpdated(Timestamp.now());
                         mDestination = Utils.getLatLong(firestoreDelivery.getUserLocation());
                         mOrigin = Utils.getLatLong(firestoreDelivery.getRetailLocation());
                         firestore.collection(Collections.delivery.name()).document(firestoreDelivery.getId()).set(firestoreDelivery).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -189,6 +198,18 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
                         setDirection();
                     }
                 });
+            }
+        });
+
+        callUser.setEnabled(true);
+        callUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callUser.setEnabled(false);
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:"+firestoreUser.getPhone()));
+                startActivity(intent);
+                callUser.setEnabled(true);
             }
         });
 
@@ -237,7 +258,7 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
         }
     }
 
-    void setNewDelivery(String deliveryId, TextView destination, TextView fromRetail, TextView userDetails, TextView retailName, Button pickUpDelivery,Button delivered , TextView orderNumber, ProgressBar progressBar) {
+    void setNewDelivery(String deliveryId, TextView destination, TextView fromRetail, TextView userDetails, TextView retailName, Button pickUpDelivery,Button delivered , TextView orderNumber) {
         firestore.collection(Collections.delivery.name()).whereEqualTo("id", deliveryId).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -249,6 +270,17 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
                 userDetails.setText("Order for " + firestoreDelivery.getUserNames() + "  Contact No: " + firestoreDelivery.getContactNo());
                 retailName.setText(" Pick up from: "+firestoreDelivery.getRetailName());
                 orderNumber.setText("Order#"+firestoreDelivery.getOrderNumber());
+                firestore.collection(Collections.order.name()).document(firestoreDelivery.getOrderId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                        FireStoreOrders fireStoreOrders = value.toObject(FireStoreOrders.class);
+                        if (fireStoreOrders.isOrderReady()){
+                            pickUpDelivery.setVisibility(View.VISIBLE);
+                        } else {
+                            pickUpDelivery.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                });
                 if (firestoreDelivery.isDeliveryPicked()) {
                     delivered.setVisibility(View.VISIBLE);
                     pickUpDelivery.setVisibility(View.INVISIBLE);
@@ -259,15 +291,17 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
                     delivered.setVisibility(View.INVISIBLE);
                     pickUpDelivery.setVisibility(View.VISIBLE);
                     mDestination = Utils.getLatLong(firestoreDelivery.getRetailLocation());
+                    mOrigin = Utils.getLatLong(firestoreUser.getLocation());
+                    setDirection();
                     getCurrentLocation();
                 }
-                progressBar.setVisibility(View.INVISIBLE);
+                circularProgressBar.setVisibility(View.INVISIBLE);
+                constraintLayout.setVisibility(View.VISIBLE);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(DeliveryDetailsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -412,19 +446,5 @@ public class DeliveryDetailsActivity extends DrawerActivity implements GoogleMap
         String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
         return url;
     }
-
-    @Override
-    protected void onResume() {
-        String action = getIntent().getAction();
-        if(action == null || !action.equals("deliveriesDetails")) {
-            Intent intent = new Intent(this, DeliveryDetailsActivity.class);
-            startActivity(intent);
-            finish();
-        }
-        else
-            getIntent().setAction(null);
-        super.onResume();
-    }
-
 
 }

@@ -1,5 +1,7 @@
 package co.za.foodscout.activities.seller;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -9,7 +11,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,13 +46,19 @@ public class SellerDetailsActivity extends DrawerActivity {
     FireStoreOrders fireStoreOrders;
     FirestoreUser firestoreUser;
     FirestoreDelivery firestoreDelivery;
+    String orderId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_seller_details, frameLayout);
 
-        String orderId = getIntent().getStringExtra("orderId");
+        CircularProgressIndicator circularProgressBar = findViewById(R.id.loadingBar);
+        ConstraintLayout constraintLayout = findViewById(R.id.secondayLayout);
+        constraintLayout.setVisibility(View.INVISIBLE);
+
+        orderId = getIntent().getStringExtra("orderId");
         TextView userName = findViewById(R.id.SellerUserName);
         TextView orderNumber = findViewById(R.id.SellerOrderNumber);
         TextView orderName = findViewById(R.id.SellerOrderContact);
@@ -52,8 +67,12 @@ public class SellerDetailsActivity extends DrawerActivity {
         TextView totalPrice = findViewById(R.id.totalPrice);
 //        TextView userAddress = findViewById(R.id.SellerDeliveriesTo);
         ProgressBar progressBar = findViewById(R.id.SellerProgressBar);
+        progressBar.setVisibility(View.INVISIBLE);
         TextView additionalNotesHead = findViewById(R.id.sellerAdditionaHead);
         Button orderReady = findViewById(R.id.orderReady);
+        FloatingActionButton callUser = findViewById(R.id.callUser);
+
+//        getIntent().setAction("sellerDetails");
 
         firestore.collection(Collections.order.name()).document(orderId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -62,6 +81,7 @@ public class SellerDetailsActivity extends DrawerActivity {
                 firestore.collection(Collections.user.name()).document(fireStoreOrders.getUserId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
+
                         firestoreUser = documentSnapshot.toObject(FirestoreUser.class);
                         userName.setText("Order for " + firestoreUser.getName());
                         orderName.setText(firestoreUser.getPhone());
@@ -101,16 +121,19 @@ public class SellerDetailsActivity extends DrawerActivity {
                                 }
                             }
                             addonList.addView(linearLayout);
-                            progressBar.setVisibility(View.INVISIBLE);
                         }
+                        circularProgressBar.setVisibility(View.INVISIBLE);
+                        constraintLayout.setVisibility(View.VISIBLE);
                     }
                 });
             }
         });
 
+        orderReady.setEnabled(true);
         orderReady.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                disabledWindow(circularProgressBar);
                 firestore.collection(Collections.delivery.name()).whereEqualTo("orderId", fireStoreOrders.getId()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -120,18 +143,43 @@ public class SellerDetailsActivity extends DrawerActivity {
                         }
                         firestoreDelivery = queryDocumentSnapshots.toObjects(FirestoreDelivery.class).get(0);
                         firestoreDelivery.setDeliveryStatus(DeliveryStatus.Ready);
-                        firestore.collection(Collections.delivery.name()).document(firestoreDelivery.getId()).set(firestoreDelivery).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        firestoreDelivery.setDateUpdated(Timestamp.now());
+                        fireStoreOrders.setOrderReady(true);
+                        fireStoreOrders.setDateUpdated(Timestamp.now());
+                        firestore.collection(Collections.order.name()).document(fireStoreOrders.getId()).set(fireStoreOrders).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-
+                                firestore.collection(Collections.delivery.name()).document(firestoreDelivery.getId()).set(firestoreDelivery).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        enableWindow(circularProgressBar);
+                                        startActivity(new Intent(getApplicationContext(), SellerViewActivity.class));
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        enableWindow(circularProgressBar);
+                                    }
+                                });
                             }
                         });
                     }
                 });
             }
         });
-    }
 
+        callUser.setEnabled(true);
+        callUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callUser.setEnabled(false);
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:"+firestoreUser.getPhone()));
+                startActivity(intent);
+                callUser.setEnabled(true);
+            }
+        });
+    }
 
     public String space(int number){
         StringBuilder spaces = new StringBuilder();
@@ -140,4 +188,17 @@ public class SellerDetailsActivity extends DrawerActivity {
         }
         return spaces.toString();
     }
+
+//    @Override
+//    protected void onResume() {
+//        String action = getIntent().getAction();
+//        if(action == null || !action.equals("sellerDetails")) {
+//            Intent intent = new Intent(this, SellerDetailsActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
+//        else
+//            getIntent().setAction(null);
+//        super.onResume();
+//    }
 }

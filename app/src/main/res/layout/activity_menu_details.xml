@@ -1,7 +1,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/menuDetailsFragment"
+    android:id="@+id/menuDetailsContraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="58dp"
@@ -11,11 +11,23 @@
     app:layout_constraintTop_toTopOf="parent"
     tools:context="co.za.foodscout.activities.menu.MenuDetailActivity">
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loadingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="7dp"/>
+
     <LinearLayout
+        android:id="@+id/topLinearLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/bottomLinearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -30,8 +42,7 @@
             android:gravity="center"
             android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/menuProgressBar">
+            app:layout_constraintStart_toStartOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -83,10 +94,10 @@
             android:id="@+id/scrollView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginRight="6dp"
             app:layout_constraintBottom_toTopOf="@+id/menuDetailsItemInCart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -97,29 +108,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
-                android:orientation="vertical">
+                android:orientation="vertical" />
 
-                <!--            <TableRow-->
-                <!--                android:id="@+id/RadioGroulinearLayoutchild0"-->
-                <!--                android:layout_height="match_parent"-->
-                <!--                android:layout_width="match_parent">-->
-
-                <!--            </TableRow>-->
-
-                <!--            <TableRow-->
-                <!--                android:id="@+id/RadioGroulinearLayoutchild1"-->
-                <!--                android:layout_width="match_parent"-->
-                <!--                android:layout_height="match_parent">-->
-
-                <!--            </TableRow>-->
-
-            </TableLayout>
         </ScrollView>
     </LinearLayout>
 
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/bottomLinearLayout"
         android:layout_width="0dp"
         android:layout_height="42dp"
         android:orientation="horizontal"
@@ -131,12 +127,17 @@
             android:id="@+id/menuDetailsItemInCart"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginBottom="5dp"
             android:layout_weight="1"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
             android:textColor="@color/buttons"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/menuDetailsViewCartButton"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="xcxxx" />
 
         <Button
             android:id="@+id/menuDetailsViewCartButton"
@@ -146,7 +147,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginEnd="15dp"
             android:layout_marginRight="15dp"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:text="View Cart"
             android:textColor="@color/white"
             app:backgroundTint="@color/buttons"
@@ -158,25 +159,17 @@
             android:id="@+id/menuDetailsViewcartPrice"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginBottom="3dp"
             android:layout_weight="1"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
             android:textColor="@color/buttons"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/menuDetailsViewCartButton" />
     </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/menuProgressBar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="408dp"
-        android:layout_height="8dp"
-        android:indeterminate="true"
-        android:theme="@style/ProgressBarStyle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addToCartButton"

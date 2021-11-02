@@ -94,7 +94,7 @@ package="foodscout">
     <activity
         android:name="co.za.foodscout.activities.order.CheckOutActivity"
         android:exported="true"
-        android:label="Chekout"
+        android:label="Checkout"
         android:theme="@style/Theme.DeliverNow.NoActionBar" />
     <activity
         android:name="co.za.foodscout.activities.seller.SellerDetailsActivity"

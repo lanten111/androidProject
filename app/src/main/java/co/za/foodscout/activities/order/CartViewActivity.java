@@ -1,5 +1,6 @@
 package co.za.foodscout.activities.order;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -27,6 +29,7 @@ import co.za.foodscout.Domain.FirestoreUser;
 import co.za.foodscout.Domain.Restaurant.Restaurant;
 import co.za.foodscout.activities.DrawerActivity;
 import co.za.foodscout.activities.retail.RetailsActivity;
+import co.za.foodscout.activities.seller.SellerViewActivity;
 import foodscout.R;
 
 public class CartViewActivity extends DrawerActivity {
@@ -46,24 +49,30 @@ public class CartViewActivity extends DrawerActivity {
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_cart_view, frameLayout);
 
-        ProgressBar progressBar = findViewById(R.id.CartViewProgressBar);
+        getIntent().setAction("cart");
+
+        CircularProgressIndicator circularProgressBar = findViewById(R.id.loadingBar);
+        ConstraintLayout constraintLayout = findViewById(R.id.secondayLayout);
+        constraintLayout.setVisibility(View.INVISIBLE);
+
         Button checkOutButton = findViewById(R.id.checkOutButton);
 
-        progressBar.setVisibility(View.VISIBLE);
         firestore.collection(Collections.cart.name()).whereEqualTo("complete", false).whereEqualTo("userId", firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                circularProgressBar.setVisibility(View.INVISIBLE);
+                constraintLayout.setVisibility(View.VISIBLE);
+
                 fireStoreCartList = queryDocumentSnapshots.toObjects(FireStoreCart.class);
                 if (fireStoreCartList.size() <= 0){
                     startActivity(new Intent(getApplicationContext(), RetailsActivity.class));
                 }
                 RecyclerView recyclerView = findViewById(R.id.orderSummaryRecycleView);
-                OrderViewAdapter adapter = new OrderViewAdapter(CartViewActivity.this, fireStoreCartList, firestore);
+                OrderViewAdapter adapter = new OrderViewAdapter(CartViewActivity.this, fireStoreCartList, firestore, getWindow(), circularProgressBar);
                 recyclerView.setHasFixedSize(false);
                 recyclerView.setLayoutManager(new LinearLayoutManager(CartViewActivity.this));
                 recyclerView.setAdapter(adapter);
                 recyclerView.setHasFixedSize(false);
-                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -75,5 +84,18 @@ public class CartViewActivity extends DrawerActivity {
                 checkOutButton.setEnabled(true);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        String action = getIntent().getAction();
+        if(action == null || !action.equals("cart")) {
+            Intent intent = new Intent(this, CartViewActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else
+            getIntent().setAction(null);
+        super.onResume();
     }
 }

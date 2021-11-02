@@ -1,6 +1,7 @@
 package co.za.foodscout.Adapters;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
@@ -39,16 +41,17 @@ public class UserOrderViewPagerAdapter extends RecyclerView.Adapter<UserOrderVie
     private Context context;
     LatLng mOrigin;
     LatLng mDestination;
-    TextView orderHead;
     private List<FirestoreDelivery> fireStoreOrdersList;
     private FirebaseFirestore firestore;
-    ProgressBar progressBar;
+    CircularProgressIndicator circularProgressIndicator;
+    LinearLayout linearLayout;
 
-    public UserOrderViewPagerAdapter(Context context, List<FirestoreDelivery> firestoreDeliveryList, FirebaseFirestore firestore, ProgressBar progressBar) {
+    public UserOrderViewPagerAdapter(Context context, List<FirestoreDelivery> firestoreDeliveryList, FirebaseFirestore firestore, LinearLayout linearLayout, CircularProgressIndicator circularProgressIndicator) {
         this.context = context;
         this.fireStoreOrdersList = firestoreDeliveryList;
         this.firestore = firestore;
-        this.progressBar = progressBar;
+        this.circularProgressIndicator = circularProgressIndicator;
+        this.linearLayout = linearLayout;
     }
 
     @NonNull
@@ -69,8 +72,11 @@ public class UserOrderViewPagerAdapter extends RecyclerView.Adapter<UserOrderVie
                 mDestination = Utils.getLatLong(firestoreDelivery.getUserLocation());
                 for (FireStoreCart cart: fireStoreOrders.getCartList()){
                     TextView orderName = new TextView(context);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    layoutParams.setMargins(0, 15, 0, 0);
+                    orderName.setLayoutParams(layoutParams);
                     orderName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.food, 0 , 0 ,0);
-                    orderName.setText(cart.getItemName());
+                    orderName.setText(" "+cart.getItemName());
                     holder.retailNameLayout.addView(orderName);
                 }
                 holder.retailName.setText(fireStoreOrders.getRetailName());
@@ -78,11 +84,11 @@ public class UserOrderViewPagerAdapter extends RecyclerView.Adapter<UserOrderVie
                 holder.orderTo.setText("TO: " + Utils.getAddress(firestoreDelivery.getUserLocation(), context));
                 getDeliveryTime(mOrigin, mDestination, holder.deliveryTime);
                 holder.orderHead.setText("Order Status: "+ firestoreDelivery.getDeliveryStatus().getDescription());
-                progressBar.setVisibility(View.INVISIBLE);
+                holder.totalPrice.setText(Html.fromHtml("Paid amount:" + "<font color=#f57f17>" +" R"+fireStoreOrders.getTotalPrice().toString()));
+                linearLayout.setVisibility(View.VISIBLE);
+                circularProgressIndicator.setVisibility(View.INVISIBLE);
             }
         });
-
-
     }
 
     @Override
@@ -96,6 +102,7 @@ public class UserOrderViewPagerAdapter extends RecyclerView.Adapter<UserOrderVie
         TextView orderTo;
         TextView orderHead;
         TextView deliveryTime;
+        TextView totalPrice;
         LinearLayout retailNameLayout;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -106,6 +113,7 @@ public class UserOrderViewPagerAdapter extends RecyclerView.Adapter<UserOrderVie
             orderHead = itemView.findViewById(R.id.orderHeadTxt);
             deliveryTime = itemView.findViewById(R.id.deliveryTime);
             retailNameLayout = itemView.findViewById(R.id.retailNameLayout);
+            totalPrice = itemView.findViewById(R.id.totalPrice);
         }
     }
 
@@ -128,7 +136,7 @@ public class UserOrderViewPagerAdapter extends RecyclerView.Adapter<UserOrderVie
                         DurationMatrix durationMatrix = gson.fromJson(response, DurationMatrix.class);
                         deliveryTime.setDistance(durationMatrix.getRows().get(0).getElements().get(0).getDistance().getText());
                         deliveryTime.setETA(durationMatrix.getRows().get(0).getElements().get(0).getDuration().getText());
-                        deliveryT.setText("Estiomated Delivery Time " + deliveryTime.getETA() + " Distance " + deliveryTime.getDistance());
+                        deliveryT.setText(" Estimated Delivery Time " + deliveryTime.getETA() + " Distance " + deliveryTime.getDistance());
                     }
                 }, new Response.ErrorListener() {
             @Override

@@ -9,14 +9,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import co.za.foodscout.Domain.Enum.Collections;
-import co.za.foodscout.Domain.Enum.DeliveryStatus;
 import co.za.foodscout.Domain.FirestoreUser;
 import co.za.foodscout.Utils.Utils;
 import co.za.foodscout.activities.delivery.DeliveryDetailsActivity;
